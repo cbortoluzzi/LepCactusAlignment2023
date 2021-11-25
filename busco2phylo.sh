@@ -32,9 +32,10 @@ echo "./busco2phylo.sh $FISH $DIR"
 # Count number of genomes
 num_genomes=`cat $FISH | wc -l`
 
+
 # Unique complete BUSCO genes
 cat $FISH | while read species; do cat $DIR/$species/vertebrata_odb10_metaeuk/run_vertebrata_odb10/full_table.tsv | grep -v '^#' | awk '$2=="Complete" {print $1}' >> $BUSCO/complete_busco_ids.txt;done
-sort $BUSCO/complete_busco_ids.txt | uniq -c | awk '$1=="'$num_genomes'" {print $2}' > $BUSCO/final_busco_ids.txt
+sort $BUSCO/complete_busco_ids.txt | uniq -c | awk '$1=="'$num_genomes'"{print $2}' > $BUSCO/final_busco_ids.txt
 
 mkdir -p $BUSCO/alignment
 mkdir -p $BUSCO/trimAl
@@ -51,13 +52,13 @@ do
 		cat $faa | awk '/^>/{print ">'$species'"; next}{print}' > $BUSCO/fasta/$busco_id/$species\_${busco_id}.fa
 		done
 	done
-	
+
 	cat $BUSCO/fasta/$busco_id/*_$busco_id.fa >> $BUSCO/alignment/$busco_id.aln
 	# Perform alignment with mafft
 	echo "mafft --amino $BUSCO/alignment/$busco_id.aln > $BUSCO/alignment/$busco_id.aln.mafft"
 	mafft --amino $BUSCO/alignment/$busco_id.aln > $BUSCO/alignment/$busco_id.aln.mafft
 	rm $BUSCO/alignment/$busco_id.aln
-	
+
 	# Trim alignment with trimal
 	echo "trimal -in $BUSCO/alignment/$busco_id.aln.mafft -out $BUSCO/trimAl/$busco_id.aln.mafft.trimal -gt 0.8 -st 0.001 -resoverlap 0.75 -seqoverlap 80"
 	trimal -in $BUSCO/alignment/$busco_id.aln.mafft -out $BUSCO/trimAl/$busco_id.aln.mafft.trimal -gt 0.8 -st 0.001 -resoverlap 0.75 -seqoverlap 80
@@ -65,11 +66,9 @@ done
 
 
 # Generate supermatrix
-python3 superalignment.py $BUSCO/trimAl
+python3 ../../../codes/superalignment.py $BUSCO/trimAl
 
 
 # Run Raxml
-echo "raxmlHPC-PTHREADS-SSE3 -T 8 -f a -m PROTGAMMAJTT -N 100 -n my_busco_phylo -s $BUSCO/trimAl/supermatrix.aln.faa -p 13432 -x 89090"
-raxmlHPC-PTHREADS-SSE3 -T 8 -f a -m PROTGAMMAJTT -N 100 -n my_busco_phylo -s $BUSCO/trimAl/supermatrix.aln.faa -p 13432 -x 89090
-
-
+#echo "raxmlHPC-PTHREADS-SSE3 -T 8 -f a -m PROTGAMMAJTT -N 100 -n my_busco_phylo -s $BUSCO/trimAl/supermatrix.aln.faa -p 13432 -x 89090"
+#raxmlHPC-PTHREADS-SSE3 -T 8 -f a -m PROTGAMMAJTT -N 100 -n my_busco_phylo -s $BUSCO/trimAl/supermatrix.aln.faa -p 13432 -x 89090
