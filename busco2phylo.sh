@@ -6,8 +6,8 @@
 
 # Export path
 export PATH=/software/team118/mafft-7.475-with-extensions/bin:$PATH
-export PATH=/lustre/scratch116/tol/projects/vgp/users/cb46/softwares/trimal/source:$PATH
-export PATH=/lustre/scratch116/tol/projects/vgp/users/cb46/softwares/standard-RAxML-master:$PATH
+export PATH=/lustre/scratch123/tol/teams/durbin/users/cb46/softwares/trimal/source:$PATH
+export PATH=/lustre/scratch123/tol/teams/durbin/users/cb46/softwares/standard-RAxML-master:$PATH
 
 
 
@@ -51,11 +51,15 @@ do
 		cat $faa | awk '/^>/{print ">'$species'"; next}{print}' > $BUSCO/fasta/$busco_id/$species\_${busco_id}.fa
 		done
 	done
+	
 	cat $BUSCO/fasta/$busco_id/*_$busco_id.fa >> $BUSCO/alignment/$busco_id.aln
 	# Perform alignment with mafft
+	echo "mafft --amino $BUSCO/alignment/$busco_id.aln > $BUSCO/alignment/$busco_id.aln.mafft"
 	mafft --amino $BUSCO/alignment/$busco_id.aln > $BUSCO/alignment/$busco_id.aln.mafft
 	rm $BUSCO/alignment/$busco_id.aln
+	
 	# Trim alignment with trimal
+	echo "trimal -in $BUSCO/alignment/$busco_id.aln.mafft -out $BUSCO/trimAl/$busco_id.aln.mafft.trimal -gt 0.8 -st 0.001 -resoverlap 0.75 -seqoverlap 80"
 	trimal -in $BUSCO/alignment/$busco_id.aln.mafft -out $BUSCO/trimAl/$busco_id.aln.mafft.trimal -gt 0.8 -st 0.001 -resoverlap 0.75 -seqoverlap 80
 done
 
@@ -65,17 +69,7 @@ python3 superalignment.py $BUSCO/trimAl
 
 
 # Run Raxml
+echo "raxmlHPC-PTHREADS-SSE3 -T 8 -f a -m PROTGAMMAJTT -N 100 -n my_busco_phylo -s $BUSCO/trimAl/supermatrix.aln.faa -p 13432 -x 89090"
 raxmlHPC-PTHREADS-SSE3 -T 8 -f a -m PROTGAMMAJTT -N 100 -n my_busco_phylo -s $BUSCO/trimAl/supermatrix.aln.faa -p 13432 -x 89090
-
-
-
-
-        
-        
-        
-        
-        
-        
-        
 
 
