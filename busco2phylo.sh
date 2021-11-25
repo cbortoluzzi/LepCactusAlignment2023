@@ -30,7 +30,7 @@ echo "./busco2phylo.sh $FISH $DIR"
 
 
 # Count number of genomes
-num_genomes=`wc -l $FISH`
+num_genomes=`cat $FISH | wc -l`
 
 # Unique complete BUSCO genes
 cat $FISH | while read species; do cat $DIR/$species/vertebrata_odb10_metaeuk/run_vertebrata_odb10/full_table.tsv | grep -v '^#' | awk '$2=="Complete" {print $1}' >> $BUSCO/complete_busco_ids.txt;done
