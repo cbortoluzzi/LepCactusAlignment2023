@@ -60,8 +60,8 @@ do
 	rm $BUSCO/alignment/$busco_id.aln
 
 	# Trim alignment with trimal
-	echo "trimal -in $BUSCO/alignment/$busco_id.aln.mafft -out $BUSCO/trimAl/$busco_id.aln.mafft.trimal -gt 0.8 -st 0.001 -resoverlap 0.75 -seqoverlap 80"
-	trimal -in $BUSCO/alignment/$busco_id.aln.mafft -out $BUSCO/trimAl/$busco_id.aln.mafft.trimal -gt 0.8 -st 0.001 -resoverlap 0.75 -seqoverlap 80
+	echo "trimal -in $BUSCO/alignment/$busco_id.aln.mafft -out $BUSCO/trimAl/$busco_id.aln.mafft.trimal -automated1"
+	trimal -in $BUSCO/alignment/$busco_id.aln.mafft -out $BUSCO/trimAl/$busco_id.aln.mafft.trimal -automated1
 done
 
 
