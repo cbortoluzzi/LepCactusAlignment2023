@@ -11,7 +11,7 @@ export PATH=/software/team118/maf_stream/target/release:$PATH
 
 if [[ -z $1 ]] ; then
   echo "Usage: ./coverage_cds_whole_genome_alignment.sh <GFF> <HAL> <species.name> "
-    exit -1
+  exit -1
 fi
 
 
@@ -19,6 +19,11 @@ fi
 GFF=$1
 HAL=$2
 SPECIES=$3
+DATE="$(date +'%Y%m%d')"
+DIR="coverage_cds_"$DATE
+
+
+mkdir -p $DIR
 
 
 echo "./coverage_cds_whole_genome_alignment.sh $GFF $HAL $SPECIES"
