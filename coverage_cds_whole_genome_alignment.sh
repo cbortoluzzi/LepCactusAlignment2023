@@ -30,22 +30,22 @@ echo "./coverage_cds_whole_genome_alignment.sh $GFF $HAL $SPECIES"
 
 
 # Extract from annotation the genomic coordinates of all coding sequences
-cat $GFF | grep -v '#' | awk 'OFS="\t"{if($3=="CDS"){print $1,$4,$5}}' | sortBed | mergeBed -i stdin | awk 'OFS="\t"{print $1,$2,$3,$3-$2}' > $SPECIES.cds.bed
+cat $GFF | grep -v '#' | awk 'OFS="\t"{if($3=="CDS"){print $1,$4,$5}}' | sortBed | mergeBed -i stdin | awk 'OFS="\t"{print $1,$2,$3,$3-$2}' > $DIR/$SPECIES.cds.bed
 
 
 # Get alignment depth at each position in the multiple sequence alignment
-cat $SPECIES.cds.bed | while read contig start end length
+cat $DIR/$SPECIES.cds.bed | while read contig start end length
 do
-  echo "hal2maf --noAncestors --refSequence $contig --start $start --length $length --refGenome $SPECIES --append $HAL $SPECIES.maf"
-  hal2maf --noAncestors --refSequence $contig --start $start --length $length --refGenome $SPECIES --append $HAL $SPECIES.maf
+  echo "hal2maf --noAncestors --refSequence $contig --start $start --length $length --refGenome $SPECIES --append $HAL $DIR/$SPECIES.maf"
+  hal2maf --noAncestors --refSequence $contig --start $start --length $length --refGenome $SPECIES --append $HAL $DIR/$SPECIES.maf
 done
 
 
-echo "maf_stream coverage $SPECIES $SPECIES.maf $SPECIES.coverage.cds.txt"
-maf_stream coverage $SPECIES $SPECIES.maf $SPECIES.coverage.cds.txt
+echo "maf_stream coverage $SPECIES $DIR/$SPECIES.maf $DIR/$SPECIES.coverage.cds.txt"
+maf_stream coverage $SPECIES $DIR/$SPECIES.maf $DIR/$SPECIES.coverage.cds.txt
 
 
-plot_coverage.py $SPECIES.coverage.cds.txt
+plot_coverage.py $DIR/$SPECIES.coverage.cds.txt
 
 
 
