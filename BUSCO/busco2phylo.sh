@@ -12,12 +12,12 @@ export PATH=/lustre/scratch123/tol/teams/durbin/users/cb46/softwares/standard-RA
 
 
 if [ -z $1 ]; then
-        echo "Usage: ./busco2phylo.sh <list.fish> <directory.busco.output>"
+        echo "Usage: ./busco2phylo.sh <list.species> <directory.busco.output>"
 fi
 
 
 
-FISH=$1
+FILE=$1
 DIR=$2
 DATE="$(date +'%Y%m%d')"
 BUSCO="busco_"$DATE
@@ -26,15 +26,15 @@ BUSCO="busco_"$DATE
 mkdir -p $BUSCO
 
 
-echo "./busco2phylo.sh $FISH $DIR"
+echo "./busco2phylo.sh $FILE $DIR"
 
 
 # Count number of genomes
-num_genomes=`cat $FISH | wc -l`
+num_genomes=`cat $FILE | wc -l`
 
 
 # Unique complete BUSCO genes
-cat $FISH | while read species; do cat $DIR/$species/vertebrata_odb10_metaeuk/run_vertebrata_odb10/full_table.tsv | grep -v '^#' | awk '$2=="Complete" {print $1}' >> $BUSCO/complete_busco_ids.txt;done
+cat $FILE | while read species; do cat $DIR/$species/vertebrata_odb10_metaeuk/run_vertebrata_odb10/full_table.tsv | grep -v '^#' | awk '$2=="Complete" {print $1}' >> $BUSCO/complete_busco_ids.txt;done
 sort $BUSCO/complete_busco_ids.txt | uniq -c | awk '$1=="'$num_genomes'"{print $2}' > $BUSCO/final_busco_ids.txt
 
 mkdir -p $BUSCO/alignment
@@ -44,7 +44,7 @@ mkdir -p $BUSCO/trimAl
 cat $BUSCO/final_busco_ids.txt | while read busco_id;
 do
 	mkdir -p $BUSCO/fasta/$busco_id
-	cat $FISH | while read species
+	cat $FILE | while read species
 	do
 		for faa in $DIR/$species/vertebrata_odb10_metaeuk/run_vertebrata_odb10/busco_sequences/single_copy_busco_sequences/${busco_id}.faa;
 		do
