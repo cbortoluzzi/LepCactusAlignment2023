@@ -9,7 +9,7 @@ conda activate /software/team118/miniconda3/envs/busco5
 
 
 if [[ -z $1 ]] ; then
-  echo "Usage: ./busco.sh <fasta.file> <busco.lineage>"
+  echo "Usage: ./busco.sh <fasta> <busco.lineage>"
   exit -1
 fi
 
