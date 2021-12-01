@@ -16,7 +16,7 @@ key = None
 
 files = list(Path(folder).rglob('*.trimal'))
 for f in files:
-  for line in open(f, 'r'):
+	for line in open(f, 'r'):
 		if line.startswith('>'):
 			key = line.strip()[1:]
 			if key in data:
