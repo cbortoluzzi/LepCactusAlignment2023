@@ -1,4 +1,4 @@
-Set of shell and python scripts to run BUSCO on a set of assemblies and a phylogenetic tree on the same set.
+Shell and python scripts to run BUSCO on a set of assemblies and a phylogenetic tree on the same set.
 
 Example:
 
