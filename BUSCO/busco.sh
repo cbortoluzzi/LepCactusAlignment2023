@@ -21,6 +21,7 @@ LINEAGE=$2
 SPECIES=`echo $FASTA | rev | cut -d"/" -f2 | rev`
 DIR=$(dirname $FASTA)
 
+
 echo "./busco.sh $FASTA $LINEAGE"
 
 
