@@ -25,7 +25,7 @@ The script also requires the path and name of the main folder (i.e. busco.v5) wh
 
 
 Requirements:
-busco:https://busco.ezlab.org/busco_userguide.html#lineage-datasets
+busco: https://busco.ezlab.org/busco_userguide.html#lineage-datasets
 mafft v.7.490: https://mafft.cbrc.jp/alignment/software/source.html
 trimal v.1.4: https://github.com/inab/trimal
 RAxML v.8.2.12: https://github.com/stamatak/standard-RAxML
