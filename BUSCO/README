@@ -24,9 +24,8 @@ The script requires a text file (i.e. list_species.txt) that contains, one per l
 The script also requires the path and name of the main folder (i.e. busco.v5) where all BUSCO outputs are stored. The script will automatically iterate over each species's folder and BUSCO's folder to collect all information required to build a phylogenetic tree. 
 
 
-Requirements
-
-Busco:https://busco.ezlab.org/busco_userguide.html#lineage-datasets
+Requirements:
+busco:https://busco.ezlab.org/busco_userguide.html#lineage-datasets
 mafft v.7.490: https://mafft.cbrc.jp/alignment/software/source.html
 trimal v.1.4: https://github.com/inab/trimal
 RAxML v.8.2.12: https://github.com/stamatak/standard-RAxML
