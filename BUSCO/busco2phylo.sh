@@ -69,7 +69,7 @@ done
 
 
 # Generate supermatrix
-python3 ../../../codes/superalignment.py $BUSCO/trimAl
+python3 superalignment.py $BUSCO/trimAl
 
 
 # Run Raxml
