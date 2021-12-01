@@ -36,7 +36,6 @@ num_genomes=`cat $FILE | wc -l`
 # Unique complete BUSCO genes
 cat $FILE | while read species; do cat $DIR/$species/vertebrata_odb10_metaeuk/run_vertebrata_odb10/full_table.tsv | grep -v '^#' | awk '$2=="Complete" {print $1}' >> $BUSCO/complete_busco_ids.txt;done
 sort $BUSCO/complete_busco_ids.txt | uniq -c | awk '$1=="'$num_genomes'"{print $2}' > $BUSCO/final_busco_ids.txt
-rm $BUSCO/complete_busco_ids.txt
 
 
 mkdir -p $BUSCO/alignment
@@ -55,12 +54,11 @@ do
 		done
 	done
 
-	cat $BUSCO/fasta/$busco_id/*.fa >> $BUSCO/alignment/$busco_id.aln && rm -r $BUSCO/fasta/$busco_id
+	cat $BUSCO/fasta/$busco_id/*.fa >> $BUSCO/alignment/$busco_id.aln
 
 	# Perform alignment with mafft
 	echo "mafft --amino $BUSCO/alignment/$busco_id.aln > $BUSCO/alignment/$busco_id.aln.mafft"
 	mafft --amino $BUSCO/alignment/$busco_id.aln > $BUSCO/alignment/$busco_id.aln.mafft
-	rm $BUSCO/alignment/$busco_id.aln
 
 	# Trim alignment with trimal
 	echo "trimal -in $BUSCO/alignment/$busco_id.aln.mafft -out $BUSCO/trimAl/$busco_id.aln.mafft.trimal -automated1"
