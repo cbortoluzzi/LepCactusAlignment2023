@@ -5,7 +5,7 @@
 
 
 # Export path
-export PATH=/software/team118/mafft-7.475-with-extensions/bin:$PATH
+export PATH=/lustre/scratch123/tol/teams/durbin/users/cb46/softwares/mafft-7.490-with-extensions/binaries:$PATH
 export PATH=/lustre/scratch123/tol/teams/durbin/users/cb46/softwares/trimal/source:$PATH
 export PATH=/lustre/scratch123/tol/teams/durbin/users/cb46/softwares/standard-RAxML-master:$PATH
 
