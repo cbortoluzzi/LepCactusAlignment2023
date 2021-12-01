@@ -19,7 +19,7 @@ LINEAGE=$2
 
 
 SPECIES=`echo $FASTA | rev | cut -d"/" -f2 | rev`
-
+DIR=$(dirname $FASTA)
 
 echo "./busco.sh $FASTA $LINEAGE"
 
@@ -27,4 +27,7 @@ echo "./busco.sh $FASTA $LINEAGE"
 echo "busco -i $FASTA -l $LINEAGE -o $SPECIES -c 8 -m genome --offline"
 busco -i $FASTA -l $LINEAGE -o $SPECIES -c 8 -m genome --offline
 
+
+mv $SPECIES vertebrata_odb10_metaeuk
+mv vertebrata_odb10_metaeuk $DIR
 
