@@ -24,3 +24,10 @@ The script requires a text file (i.e. list_species.txt) that contains, one per l
 The script also requires the path and name of the main folder (i.e. busco.v5) where all BUSCO outputs are stored. The script will automatically iterate over each species's folder and BUSCO's folder to collect all information required to build a phylogenetic tree. 
 
 
+Requirements
+To install BUSCO via conda, refer to: https://busco.ezlab.org/busco_userguide.html#lineage-datasets
+
+mafft-7.475
+trimal
+standard-RAxML-master
+python 3.9.2
