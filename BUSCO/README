@@ -25,9 +25,9 @@ The script also requires the path and name of the main folder (i.e. busco.v5) wh
 
 
 Requirements
-To install BUSCO via conda, refer to: https://busco.ezlab.org/busco_userguide.html#lineage-datasets
 
-mafft-7.475
-trimal
-standard-RAxML-master
+Busco:https://busco.ezlab.org/busco_userguide.html#lineage-datasets
+mafft v.7.490: https://mafft.cbrc.jp/alignment/software/source.html
+trimal v.1.3: https://github.com/inab/trimal
+RAxML v.8.2.12: https://github.com/stamatak/standard-RAxML
 python 3.9.2
