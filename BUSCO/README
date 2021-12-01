@@ -28,6 +28,6 @@ Requirements
 
 Busco:https://busco.ezlab.org/busco_userguide.html#lineage-datasets
 mafft v.7.490: https://mafft.cbrc.jp/alignment/software/source.html
-trimal v.1.3: https://github.com/inab/trimal
+trimal v.1.4: https://github.com/inab/trimal
 RAxML v.8.2.12: https://github.com/stamatak/standard-RAxML
 python 3.9.2
