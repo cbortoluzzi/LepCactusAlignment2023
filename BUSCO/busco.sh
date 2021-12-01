@@ -22,3 +22,5 @@ SPECIES=`echo $FASTA | rev | cut -d"/" -f2 | rev`
 
 echo "busco -i $FASTA -l $LINEAGE -o $SPECIES -c 8 -m genome --offline"
 busco -i $FASTA -l $LINEAGE -o $SPECIES -c 8 -m genome --offline
+
+
