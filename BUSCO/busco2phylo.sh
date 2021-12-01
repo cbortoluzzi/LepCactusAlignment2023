@@ -48,14 +48,15 @@ do
 	mkdir -p $BUSCO/fasta/$busco_id
 	cat $FILE | while read species
 	do
-		for faa in $DIR/$species/vertebrata_odb10_metaeuk/run_vertebrata_odb10/busco_sequences/single_copy_busco_sequences/${busco_id}.faa;
+		for faa in $DIR/$species/vertebrata_odb10_metaeuk/run_vertebrata_odb10/busco_sequences/single_copy_busco_sequences/$busco_id.faa;
 		do
 			# Reformat amino-acid fasta sequence of each single copy gene and species
-			cat $faa | awk '/^>/{print ">'$species'"; next}{print}' > $BUSCO/fasta/$busco_id/$species\_${busco_id}.fa
+			cat $faa | awk '/^>/{print ">'$species'"; next}{print}' > $BUSCO/fasta/$busco_id/$species\_$busco_id.fa
 		done
 	done
 
-	cat $BUSCO/fasta/$busco_id/*_$busco_id.fa >> $BUSCO/alignment/$busco_id.aln
+	cat $BUSCO/fasta/$busco_id/*_$busco_id.fa >> $BUSCO/alignment/$busco_id.aln && rm -r BUSCO/fasta/$busco_id
+	
 	# Perform alignment with mafft
 	echo "mafft --amino $BUSCO/alignment/$busco_id.aln > $BUSCO/alignment/$busco_id.aln.mafft"
 	mafft --amino $BUSCO/alignment/$busco_id.aln > $BUSCO/alignment/$busco_id.aln.mafft
