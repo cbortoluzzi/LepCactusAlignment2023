@@ -17,7 +17,7 @@ output = open('DeepFin_v4_classification.tsv', 'w')
 
 mydict = {}
 with open(deepfin) as csvfile:
-  f = csv.reader(csvfile, delimiter=',')
+	f = csv.reader(csvfile, delimiter=',')
 	headers = next(f, None)
 	header = '\t'.join(headers[1:-4])
 	output.write('{}\t{}\t{}\t{}\n'.format('ToL', header, 'Species', 'Assembly'))
