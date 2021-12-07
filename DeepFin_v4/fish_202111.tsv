@@ -1,12 +1,11 @@
-Assembly_name Class	Order	Family	Species	Size	Contigs_n50	Scaffold_n50	assembly_level
 fAcaLat.GCA_904848185.1	fAcaLat1.1	Actinopteri	Spariformes	Sparidae	Acanthopagrus latus	685144197	14,880,455	30717905	Chromosome
 fAloAlo.GCA_017589495.1	AALO_Geno_1.0	Actinopterygii	Clupeiformes	Clupeidae	Alosa alosa	854597291	1188980	35353468	Chromosome
 fAloSap.GCA_018492685.1	fAloSap1.pri	Actinopteri	Clupeiformes	Clupeidae	Alosa sapidissima	903581644	1,565,278	38440066	Chromosome
 fAmeMel.GCA_012411365.1	AMELA_1.0	Actinopteri	Siluriformes	Ictaluridae	Ameiurus melas	868496679	7,408,031	32284220	Chromosome
 fAmpCit.GCA_013435755.1	ASM1343575v1	Actinopteri	Cichliformes	Cichlidae	Amphilophus citrinellus	961230971	3,839,513	37146573	Chromosome
-fAmpPec.GCA_003047355.2	Nemo_v1.1	Actinopteri	None	Pomacentridae	Amphiprion percula	908955932	3,123,421	38416550	Chromosome
-fAnaAna.GCA_014839685.1	fAnaAna1.pri	Actinopteri	Cyprinodontiformes	Anablepidae	Anableps anableps	867632993	17,460,000	39321252	Chromosome
+fAmpPec.GCA_003047355.2	Nemo_v1.1	Actinopteri	Ovalentaria	Pomacentridae	Amphiprion percula	908955932	3,123,421	38416550	Chromosome
 fAnaTes.GCA_900324465.3	fAnaTes1.3	Actinopteri	Anabantiformes	Anabantidae	Anabas testudineus	555658509	7,055,436	25063394	Chromosome
+fAnaAna.GCA_014839685.1	fAnaAna1.pri	Actinopteri	Cyprinodontiformes	Anablepidae	Anableps anableps	867632993	17,460,000	39321252	Chromosome
 fAngAng.GCA_013347855.1	fAngAng1.pri	Actinopterygii	Anguilliformes	Anguillidae	Anguilla anguilla	979045926	5114673	57205429	Chromosome
 fAngRos.GCA_018555375.1	ASM1855537v1	Actinopteri	Anguilliformes	Anguillidae	Anguilla rostrata	975437971	5,018,377	56608776	Chromosome
 fAntMac.GCA_013358685.1	fAntMac1.pri	Actinopteri	Lophiiformes	Antennariidae	Antennarius maculatus	549949511	10,114,706	22928215	Chromosome
@@ -15,27 +14,33 @@ fAstCal.GCA_900246225.5	fAstCal1.3	Actinopteri	Cichliformes	Cichlidae	Astatotila
 fAstMex.GCA_000372685.2	Astyanax_mexicanus-2.0	Actinopteri	Characiformes	Characidae	Astyanax mexicanus	1335239194	1,767,240	35377769	Chromosome
 fBeaKwe.GCA_019155185.1	ASM1915518v1	Actinopteri	Cypriniformes	Gastromyzontidae	Beaufortia kweichowensis	448565924	5,533,578	17950327	Chromosome
 fBetSpl.GCA_900634795.3	fBetSpl5.3	Actinopteri	Anabantiformes	Osphronemidae	Betta splendens	441388503	2,497,747	20129463	Chromosome
+sCarCar.GCA_017639515.1	sCarCar2.pri	Elasmobranchii	Lamniformes	Lamnidae	Carcharodon carcharias	4286311191	6,544,962	169918123	Chromosome
 fChaArg.GCA_018997905.1	ASM1899790v1	Actinopteri	Anabantiformes	Channidae	Channa argus	623704440	13,290,021	28029688	Chromosome
 fChaCha.GCA_902362185.1	fChaCha1.1	Actinopteri	Gonorynchiformes	Chanidae	Chanos chanos	656929047	23,134,051	50300218	Chromosome
-fCheRos.GCA_017976325.1	fCheRos1.pri	Actinopteri	Chaetodontiformes	Chaetodontidae	Chelmon rostratus	644208431	16,959,746	27778429	Chromosome
 fCheUnd.GCA_018320785.1	ASM1832078v1	Actinopteri	Labriformes	Labridae	Cheilinus undulatus	1173472134	16,477,222	51466935	Chromosome
+fCheRos.GCA_017976325.1	fCheRos1.pri	Actinopteri	Chaetodontiformes	Chaetodontidae	Chelmon rostratus	644208431	16,959,746	27778429	Chromosome
 fCluHar.GCA_900700415.2	Ch_v2.0.2	Actinopterygii	Clupeiformes	Clupeidae	Clupea harengus	786308905	1006413	29845739	Chromosome
-fColLuc.GCA_004119915.2	ASM411991v2	Actinopteri	None	Sciaenidae	Collichthys lucidus	877615421	1,098,566	35919243	Chromosome
+fColLuc.GCA_004119915.2	ASM411991v2	Actinopteri	Eupercaria	Sciaenidae	Collichthys lucidus	877615421	1,098,566	35919243	Chromosome
 fCorClp.GCA_018398675.1	ASM1839867v1	Actinopteri	Salmoniformes	Salmonidae	Coregonus clupeaformis	2682612311	5,728,271	57494107	Chromosome
 fCotGob.GCA_900634415.1	fCotGob3.1	Actinopteri	Perciformes	Bovichtidae	Cottoperca gobio	609391784	6,330,900	25156145	Chromosome
 fCroAlt.GCA_013133815.1	SYSU_Calt_1.1	Actinopteri	Perciformes	Serranidae	Cromileptes altivelis	1013370389	18,269,829	43466551	Chromosome
 fCycLum.GCA_009769545.1	fCycLum1.pri	Actinopterygii	Scorpaeniformes	Cyclopteridae	Cyclopterus lumpus	572885595	4950682	23863342	Chromosome
-fCypCar.GCA_018340385.1	ASM1834038v1	Actinopterygii	Cypriniformes	Cyprinidae	Cyprinus carpio	1680184848	1558716	29545497	Chromosome
+fCypCar.GCA_018340385.1	ASM1834038v1	Actinopterygii	Cypriniformes	Cyprinidae	Cyprinus carpio ASM1834038v1	1680184848	1558716	29545497	Chromosome
+fCypCar.GCA_905221575.1	Cypcar_WagV4.0	Actinopterygii	Cypriniformes	Cyprinidae	Cyprinus carpio Cypcar_WagV4.0	1460348793	9,240,127	28,473,900	Chromosome
 fDanAes.GCA_903798145.1	fDanAes4.1	Actinopteri	Cypriniformes	Danionidae	Danio aesculapii	1381485597	1,517,104	55996547	Chromosome
 fDanKya.GCA_903798195.1	fDanKya3.1	Actinopteri	Cypriniformes	Danionidae	Danio kyathit	1708446541	1,264,270	64228523	Chromosome
+fDreTuH1.2.GCA_903684855.2	fDreTuH1.2	Actinopteri	Cypriniformes	Danionidae	Danio rerio TuH	1,354,075,779	4,531,818	52,957,805	Chromosome
+GRCz11.GCA_000002035.4	GRCz11	Actinopteri	Cypriniformes	Danionidae	Danio rerio GRCz11	1,373,454,788	1,422,317	7,379,053	Chromosome
+fDreABH1.1.GCA_903684865.1	fDreABH1.1	Actinopteri	Cypriniformes	Danionidae	Danio rerio ABH	1,360,506,095	3,603,372	54,392,677	Chromosome
 fDenClu.GCA_900700375.2	fDenClu1.2	Actinopteri	Clupeiformes	Denticipitidae	Denticeps clupeoides	567417970	3,059,612	22793177	Chromosome
+dlabrax2021.GCA_905237075.1	dlabrax2021	Actinopteri	Eupercaria	Moronidae	Dicentrarchus_labrax	695,892,153	12,677,075	29,885,359	Chromosome
 fEchNau.GCA_900963305.2	fEcheNa1.2	Actinopteri	Carangiformes	Echeneidae	Echeneis naucrates	544229243	12,371,513	23287306	Chromosome
 fEleEle.GCA_013358815.1	fEleEle1.pri	Actinopteri	Gymnotiformes	Gymnotidae	Electrophorus electricus	589358956	7,062,559	25664172	Chromosome
 fEpiFuc.GCA_011397635.1	E.fuscoguttatus.final_Chr_v1	Actinopteri	Perciformes	Serranidae	Epinephelus fuscoguttatus	1046995804	13,857,438	44419306	Chromosome
 fErpCal.GCA_900747795.4	fErpCal1.3	Cladistia	Polypteriformes	Polypteridae	Erpetoichthys calabaricus	3613551089	6772339	217689105	Chromosome
-fEsoLuc.GCA_004634155.1	Eluc_v4	Actinopterygii	Esociformes	Esocidae	Esox lucius	940906975	3396779	37550661	Chromosome
 fEsoLuc.GCA_011004845.1	fEsoLuc1.pri	Actinopterygii	Esociformes	Esocidae	Esox lucius	918748614	22630263	37473588	Chromosome
 fGadMor.GCA_902167405.1	gadMor3.0	Actinopterygii	Gadiformes	Gadidae	Gadus morhua	669966409	1015663	28732775	Chromosome
+bGalGal.GCA_016699485.1	bGalGal1.mat.broiler.GRCg7b	Aves	Galliformes	Phasianidae	Gallus gallus	1053332251	18834961	90861225	Chromosome
 fGobRar.GCA_018491645.1	ASM1849164v1	Actinopteri	Cypriniformes	Gobionidae	Gobiocypris rarus	959117570	5,333,633	36586440	Chromosome
 fGouWil.GCA_900634775.2	fGouWil2.2	Actinopteri	Blenniiformes	Gobiesocidae	Gouania willdenowi	937169869	1,838,341	38978045	Chromosome
 fHemWyc.GCA_019097595.1	SWU_Hwy_1.0	Actinopteri	Siluriformes	Bagridae	Hemibagrus wyckioides	789799567	21,700,000	26010843	Chromosome
@@ -43,9 +48,10 @@ fHetNil.GCA_018136845.1	ASM1813684v1	Actinopteri	Osteoglossiformes	Osteoglossida
 fHipAbd.GCA_018466805.1	ZJU1.0	Actinopteri	Syngnathiformes	Syngnathidae	Hippocampus abdominalis	444667964	8410403	21766359	Chromosome
 fHipHip.GCA_009819705.1	fHipHip1.pri	Actinopterygii	Pleuronectiformes	Pleuronectidae	Hippoglossus hippoglossus	596792615	7020318	26312018	Chromosome
 fHipSte.GCA_013339905.1	IPHC_HiSten_1.0	Actinopteri	Pleuronectiformes	Pleuronectidae	Hippoglossus stenolepis	594145200	17,826,919	24985257	Chromosome
+mHomSap.GCA_009914755.3	CHM13 T2T v1.1	Mammalia	Primates	Hominidae	Homo sapiens T2T	3054832041	T2T	T2T	Chromosome
 fIctPun.GCA_004006655.3	ASM400665v3	Actinopteri	Siluriformes	Ictaluridae	Ictalurus punctatus	1036985268	1,694,657	26315040	Chromosome
 fIstPla.GCA_016859345.1	ASM1685934v1	Actinopterygii	Perciformes	Istiophoridae	Istiophorus platypterus	614147335	11851605	26283175	Chromosome
-fLarCro.GCA_003711585.2	ASM371158v2	Actinopteri	None	Sciaenidae	Larimichthys crocea	744270469	1,327,071	29200035	Chromosome
+fLarCro.GCA_003711585.2	ASM371158v2	Actinopteri	Eupercaria	Sciaenidae	Larimichthys crocea	744270469	1,327,071	29200035	Chromosome
 fMasArm.GCA_900324485.3	fMasArm1.3	Actinopteri	Synbranchiformes	Mastacembelidae	Mastacembelus armatus	591951591	8014513	25090313	Chromosome
 fMayZeb.GCA_000238955.5	M_zebra_UMD2a	Actinopteri	Cichliformes	Cichlidae	Maylandia zebra	957485262	1,407,748	32660920	Chromosome
 fMegAmb.GCA_018812025.1	ASM1881202v1	Actinopteri	Cypriniformes	Xenocyprididae	Megalobrama amblycephala	1109871993	2,576,066	42265598	Chromosome
@@ -54,7 +60,7 @@ fMegCyp.GCA_013368585.1	fMegCyp1.pri	Actinopteri	Elopiformes	Megalopidae	Megalop
 fMelBoe.GCA_017639745.1	fMelBoe1.pri	Actinopteri	Atheriniformes	Melanotaeniidae	Melanotaenia boesemani	865592457	9,299,978	37878235	Chromosome
 fMyrMur.GCA_902150065.1	fMyrMur1.1	Actinopteri	Holocentriformes	Holocentridae	Myripristis murdjan	835254674	14,475,636	34950760	Chromosome
 fNeoBic.GCA_902685375.1	fNeoBic2.1	Actinopteri	Atheriniformes	Phallostethidae	Neostethus bicornis	778440790	23,089,617	29119677	Chromosome
-fNibAlb.GCA_014281875.1	ASM1428187v1	Actinopteri	None	Sciaenidae	Nibea albiflora	627578634	4,420,150	25433336	Chromosome
+fNibAlb.GCA_014281875.1	ASM1428187v1	Actinopteri	Eupercaria	Sciaenidae	Nibea albiflora	627578634	4,420,150	25433336	Chromosome
 fNotCel.GCA_009762535.1	fNotCel1.pri	Actinopteri	Labriformes	Labridae	Notolabrus celidotus	846744125	3,748,462	37090664	Chromosome
 fOncKis.GCA_002021735.2	Okis_V2	Actinopteri	Salmoniformes	Salmonidae	Oncorhynchus kisutch	2375911593	1,159,298	68265700	Chromosome
 fOncMyk.GCA_013265735.3	USDA_OmykA_1.1	Actinopteri	Salmoniformes	Salmonidae	Oncorhynchus mykiss	2341688614	15,579,713	39165350	Chromosome
@@ -66,7 +72,7 @@ fOryLat.GCA_002234675.1	ASM223467v1	Actinopteri	Beloniformes	Adrianichthyidae	Or
 fPanHyp.GCA_016801045.1	ASM1680104v1	Actinopteri	Siluriformes	Pangasiidae	Pangasianodon hypophthalmus	742562378	3,478,581	29528124	Chromosome
 fPaoPal.GCA_015343265.1	ASM1534326v1	Actinopteri	Tetraodontiformes	Tetraodontidae	Pao palembangensis	356041988	3269158	15808960	Chromosome
 fParGui.GCA_018749465.1	ASM1874946v1	Actinopteri	Cypriniformes	Gobionidae	Paracanthobrama guichenoti	1087759805	1,965,784	38753313	Chromosome
-fParRan.GCA_900634625.2	fParRan2.2	Actinopteri	None	Ambassidae	Parambassis ranga	551029983	5,080,925	22993012	Chromosome
+fParRan.GCA_900634625.2	fParRan2.2	Actinopteri	Ovalentaria	Ambassidae	Parambassis ranga	551029983	5,080,925	22993012	Chromosome
 fPerFla.GCA_004354835.1	PFLA_1.0	Actinopteri	Perciformes	Percidae	Perca flavescens	877456336	4,268,950	37412490	Chromosome
 fPerFlu.GCA_010015445.1	GENO_Pfluv_1.0	Actinopterygii	Perciformes	Percidae	Perca fluviatilis	951345774	4197643	39550354	Chromosome
 fPerMag.GCA_009829125.1	fPerMag1.pri	Actinopteri	Gobiiformes	Gobiidae	Periophthalmus magnuspinnatus	752621858	2,301,275	32865169	Chromosome
@@ -74,16 +80,17 @@ fPhoGun.GCA_910591455.1	fPhoGun1.1	Actinopterygii	Perciformes	Pholidae	Pholis gu
 fPleLeo.GCA_011397275.1	Pleo_1.0	Actinopteri	Perciformes	Serranidae	Plectropomus leopardus	787600493	1,139,749	34616500	Chromosome
 fPoeFor.GCA_013036085.2	Poecilia_formosa_haplotype_mexicana	Actinopteri	Cyprinodontiformes	Poeciliidae	Poecilia formosa	745326098	1,886,383	30631712	Chromosome
 fPoeRei.GCA_904066995.1	PRET-male-REFERENCE	Actinopteri	Cyprinodontiformes	Poeciliidae	Poecilia reticulata	697709266	8,200,425	32826315	Chromosome
-fPolSen.GCA_016835505.1	ASM1683550v1	Cladistia	Polypteriformes	Polypteridae	Polypterus senegalus	3673880163	4528139	189689183	Chromosome
-fPolSex.GCA_016801845.1	ASM1680184v1	Actinopteri	None	Polynemidae	Polydactylus sextarius	564623279	18,418,211	22256062	Chromosome
+fPolSex.GCA_016801845.1	ASM1680184v1	Actinopteri	Carangaria	Polynemidae	Polydactylus sextarius	564623279	18,418,211	22256062	Chromosome
 fPolSpa.GCA_017654505.1	ASM1765450v1	Actinopteri	Acipenseriformes	Polyodontidae	Polyodon spathula	1542083420	3441286	48906729	Chromosome
+fPolSen.GCA_016835505.1	ASM1683550v1	Cladistia	Polypteriformes	Polypteridae	Polypterus senegalus	3673880163	4528139	189689183	Chromosome
+sPriPec.GCA_009764475.2	sPriPec2.1.pri	Chondrichthyes	Pristiformes/Rhiniformes group	Pristidae	Pristis pectinata	2267857790	17,009,522	101699621	Chromosome
 fPunTet.GCA_018831695.1	ASM1883169v1	Actinopteri	Cypriniformes	Cyprinidae	Puntigrus tetrazona	730818387	1,423,374	25085836	Chromosome
 fPygNat.GCA_015220715.1	fPygNat1.pri	Actinopteri	Characiformes	Serrasalmidae	Pygocentrus nattereri	1222050449	12,898,870	42283192	Chromosome
 fReiHip.GCA_006182925.3	UL_REHI_2.0	Actinopterygii	Pleuronectiformes	Pleuronectidae	Reinhardtius hippoglossoides	598525361	3108829	25015410	Chromosome
 fSalFas.GCA_902148845.1	fSalaFa1.1	Actinopteri	Blenniiformes	Blenniidae	Salarias fasciatus	797507141	2,597,836	32729575	Chromosome
-fSalNam.GCA_016432855.1	SaNama_1.0	Actinopteri	Salmoniformes	Salmonidae	Salvelinus namaycush	2345513378	1,804,090	44976251	Chromosome
 fSalSal.GCA_905237065.2	Ssal_v3.1	Actinopterygii	Salmoniformes	Salmonidae	Salmo salar	2756584103	28058890	28058890	Chromosome
 fSalTru.GCA_901001165.2	fSalTru1.2	Actinopterygii	Salmoniformes	Salmonidae	Salmo trutta	2371880186	1703178	52209666	Chromosome
+fSalNam.GCA_016432855.1	SaNama_1.0	Actinopteri	Salmoniformes	Salmonidae	Salvelinus namaycush	2345513378	1,804,090	44976251	Chromosome
 fSanLuc.GCA_008315115.2	SLUC_FBN_1.2	Actinopteri	Perciformes	Percidae	Sander lucioperca	901238333	6,663,498	41060379	Chromosome
 fSclFor.GCA_900964775.1	fSclFor1.1	Actinopteri	Osteoglossiformes	Osteoglossidae	Scleropages formosus	784563014	9,102,216	31084684	Chromosome
 fScoMax.GCA_013347765.1	ASM1334776v1	Actinopterygii	Pleuronectiformes	Scophthalmidae	Scophthalmus maximus	556696898	20466349	25949660	Chromosome
@@ -97,19 +104,19 @@ fSynAcu.GCA_901709675.2	fSynAcu1.2	Actinopterygii	Syngnathiformes	Syngnathidae	S
 fTakBim.GCA_004026145.2	XU_Tbim_1.0	Actinopteri	Tetraodontiformes	Tetraodontidae	Takifugu bimaculatus	404311738	1312995	16785490	Chromosome
 fTakFla.GCA_003711565.2	ASM371156v2	Actinopteri	Tetraodontiformes	Tetraodontidae	Takifugu flavidus	366286831	4357567	15676631	Chromosome
 fTakRub.GCA_901000725.3	fTakRub1.3	Actinopteri	Tetraodontiformes	Tetraodontidae	Takifugu rubripes	384126663	3136617	16705553	Chromosome
-fTauAds1.GCA_020745685.1	fTauAds1.pri.cur	Actinopterygii			Tautogolabrus adspersus	723582185	7919333	31691308	Chromosome
 fTauBub.GCA_910589615.1	fTauBub2.1	Actinopterygii	Scorpaeniformes	Cottidae	Taurulus bubalis	615153901	13037006	29138660	Chromosome
+fTauAds1.GCA_020745685.1	fTauAds1.pri.cur	Actinopterygii	Labriformes	Labridae	Tautogolabrus adspersus	723582185	7919333	31691308	Chromosome
 fThaAma.GCA_902500255.1	fThaAma1.1	Actinopteri	Batrachoidiformes	Batrachoididae	Thalassophryne amazonica	2446592878	2,329,598	118421481	Chromosome
 fThaSep.GCA_009823395.1	ASM982339v1	Actinopteri	Tetraodontiformes	Monacanthidae	Thamnaconus septentrionalis	474309635	22457894	23049015	Chromosome
 fThuMac.GCA_910596095.1	fThuMac1.1	Actinopteri	Scombriformes	Scombridae	Thunnus maccoyii	782423979	26,803,536	33761101	Chromosome
-fToxCha.GCA_016801885.1	ASM1680188v1	Actinopteri	None	Toxotidae	Toxotes chatareus	618729764	8,430,381	23928265	Chromosome
-fToxJac.GCA_017976425.1	fToxJac2.pri	Actinopteri	None	Toxotidae	Toxotes jaculatrix	621503431	15,555,772	26859436	Chromosome
+fToxCha.GCA_016801885.1	ASM1680188v1	Actinopteri	Carangaria	Toxotidae	Toxotes chatareus	618729764	8,430,381	23928265	Chromosome
+fToxJac.GCA_017976425.1	fToxJac2.pri	Actinopteri	Carangaria	Toxotidae	Toxotes jaculatrix	621503431	15,555,772	26859436	Chromosome
 fTraTra.GCA_905171665.1	fTraTra1.1	Actinopterygii	Perciformes	Carangidae	Trachurus trachurus	820163303	6264696	35447499	Chromosome
 fTriDal.GCA_015846415.1	ASM1584641v1	Actinopteri	Cypriniformes	Nemacheilidae	Triplophysa dalaica	607923607	9,273,388	23627495	Chromosome
 fTriTib.GCA_008369825.1	ASM836982v1	Actinopteri	Cypriniformes	Nemacheilidae	Triplophysa tibetana	652930317	2,833,080	24885746	Chromosome
 fVerVar.GCA_013332515.1	ysfri_vvar_1.0	Actinopteri	Pleuronectiformes	Pleuronectidae	Verasper variegatus	545339360	14,452,835	24764384	Chromosome
 fXenCan.GCA_014839995.1	fXenCan1.pri	Actinopteri	Beloniformes	Belonidae	Xenentodon cancila	736214936	2,195,850	28679447	Chromosome
-fXipCou.GCA_001444195.3	X_couchianus-1.0	Actinopteri	Cyprinodontiformes	Poeciliidae	Xiphophorus couchianus	688541509	15,315,838	30550352	Chromosome
 fXipGla.GCA_016859285.1	ASM1685928v1	Actinopterygii	Perciformes	Xiphiidae	Xiphias gladius	691780295	5252707	29220096	Chromosome
+fXipCou.GCA_001444195.3	X_couchianus-1.0	Actinopteri	Cyprinodontiformes	Poeciliidae	Xiphophorus couchianus	688541509	15,315,838	30550352	Chromosome
 fXipHel.GCA_003331165.2	Xiphophorus_hellerii-4.1	Actinopteri	Cyprinodontiformes	Poeciliidae	Xiphophorus hellerii	732906125	7,084,538	32404057	Chromosome
 fXipMac.GCA_002775205.2	X_maculatus-5.0-male	Actinopteri	Cyprinodontiformes	Poeciliidae	Xiphophorus maculatus	704321165	9,181,372	31535491	Chromosome
