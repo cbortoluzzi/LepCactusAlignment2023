@@ -1,3 +1,4 @@
+Assembly_version	Assembly_name	Class	Order	Family	Species	Size	Contigs_n50	Scaffold_n50	Assembly_level
 fAcaLat.GCA_904848185.1	fAcaLat1.1	Actinopteri	Spariformes	Sparidae	Acanthopagrus latus	685144197	14,880,455	30717905	Chromosome
 fAloAlo.GCA_017589495.1	AALO_Geno_1.0	Actinopterygii	Clupeiformes	Clupeidae	Alosa alosa	854597291	1188980	35353468	Chromosome
 fAloSap.GCA_018492685.1	fAloSap1.pri	Actinopteri	Clupeiformes	Clupeidae	Alosa sapidissima	903581644	1,565,278	38440066	Chromosome
