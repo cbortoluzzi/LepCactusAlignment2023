@@ -1,7 +1,7 @@
 ToL	Megaclass	Superclass	Class	Subclass	Infraclass	Megacohort	Supercohort	Cohort	Subcohort	Infracohort	Section	Subsection	Division	Subdivision	Series	Subseries	Superorder	Order	Suborder	Infraorder	Family	Species	Assembly
 fErpCal1.3	Osteichthyes	Actinopterygii	Cladistia															Polypteriformes			Polypteridae	Erpetoichthys calabaricus	GCA_900747795.4
 ASM1683550v1	Osteichthyes	Actinopterygii	Cladistia															Polypteriformes			Polypteridae	Polypterus senegalus	GCA_016835505.1
-ASM1765450v1	Osteichthyes	Actinopterygii	Actinopteri	Chondrostei														Acipenseriformes			PolyodontidaePolyodon spathula	GCA_017654505.1
+ASM1765450v1	Osteichthyes	Actinopterygii	Actinopteri	Chondrostei														Acipenseriformes			Polyodontidae	Polyodon spathula	GCA_017654505.1
 MATL_1.0	Osteichthyes	Actinopterygii	Actinopteri	Neopterygii	Teleostei	Elopocephalai		Elopomorpha										Elopiformes			Megalopidae	Megalops atlanticus	GCA_019176425.1
 fMegCyp1.pri	Osteichthyes	Actinopterygii	Actinopteri	Neopterygii	Teleostei	Elopocephalai		Elopomorpha										Elopiformes			Megalopidae	Megalops cyprinoides	GCA_013368585.1
 fAngAng1.pri	Osteichthyes	Actinopterygii	Actinopteri	Neopterygii	Teleostei	Elopocephalai		Elopomorpha										Anguilliformes			Anguillidae	Anguilla anguilla	GCA_013347855.1
