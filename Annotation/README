@@ -1,0 +1,7 @@
+Download Ensembl annotation
+
+The python script takes three inputs: 
+-table : a tsv file with assembly information;
+- csv : a csv file downloaded from Ensembl Rapid release (https://rapid.ensembl.org/info/about/species.html). This file specifies whether the annotation is available for a given assembly;
+- metadata : a json file downloaded from Ensembl Rapid release (ftp://ftp.ensembl.org/pub/rapid-release/species_metadata.json).
+
