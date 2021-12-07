@@ -1,4 +1,3 @@
 Order fish species following the DeepFin.v4 white paper phylogenetic classification (https://bmcecolevol.biomedcentral.com/articles/10.1186/s12862-017-0958-3). 
 
 The python script requires only two inputs: a csv file with the complete phylogenetic classification of bony fishes (this can be downloaded from Betancur-R et al. 2017) and a tsv file with information on the genome assemblies.
-For an example of both files, please refer to the input directory. 
