@@ -9,7 +9,7 @@ from sys import argv
 
 
 
-def classify_bony_fishes_deepfin(deepfin, species_list, output, missclassified):
+def deepfin_classification_bony_fishes(deepfin, species_list, output, missclassified):
 	mydict = {}
 	with open(deepfin) as csvfile:
 		f = csv.reader(csvfile, delimiter=',')
@@ -43,7 +43,7 @@ if __name__ == "__main__":
 	deepfin, species_list = argv[1], argv[2]
 	output = open('DeepFin_v4_classification.tsv', 'w')
 	missclassified = open('misclassified_species.tsv', 'w')
-	bony_fish_classification = classify_bony_fishes_deepfin(deepfin, species_list, output, missclassified)
+	deepfin_classification = deepfin_classification_bony_fishes(deepfin, species_list, output, missclassified)
 	output.close()
 	missclassified.close()
 	
