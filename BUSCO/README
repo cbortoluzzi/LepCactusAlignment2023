@@ -8,7 +8,7 @@ The script assumes a directory for each assembly named after the species name (i
 BUSCO will store all results, logs and intermediate data in a folder named after the lineage (i.e. vertebrata_odb10_metaeuk). 
 
 
-./busco2phylo.sh list_species.txt busco.v5
+./busco2phylo.sh species_list.tsv busco.v5
 
 The script requires a text file (i.e. list_species.txt) that contains, one per line, the name of all species we want to include in the phylogenetic tree. The name of this file can be different from that provided in this example.
 The script also requires the path and name of the main folder (i.e. busco.v5) where all BUSCO outputs are stored. The script will automatically iterate over each species's folder and BUSCO's folder to collect all information required to build a phylogenetic tree. 
