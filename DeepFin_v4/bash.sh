@@ -4,6 +4,5 @@
 # Author : @cb46
 
 
-echo "python3 order_by_DeepFin_v4.py -csv DeepFin_v4.csv -tsv fish_202111.tsv"
 python3 order_by_DeepFin_v4.py -csv DeepFin_v4.csv -tsv fish_202111.tsv 
 
