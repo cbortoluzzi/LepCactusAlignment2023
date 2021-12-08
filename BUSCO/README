@@ -5,17 +5,7 @@ Example:
 ./busco.sh busco.v5/Tautogolabrus_adspersus/GCA_020745685.1_fTauAds1.pri.cur_genomic.fasta busco_downloads/vertebrata_odb10
 
 The script assumes a directory for each assembly named after the species name (i.e. Tautogolabrus_adspersus). The script also assumes that the lineage dataset (i.e. vertebrata_odb10) is already downloaded. 
-BUSCO will store all results, logs and intermediate data in a folder named after the species. Once BUSCO has completed all its jobs, I recommend to change the name of this folder to "vertebrata_odb10_metaeuk" and move it under the species's folder that already contains the assembly. 
-
-E.g. before BUSCO
-busco.v5/Tautogolabrus_adspersus
-    GCA_020745685.1_fTauAds1.pri.cur_genomic.fasta
-    
-After BUSCO
-busco.v5/Tautogolabrus_adspersus
-    GCA_020745685.1_fTauAds1.pri.cur_genomic.fasta
-    vertebrata_odb10_metaeuk
-
+BUSCO will store all results, logs and intermediate data in a folder named after the lineage (i.e. vertebrata_odb10_metaeuk). 
 
 
 ./busco2phylo.sh list_species.txt busco.v5
