@@ -5,7 +5,12 @@
 
 
 import csv
-from sys import argv
+import argparse
+
+
+parser = argparse.ArgumentParser(description = 'Classify bony fishes following the DeepFin_v4 phylogenetic classification')
+parser.add_argument('-csv', help = 'DeepFin_v4 classification csv file')
+parser.add_argument('-tsv', help = 'Species list tsv file')
 
 
 
@@ -40,11 +45,10 @@ def deepfin_classification_bony_fishes(deepfin, species_list, output, missclassi
 				
 				
 if __name__ == "__main__":
-	deepfin, species_list = argv[1], argv[2]
+	args = parser.parse_args()
 	output = open('DeepFin_v4_classification.tsv', 'w')
 	missclassified = open('misclassified_species.tsv', 'w')
-	deepfin_classification = deepfin_classification_bony_fishes(deepfin, species_list, output, missclassified)
+	deepfin_classification = deepfin_classification_bony_fishes(args.csv, args.tsv, output, missclassified)
 	output.close()
 	missclassified.close()
-	
 	
