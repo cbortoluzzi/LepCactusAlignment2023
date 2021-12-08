@@ -20,7 +20,7 @@ parser.add_argument('-metadata', help = 'Ensembl rapid release metadata')
 
 
 path = {'Fish' : '/lustre/scratch123/tol/teams/durbin/users/cb46/vertebrate_genomes_project/pan_vertebrates_alignment/fish/busco.v5',
-	'Birds' : '/lustre/scratch123/tol/teams/durbin/users/cb46/vertebrate_genomes_project/pan_vertebrates_alignment/bird_alignment/busco.v5',
+	'Birds' : '/lustre/scratch123/tol/teams/durbin/users/cb46/vertebrate_genomes_project/pan_vertebrates_alignment/birds/busco.v5',
 	'Mammals' : '/lustre/scratch123/tol/teams/durbin/users/cb46/vertebrate_genomes_project/pan_vertebrates_alignment/mammals/busco.v5',
 	'Amphibians' : '/lustre/scratch123/tol/teams/durbin/users/cb46/vertebrate_genomes_project/pan_vertebrates_alignment/amphibians/busco.v5',
 	'Reptiles' : '/lustre/scratch123/tol/teams/durbin/users/cb46/vertebrate_genomes_project/pan_vertebrates_alignment/reptiles/busco.v5',
