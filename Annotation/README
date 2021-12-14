@@ -2,6 +2,5 @@ Download Ensembl annotation
 
 The python script takes three inputs: 
 - a tsv file with assembly information (i.e. vertebrata_202111.tsv);
-- a csv file downloaded from Ensembl Rapid release (https://rapid.ensembl.org/info/about/species.html). This file specifies whether the annotation is available for a given assembly (i.e. Species_202112.csv);
-- a json file downloaded from Ensembl Rapid release (ftp://ftp.ensembl.org/pub/rapid-release/species_metadata.json) (i.e. species_metadata_202112.json).
-
+- a tsv file downloaded from Ensembl Rapid release (ftp://ftp.ensembl.org/pub/rapid-release/species_metadata.json) (i.e. species_metadata_202112.json).
+- a tsv file with information on the path of
