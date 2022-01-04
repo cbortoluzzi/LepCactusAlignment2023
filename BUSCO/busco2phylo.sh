@@ -71,7 +71,7 @@ python3 superalignment.py -i $BUSCO/trimAl -o $BUSCO/matrix
 
 
 # Run Raxml
-echo "raxmlHPC-PTHREADS-SSE3 -T 8 -f a -m PROTGAMMAJTT -N 100 -n my_busco_phylo -s $BUSCO/trimAl/supermatrix.aln.faa -p 13432 -x 89090"
-raxmlHPC-PTHREADS-SSE3 -T 8 -f a -m PROTGAMMAJTT -N 100 -n my_busco_phylo -s $BUSCO/trimAl/supermatrix.aln.faa -p 13432 -x 89090
+echo "raxmlHPC-PTHREADS-SSE3 -T 12 -f a -m PROTGAMMAJTT -N 100 -n my_busco_phylo -s $BUSCO/trimAl/supermatrix.aln.faa -p 13432 -x 89090"
+raxmlHPC-PTHREADS-SSE3 -T 12 -f a -m PROTGAMMAJTT -N 100 -n my_busco_phylo -s $BUSCO/trimAl/supermatrix.aln.faa -p 13432 -x 89090
 
 
