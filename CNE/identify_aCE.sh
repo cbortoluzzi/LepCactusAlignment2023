@@ -30,5 +30,5 @@ do
         hal2maf --refGenome $REF --refSequence $CONTIG --onlyOrthologs --targetGenomes $targetGenome $HAL $CONTIG/$targetGenome.maf
 
         echo "python3 ancestral_conserved_elements.py -maf $CONTIG/$targetGenome.maf -refGenome $REF -refSequence $CONTIG"
-        python3 ancestral_conserved_elements_v2.py -maf $CONTIG/$targetGenome.maf -refGenome $REF -refSequence $CONTIG
+        python3 ancestral_conserved_elements.py -maf $CONTIG/$targetGenome.maf -refGenome $REF -refSequence $CONTIG
 done
