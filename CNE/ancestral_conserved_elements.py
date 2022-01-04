@@ -48,9 +48,9 @@ def ungapped_sequences(mymaf):
 	"""
 	Split target sequence at gaps in order to obtain ungapped sequences
 	Input:
-		mymaf : dictionary
+		mymaf : dictionary with relevant information on query and target sequence
 	Output:
-		mydict : dictionary with stored ungapped sequences
+		mydict : dictionary of ungapped sequences
 	"""
 	stepsize = 1
 	mydict = defaultdict(list)
@@ -107,7 +107,7 @@ def select_single_and_multiple_copy_sequences(mydict):
 	Define sequences as single-copy or multiple-copy based on the number of sequences the query aligns to
 	We perform this step before applying any additional filtering on the length and identity score
 	Input:
-		mydict : dictionary with ungapped sequences
+		mydict : dictionary of ungapped sequences
 	Output:
 		single_copy : dictionary with all ungapped single-copy sequneces
 		multiple_copy : dictionary with all ungapped multiple-copy sequences
@@ -127,7 +127,15 @@ def select_single_and_multiple_copy_sequences(mydict):
 
 def select_conserved_elements(single_copy, multiple_copy, min_identity, min_len, refSequence, targetGenome):
 	"""
-	Perform additional filtering on (single/multiple)-copy sequences and retain only those that meet our criteria of length and % identity
+	Perform additional filtering on ancestral (single/multiple-copy) sequences and retain only those that meet our criteria of length and % identity
+	Input:
+		single_copy, multiple_copy : dictionary of candidate ancestral sequences
+		min_identity : minimum value for identity score between query and target (default: 60%)
+		min_len : minimum value for sequence length (default: 50 bp)
+		refSequence : name of reference sequence
+		targetGenome : name of target genome
+	Output:
+		ancestral_conserved_elements tab delimited file with relevant information on all ancestral conserved elements
 	"""
 	single_copy_conserved = filtering_step(single_copy, min_identity, min_len)
 	multiple_copy_conserved = filtering_step(multiple_copy, min_identity, min_len)
@@ -143,7 +151,7 @@ def select_conserved_elements(single_copy, multiple_copy, min_identity, min_len,
 
 def filtering_step(dictionary, minimum_identity, minimum_length):
 	"""
-	Filter ungapped (single/multiple)-copy sequences based on minimum length and minimum identity score
+	Filter ungapped (single/multiple-copy) sequences based on minimum length and minimum identity score
 	Input:
 		dictionary : dictionary with ungapped sequences (i.e. single-copy, multiple-copy)
 		minimum_identity : minimum identity score (integer)
@@ -192,7 +200,7 @@ def write_conserved_elements(dictionary, output, type_element):
 	Write ancestral conserved elements to file
 
 	Input:
-		dictionary : list of filtered, ungapped conserved elements
+		dictionary : list of filtered, ungapped ancestral conserved elements
 		output : name of output file
 	"""
 	with open(output, 'a') as bed:
