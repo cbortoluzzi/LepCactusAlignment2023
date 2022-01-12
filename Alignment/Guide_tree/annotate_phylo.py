@@ -10,7 +10,7 @@ from collections import defaultdict
 
 
 parser = argparse.ArgumentParser(description = 'Annotate phylogenetic tree')
-parser.add_argument('--table', help = 'TSV file with information on class, clade, order, family, and group for each species, one per line')
+parser.add_argument('--table', help = 'TSV file with information on class, clade, order, family, group, assembly id, and assembly name for each species, one per line')
 
 
 def annotate_phylogenetic_tree(table):
@@ -18,7 +18,7 @@ def annotate_phylogenetic_tree(table):
 	with open(table) as f, open('annotation_tree.txt', 'w') as out:
 		next(f)
 		for line in f:
-			species, class_p, clade, order, family, group = line.strip().split('\t')
+			species, class_p, clade, order, family, group, assembly_id, assembly_name = line.strip().split('\t')
 			species_name = species.replace(' ', '_')
 			mydict[group].append(species_name)
 
