@@ -10,9 +10,9 @@ from collections import defaultdict
 
 
 parser = argparse.ArgumentParser(description = 'Prune phylogenetic tree')
-parser.add_argument('-tree', help = 'Phylogenetic tree to prune')
-parser.add_argument('-targetGenomes', help = 'List of species to be included in the pruned phylogenetic tree, one per line')
-parser.add_argument('-pruned', help = 'Name of pruuned phylogenetic tree')
+parser.add_argument('--tree', help = 'Phylogenetic tree to prune')
+parser.add_argument('--targetGenomes', help = 'List of species to be included in the pruned phylogenetic tree, one per line')
+parser.add_argument('--pruned', help = 'Name of pruuned phylogenetic tree')
 
 
 
