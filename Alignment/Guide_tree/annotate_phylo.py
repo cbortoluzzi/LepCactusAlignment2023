@@ -24,6 +24,7 @@ def annotate_phylogenetic_tree(table):
 
 
 		num_colors = len(mydict.keys())
+		# Since in this case we only have two groups (i.e. butterfly and moth), we will select the color manually
 		color = ['#ffffbf', '#998ec3']
 		keys = list(zip(mydict.keys(), color))
 		out.write('{}\n\n'.format('TREE_COLORS'))
