@@ -21,7 +21,8 @@ def prune_phylogenetic_tree(tree, table, pruned_tree):
 	mydict = defaultdict(list)
 	with open(table) as f:
 		for line in f:
-			species, class_p,  = line.strip().replace(' ', '_')
+			species, class_p, clade, order, family, group = line.strip().split('\t')
+			species_name = species.replace(' ', '_')
 			for node in t.traverse('postorder'):
 				if node.is_leaf():
 					if node.name == species_name:
