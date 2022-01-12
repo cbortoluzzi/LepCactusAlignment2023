@@ -20,5 +20,8 @@ PRUNED_PHYLO=$3
 echo "python3 prune_phylo.py --tree $TREE --table $SPECIES_LIST --pruned $PRUNED_PHYLO"
 python3 prune_phylo.py --tree $TREE --table $SPECIES_LIST --pruned $PRUNED_PHYLO
 
-echo "python3 
+
+echo "python3 annotate_phylo.py --table $SPECIES_LIST"
+python3 annotate_phylo.py --table $SPECIES_LIST
+
 
