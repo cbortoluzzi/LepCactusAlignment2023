@@ -12,11 +12,11 @@ if [ -z $1 ]; then
 fi
 
 
-SPECIES=$1
-METADATA=$2
-PATH=$3
+SPECIES_LIST=$1
+METADATA_JSON=$2
+PATHS_FILE=$3
 
 
-echo "python3 get_ensembl_genome_annotation.py --table $SPECIES --metadata $METADATA --path_file $PATH"
-python3 get_ensembl_genome_annotation.py --table $SPECIES --metadata $METADATA --path_file $PATH
+echo "python3 get_ensembl_genome_annotation.py --table $SPECIES_LIST --metadata $METADATA_JSON --path_file $PATHS_FILE"
+python3 get_ensembl_genome_annotation.py --table $SPECIES_LIST --metadata $METADATA_JSON --path_file $PATHS_FILE
 
