@@ -13,7 +13,7 @@ from pathlib import Path
 parser = argparse.ArgumentParser(description = 'Download assemblies from Ensembl Rapid Release')
 parser.add_argument('-table', help = 'Ensembl table v.2021-11')
 parser.add_argument('-metadata', help = 'Ensembl rapid release metadata')
-parser.add_argument('-o', help = 'File with output directories, one per line')
+parser.add_argument('-path_file', help = 'File with output directories, one per line')
 
 
 
@@ -32,7 +32,7 @@ def parse_table(table):
 	with open(table) as f:
 		next(f)
 		for line in f:
-			assembly_id, assembly_name, class_p, clade, order, family, species, size, contig_n50, scaffold_n50, assembly_level = line.strip().split('\t')
+			species, class_p, clade, order, family, group, assembly_id, assembly_name = line.strip().split('\t')
 			species_name = species.replace(' ', '_')
 			tol, assembly = assembly_id.split('.', 1)
 			mydict[assembly] = [species_name, assembly_name, clade]
@@ -47,7 +47,7 @@ def download_genome_assembly(mydict, metadata, mypath):
 			assembly = str(i['assembly_accession'])
 			geneset = str(i['geneset'])
 			if assembly in mydict.keys():
-				genome = mydict[assembly][0]+"-"+assembly+"-unmasked.fa.gz"
+				genome = mydict[assembly][0]+"-"+assembly+"-softmasked.fa.gz"
 				ensembl_genome = '/'.join(["ftp://ftp.ensembl.org/pub/rapid-release/species", mydict[assembly][0], assembly, "genome", genome])
 				ensembl_annotation = '/'.join(["ftp://ftp.ensembl.org/pub/rapid-release/species", mydict[assembly][0], assembly, "geneset", geneset, "*"])
 				class_p = mydict[assembly][2]
@@ -68,8 +68,8 @@ def download_genome_assembly(mydict, metadata, mypath):
 
 if __name__ == "__main__":
 	args = parser.parse_args()
-	output_f = output_path(args.o)
+	path_file = output_path(args.path_file)
 	parse_file = parse_table(args.table)
-	download_assembly = download_genome_assembly(parse_file, args.metadata, output_f)
+	download_assembly = download_genome_assembly(parse_file, args.metadata, path_file)
 
 	
