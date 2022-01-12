@@ -19,3 +19,4 @@ PRUNED_PHYLO=$3
 
 echo "python3 prune_phylo.py --tree $TREE --targetGenomes $SPECIES_LIST --pruned $PRUNED_PHYLO"
 python3 prune_phylo.py --tree $TREE --targetGenomes $SPECIES_LIST --pruned $PRUNED_PHYLO
+
