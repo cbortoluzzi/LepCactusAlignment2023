@@ -10,7 +10,7 @@ import argparse
 from pathlib import Path
 
 
-parser = argparse.ArgumentParser(description = 'Download assemblies from Ensembl Rapid Release')
+parser = argparse.ArgumentParser(description = 'Download assemblies and annotation files from Ensembl Rapid Release')
 parser.add_argument('--table', help = 'TSV file with information on class, clade, order, family, group, assembly id, and assembly name for each species, one per line')
 parser.add_argument('--metadata', help = 'Ensembl rapid release metadata in json format')
 parser.add_argument('--path_file', help = 'File with output directories, one per line')
