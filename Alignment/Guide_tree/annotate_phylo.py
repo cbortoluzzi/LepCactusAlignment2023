@@ -13,7 +13,6 @@ parser = argparse.ArgumentParser(description = 'Annotate phylogenetic tree')
 parser.add_argument('--table', help = 'TSV file with information on class, clade, order, family, and group for each species, one per line')
 
 
-
 def annotate_phylogenetic_tree(table):
 	mydict = defaultdict(list)
 	with open(table) as f, open('annotation_tree.txt', 'w') as out:
@@ -25,7 +24,6 @@ def annotate_phylogenetic_tree(table):
 
 
 		num_colors = len(mydict.keys())
-    #color = ["#"+''.join([random.choice('0123456789ABCDEF') for j in range(6)]) for i in range(num_colors)]
 		color = ['#ffffbf', '#998ec3']
 		keys = list(zip(mydict.keys(), color))
 		out.write('{}\n\n'.format('TREE_COLORS'))
