@@ -39,3 +39,5 @@ def annotate_phylogenetic_tree(table):
 if __name__ == "__main__":
 	args = parser.parse_args()
 	annotate_tree = annotate_phylogenetic_tree(args.table)
+	
+	
