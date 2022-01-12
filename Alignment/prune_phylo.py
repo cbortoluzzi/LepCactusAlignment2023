@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 
-# Author: @cb46
+# Author : @cb46
 
 
 import argparse
@@ -38,3 +38,5 @@ if __name__ == '__main__':
 	args = parser.parse_args()
 	pruned_phylo = prune_phylogenetic_tree(args.tree, args.targetGenomes, args.pruned)
 
+
+	
