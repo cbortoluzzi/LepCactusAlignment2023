@@ -11,17 +11,17 @@ from collections import defaultdict
 
 parser = argparse.ArgumentParser(description = 'Prune phylogenetic tree')
 parser.add_argument('--tree', help = 'Phylogenetic tree to prune')
-parser.add_argument('--targetGenomes', help = 'List of species to be included in the pruned phylogenetic tree, one per line')
+parser.add_argument('--table', help = 'TSV file with information on class, clade, order, family, and group for each species, one per line')
 parser.add_argument('--pruned', help = 'Name of pruuned phylogenetic tree')
 
 
 
-def prune_phylogenetic_tree(tree, target_genomes, pruned_tree):
+def prune_phylogenetic_tree(tree, table, pruned_tree):
 	t = Tree(tree, format = 1)
 	mydict = defaultdict(list)
-	with open(target_genomes) as f:
+	with open(table) as f:
 		for line in f:
-			species_name = line.strip().replace(' ', '_')
+			species, class_p,  = line.strip().replace(' ', '_')
 			for node in t.traverse('postorder'):
 				if node.is_leaf():
 					if node.name == species_name:
@@ -36,7 +36,7 @@ def prune_phylogenetic_tree(tree, target_genomes, pruned_tree):
 
 if __name__ == '__main__':
 	args = parser.parse_args()
-	pruned_phylo = prune_phylogenetic_tree(args.tree, args.targetGenomes, args.pruned)
+	pruned_phylo = prune_phylogenetic_tree(args.tree, args.table, args.pruned)
 
 
 	
