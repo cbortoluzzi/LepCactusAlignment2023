@@ -20,6 +20,7 @@ def prune_phylogenetic_tree(tree, table, pruned_tree):
 	t = Tree(tree, format = 1)
 	mydict = defaultdict(list)
 	with open(table) as f:
+		next(f)
 		for line in f:
 			species, class_p, clade, order, family, group = line.strip().split('\t')
 			species_name = species.replace(' ', '_')
