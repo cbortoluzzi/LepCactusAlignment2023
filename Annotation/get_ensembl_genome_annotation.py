@@ -11,9 +11,9 @@ from pathlib import Path
 
 
 parser = argparse.ArgumentParser(description = 'Download assemblies from Ensembl Rapid Release')
-parser.add_argument('-table', help = 'Ensembl table v.2021-11')
-parser.add_argument('-metadata', help = 'Ensembl rapid release metadata')
-parser.add_argument('-path_file', help = 'File with output directories, one per line')
+parser.add_argument('--table', help = 'Ensembl table v.2021-11')
+parser.add_argument('--metadata', help = 'Ensembl rapid release metadata')
+parser.add_argument('--path_file', help = 'File with output directories, one per line')
 
 
 
