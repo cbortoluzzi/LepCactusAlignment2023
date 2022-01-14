@@ -7,7 +7,7 @@
 
 
 if [ -z $1 ]; then
-        echo "Usage: ./identify_aCE.sh <reference.genome> <cactus.alignment> <reference.sequence>"
+        echo "Usage: ./identify_ancestral_conserved_elements.sh <reference.genome> <cactus.alignment> <reference.sequence>"
         exit -1
 fi
 
