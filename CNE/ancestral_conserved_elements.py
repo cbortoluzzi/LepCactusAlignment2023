@@ -13,11 +13,11 @@ from collections import defaultdict
 
 
 parser = argparse.ArgumentParser(description = 'Identify ancestral conserved elements in a multiple sequence alignment')
-parser.add_argument('-maf', help = 'Multiple alignment (MAF)')
-parser.add_argument('-refGenome', help = 'Name of reference genome')
-parser.add_argument('-refSequence', help = 'Name of reference sequence within reference genome')
-parser.add_argument('-min_identity', help = 'Minimum percentage identity of candidate conserved element', type = int, default = 60)
-parser.add_argument('-min_length', help = 'Minimum length of candidate conserved element', type = int, default = 50)
+parser.add_argument('--maf', help = 'Multiple alignment (MAF)')
+parser.add_argument('--refGenome', help = 'Name of reference genome')
+parser.add_argument('--refSequence', help = 'Name of reference sequence within reference genome')
+parser.add_argument('--min_identity', help = 'Minimum percentage identity of candidate conserved element', type = int, default = 60)
+parser.add_argument('--min_length', help = 'Minimum length of candidate conserved element', type = int, default = 50)
 
 
 
