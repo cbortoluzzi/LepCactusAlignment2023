@@ -17,10 +17,6 @@ HAL=$2
 CONTIG=$3
 
 
-
-echo "./identify_aCE.sh $REF $HAL $CONTIG"
-
-
 mkdir -p $CONTIG
 cat genomes_noAncestors.txt | while read targetGenome
 do
