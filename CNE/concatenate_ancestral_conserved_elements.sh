@@ -6,7 +6,7 @@
 
 
 
-echo "Usage: ./concatenate_aCE.sh"
+echo "Usage: ./concatenate_ancestral_conserved_elements.sh"
 
 
 DATE="$(date +'%Y%m%d')"
