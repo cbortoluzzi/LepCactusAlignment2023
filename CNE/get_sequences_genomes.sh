@@ -16,9 +16,6 @@ REF=$1
 HAL=$2
 
 
-echo "./get_sequences_genomes.sh $REF $HAL"
-
-
 # Print sequences of a given genome in bed format (in our case the genome is the MRCA). We will retain only sequences with a minimum length of 50 bp 
 echo "halStats --bedSequences $REF $HAL"
 halStats --bedSequences $REF $HAL | awk '{if($3 >= 50)print}' | sort -k3,3 -nr > $REF.sequences.50bp.bed
