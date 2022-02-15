@@ -32,7 +32,7 @@ do
 	do
 		for faa in /lustre/scratch123/tol/projects/lepidoptera/data/insects/$species/analysis/$tol_id/busco/mm49_lepidoptera_odb10_metaeuk/run_lepidoptera_odb10/busco_sequences/single_copy_busco_sequences/$busco_id.faa
 		do
-			# Get the genomic coordinates of each single copy BUSCO gene as it appears in the protein FASTA
+			# Get the genomic coordinates of each single copy busco gene as it appears in the protein FASTA
 			coordinates=`cat $faa | grep '>' | sed 's/:/\t/g' | sed 's/>//g' | sed 's/-/\t/g'`
 			echo $coordinates $species $genome >> busco/$busco_id.tsv
 		done
@@ -40,7 +40,7 @@ do
 	# We now need to change the contig/scaffold name because the one present in the protein FASTA file is based on the NCBI annotation
 	python3 change_contig_name.py --species $FILE --busco busco/$busco_id.tsv && rm busco/$busco_id.tsv
 
-	# We can now use the first species as a reference to extract from the cactus alignment an alignment in multiple alignment format (MAF)of all single copy BUSCO genes
+	# We can now use the first species as a reference to extract from the cactus alignment an alignment in multiple alignment format (MAF)of all single copy busco genes
 	cat busco/$busco_id.bed | head -1 | while read contig start end length species genome;do hal2maf --refSequence $contig --start $start --length $length --refGenome $genome --onlyOrthologs --noAncestors $HAL busco/$busco_id.maf;done
 
 	# Finally, we will check the consistency of the alignment by taking 100 bp upstream and downstream to have some flexibility
