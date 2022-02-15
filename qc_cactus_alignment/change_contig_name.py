@@ -12,7 +12,7 @@ from collections import defaultdict
 
 parser = argparse.ArgumentParser(description = 'Assign number to contig/scaffold using NCBI assembly report')
 parser.add_argument('--species', help = 'A tsv file with information on assembly, tol_id, species latin name, and name of the species as it appears in the cactus alignment')
-parser.add_argument('--busco', help = 'A tab delimited file with genomic coordinates of single copy BUSCO genes')
+parser.add_argument('--busco', help = 'A tab delimited file with genomic coordinates of single copy busco genes')
 
 
 
