@@ -14,8 +14,8 @@ from collections import defaultdict
 parser = argparse.ArgumentParser(description = 'Get genomic coordinates of single copy orthogroups (OrthoFinder)')
 parser.add_argument('--single_copy', help = 'Single copy orthologues genes')
 parser.add_argument('--orthogroups', help = 'Orthogroups')
-parser.add_argument('--pep', help = 'Directory to all pep files, one per species')
-parser.add_argument('--species', help = 'A tab delimited file with information on assembly, tol_id, species (latin name), and the name of the species as it appears in the cactus alignment')
+parser.add_argument('--pep', help = 'Directory to all pep fasta files')
+parser.add_argument('--species', help = 'A tab delimited file with information on assembly, tol_id, species latin name, and name as it appears in the cactus alignment')
 
 
 
@@ -53,7 +53,6 @@ def orthogroup_per_species(orthogroups, single_copy_dict):
 
 
 
-
 def coordinates_pep_file(myorthogroups, files):
 	mypep = {}
 	mydict = defaultdict(list)
@@ -63,7 +62,7 @@ def coordinates_pep_file(myorthogroups, files):
 				if line.startswith('>'):
 					header = line.strip().split()
 					if len(header) == 7:
-						gene = header[3].replace('gene:','')
+						gene = header[3].replace('gene:', '')
 						tol_id, contig, start, end, strand = header[2].split(':')
 						length = int(end) - int(start)
 						mypep[gene] = [contig, start, end, length]
@@ -82,16 +81,19 @@ def save_to_file(mydict, path, mysp):
 		with open(output_name, 'w') as out:
 			for item in mydict[key]:
 				species = item[0].replace('.pep', '')
-				out.write('{}\t{}\t{}\t{}\n'.format(item[2], species, mysp[species], item[1]))
+				out.write('{}\t{}\t{}\n'.format(item[2], species, mysp[species]))
 
 
+				
 if __name__ == "__main__":
 	args = parser.parse_args()
 	name_species_alignment = parse_species(args.species)
-	single_copy_genes = single_copy_orthologues_genes(args.single_copy)
-	orthogroups = orthogroup_per_species(args.orthogroups, single_copy_genes)
+	single_copy = single_copy_orthologues_genes(args.single_copy)
+	orthogroups = orthogroup_per_species(args.orthogroups, single_copy)
 	list_pep = list(Path(args.pep).rglob('*.pep.fa'))
 	genomic_coordinates = coordinates_pep_file(orthogroups, list_pep)
 	path = Path(args.pep, 'orthogroups')
 	path.mkdir(parents=True, exist_ok=True)
 	to_file = save_to_file(genomic_coordinates, path, name_species_alignment)
+
+	
