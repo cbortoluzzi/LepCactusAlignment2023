@@ -9,19 +9,18 @@ from Bio import AlignIO
 from collections import defaultdict
 
 
-parser = argparse.ArgumentParser(description = 'Evaluate consistency of single-copy BUSCO genes or single-copy orthogroups (OrthoFinder)')
+parser = argparse.ArgumentParser(description = 'Evaluate consistency of single copy busco genes or single copy orthogroups')
 parser.add_argument('--maf', help = 'Alignment in multiple alignment format')
-parser.add_argument('--bed', help = 'A tsv file with genomic coordinate of single-copy BUSCO genes or single-copy orthogroups')
+parser.add_argument('--bed', help = 'A tab delimited file with genomic coordinate of single copy busco genes or single copy orthogroups')
 parser.add_argument('--bp', help = 'Number of base pairs to take upstream and downstrean the genomic coordinate of a gene', type=int)
 parser.add_argument('--refGenome', help = 'Reference genome')
 
 
-def species_single_copy_gene_coordinates(busco, base_pair, refGenome):
+def species_single_copy_coordinates(bed, base_pair, refGenome):
 	mydict = {}
-	with open(busco) as f:
+	with open(bed) as f:
 		for line in f:
-#			contig, start, end, length, species, genome = line.strip().split()
-			contig, start, end, length, species, genome, gene = line.strip().split()
+			contig, start, end, length, species, genome = line.strip().split()
 			start, end = int(start), int(end)
 			if base_pair:
 				if genome == refGenome:
@@ -61,13 +60,13 @@ def check_consistency_alignment(mydict, mymaf, output_f):
 	for species, (contig, start, end) in mydict.items():
 		for interval in mymaf[species][contig]:
 			begin, stop, seq = interval[0], interval[1], interval[2]
-			# The alignment is found within the single-copy gene coordinates
+			# The alignment is found
 			if begin in range(start, end + 1) and stop in range(start, end + 1):
 				passed_consistency_check[species][contig, start, end].append('complete')
-			# Only the end of the alignment is found within the single-copy gene coordinates
+			# Only the end of the alignment is found
 			elif stop in range(start, end + 1):
 				to_be_checked[species][contig, start, end].append('partial')
-			# Only the begin of the alignment is found within the single-copy gene coordinates
+			# Only the begin of the alignment is found
 			elif begin in range(start, end + 1):
 				to_be_checked[species][contig, start, end].append('partial')
 	return passed_consistency_check, to_be_checked
@@ -96,7 +95,7 @@ def save_consistency_check_to_file(passed_consistency_check, to_be_checked, mydi
 
 if __name__ == "__main__":
 	args = parser.parse_args()
-	species_coordinates = species_single_copy_gene_coordinates(args.bed, args.bp, args.refGenome)
+	species_coordinates = species_single_copy_coordinates(args.bed, args.bp, args.refGenome)
 	maf_f = parse_alignment(args.maf)
 	output_f = args.maf.replace('.maf', '.maf.qc')
 	passed_consistency_check, to_be_checked = check_consistency_alignment(species_coordinates, maf_f, output_f)
