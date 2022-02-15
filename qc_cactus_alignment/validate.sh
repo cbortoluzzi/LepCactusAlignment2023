@@ -7,7 +7,7 @@
 
 
 if [ -z $1 ]; then
-	echo "Usage: ./validate_hal.sh <cactus.alignment>"
+	echo "Usage: ./validate.sh <cactus.alignment>"
 	exit -1
 fi
 
