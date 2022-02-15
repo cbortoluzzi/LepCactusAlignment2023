@@ -45,6 +45,6 @@ do
 
 	# Finally, we will check the consistency of the alignment by taking 100 bp upstream and downstream to have some flexibility
 	reference=`cat busco/$busco_id.bed | head -1 | cut -f6`
-	python3 check_consistency_single_copy_genes.py --maf busco/$busco_id.maf --busco busco/$busco_id.bed --bp 100 --refGenome $reference
+	python3 check_consistency.py --maf busco/$busco_id.maf --busco busco/$busco_id.bed --bp 100 --refGenome $reference
 done
 
