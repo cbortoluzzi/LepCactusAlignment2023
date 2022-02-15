@@ -18,7 +18,7 @@ parser.add_argument('--busco', help = 'A tab delimited file with genomic coordin
 
 def parse_species(species_f):
 	"""
-	Read in the TSV file with a set of information on the species contained in the cactus alignment
+	Read in the tsv file with a set of information on the species contained in the cactus alignment
 	Input:
 		species_f : tsv file
 	Output:
@@ -67,9 +67,9 @@ def change_ncbi_contig_to_chromosome_number(mydict, busco_gene, output):
 	Change contig/scaffold name
 	Input:
 		mydict : dictionary
-		busco_gene : tab delimited file with genomic coordinates of single copy BUSCO genes
+		busco_gene : tab delimited file with genomic coordinates of single copy busco genes
 	Output:
-		output : a tab delimited file with updated genomic coordinates of single copy BUSCO genes
+		output : a tab delimited file with updated genomic coordinates of single copy busco genes
 	"""
 	with open(busco_gene) as f, open(output, 'a') as out:
 		for line in f:
