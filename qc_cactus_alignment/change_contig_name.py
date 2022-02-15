@@ -17,13 +17,6 @@ parser.add_argument('--busco', help = 'A tab delimited file with genomic coordin
 
 
 def parse_species(species_f):
-	"""
-	Read in the tsv file with a set of information on the species contained in the cactus alignment
-	Input:
-		species_f : tsv file
-	Output:
-		myspecies : dictonary with information on species latin name and species name as it appears in the alignment (key), tol_id, and assembly (value)
-	"""
 	myspecies = {}
 	with open(species_f) as f:
 		for line in f:
@@ -34,13 +27,6 @@ def parse_species(species_f):
 
 
 def parse_assembly_report(myspecies):
-	"""
-	Read in the dictionary generated in the previous function and get the number of the contig/scaffold from the assembly report of each species, separately
-	Input:
-		myspecies : dictionary
-	Output:
-		mydict : a dcitionary with information on species latin name and species name as it appears in the alignment (key), and number of contig/scaffold (value)
-	"""
 	mydict = defaultdict(lambda: defaultdict(list))
 	# Main path to all species
 	path = '/lustre/scratch123/tol/projects/lepidoptera/data/insects/'
@@ -63,14 +49,6 @@ def parse_assembly_report(myspecies):
 
 
 def change_ncbi_contig_to_chromosome_number(mydict, busco_gene, output):
-	"""
-	Change contig/scaffold name
-	Input:
-		mydict : dictionary
-		busco_gene : tab delimited file with genomic coordinates of single copy busco genes
-	Output:
-		output : a tab delimited file with updated genomic coordinates of single copy busco genes
-	"""
 	with open(busco_gene) as f, open(output, 'a') as out:
 		for line in f:
 			contig, start, end, species, genome = line.strip().split()
