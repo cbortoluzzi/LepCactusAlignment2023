@@ -46,3 +46,4 @@ do
                 python3 check_consistency.py --maf orthofinder/proteomes/orthogroups/$orthogroup.maf --bed orthofinder/proteomes/orthogroups/$orthogroup.bed --bp 100 --refGenome $genome
         done
 done
+
