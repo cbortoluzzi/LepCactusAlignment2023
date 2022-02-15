@@ -40,7 +40,7 @@ do
 	# We now need to change the contig/scaffold name because the one present in the protein FASTA file is based on the NCBI annotation
 	python3 change_contig_name.py --species $FILE --busco busco/$busco_id.tsv && rm busco/$busco_id.tsv
 
-	# We can now use the first species as a reference to extract from the cactus alignment an alignment in multiple alignment format (MAF)of all single copy busco genes
+	# We can now use the first species as a reference to extract from the cactus alignment an alignment in multiple alignment format (MAF)
 	cat busco/$busco_id.bed | head -1 | while read contig start end length species genome;do hal2maf --refSequence $contig --start $start --length $length --refGenome $genome --onlyOrthologs --noAncestors $HAL busco/$busco_id.maf;done
 
 	# Finally, we will check the consistency of the alignment by taking 100 bp upstream and downstream to have some flexibility
