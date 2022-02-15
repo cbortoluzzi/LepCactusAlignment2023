@@ -80,8 +80,7 @@ def change_ncbi_contig_to_chromosome_number(mydict, busco_gene, output):
 					out.write('{}\t{}\t{}\t{}\t{}\t{}\n'.format(ncbi_contig, start, end, length, species, genome))
 
 
-
-
+					
 if __name__ == "__main__":
 	args = parser.parse_args()
 	species_information = parse_species(args.species)
@@ -89,3 +88,4 @@ if __name__ == "__main__":
 	output = args.busco.replace('.tsv', '.bed')
 	change_ncbi_contig = change_ncbi_contig_to_chromosome_number(chromosome_number, args.busco, output)
 
+	
