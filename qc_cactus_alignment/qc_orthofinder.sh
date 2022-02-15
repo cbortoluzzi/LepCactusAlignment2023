@@ -34,11 +34,7 @@ done
 time /lustre/scratch123/tol/teams/durbin/users/cb46/softwares/OrthoFinder/orthofinder -f orthofinder/proteomes/primary_transcripts/
 
 # Get coordinates of single-copy orthogroups
-python3 get_coordinates_orthogroups.py \
---single_copy orthofinder/proteomes/primary_transcripts/OrthoFinder/Results_Feb03/Orthogroups/Orthogroups_SingleCopyOrthologues.txt \
---orthogroups orthofinder/proteomes/primary_transcripts/OrthoFinder/Results_Feb03/Orthogroups/Orthogroups.tsv \
---pep orthofinder/proteomes/ \
---species species_list.tsv
+python3 get_coordinates_orthogroups.py --single_copy orthofinder/proteomes/primary_transcripts/OrthoFinder/Results_Feb03/Orthogroups/Orthogroups_SingleCopyOrthologues.txt --orthogroups orthofinder/proteomes/primary_transcripts/OrthoFinder/Results_Feb03/Orthogroups/Orthogroups.tsv --pep orthofinder/proteomes/ --species species_list.tsv
 
 # Check consistency of single copy orthogroups in the alignment
 cat orthofinder/proteomes/primary_transcripts/OrthoFinder/Results_Feb03/Orthogroups/Orthogroups_SingleCopyOrthologues.txt | while read orthogroup
@@ -47,6 +43,6 @@ do
         cat orthofinder/proteomes/orthogroups/$orthogroup.bed | head -1 | while read contig start end length species genome gene
         do
                 hal2maf --refSequence $contig --start $start --length $length --refGenome $genome --onlyOrthologs --noAncestors $HAL orthofinder/proteomes/orthogroups/$orthogroup.maf
-                python3 check_consistency_single_copy_genes.py --maf orthofinder/proteomes/orthogroups/$orthogroup.maf --bed orthofinder/proteomes/orthogroups/$orthogroup.bed --bp 100 --refGenome $genome
+                python3 check_consistency.py --maf orthofinder/proteomes/orthogroups/$orthogroup.maf --bed orthofinder/proteomes/orthogroups/$orthogroup.bed --bp 100 --refGenome $genome
         done
 done
