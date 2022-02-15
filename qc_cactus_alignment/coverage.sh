@@ -34,5 +34,6 @@ done
 for num in $(seq 1 100);do /software/team118/maf_stream/target/release/maf_stream coverage $REF coverage/$REF/$REF.random.intervals.$num.maf coverage/$REF/$REF.random.intervals.$num.maf.cov;done
 
 # Plot coverage (boxplot)
+# Ideally the species reported in the species_group.tsv file should follow the order of the phylogenetic tree
 python3 plot_coverage.py --cov coverage/$REF --refGenome $REF --species species_group.tsv
 
