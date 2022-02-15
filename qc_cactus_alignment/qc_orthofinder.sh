@@ -34,7 +34,7 @@ done
 time /lustre/scratch123/tol/teams/durbin/users/cb46/softwares/OrthoFinder/orthofinder -f orthofinder/proteomes/primary_transcripts/
 
 # Get coordinates of single-copy orthogroups
-python3 get_coordinates_orthogroups.py --single_copy orthofinder/proteomes/primary_transcripts/OrthoFinder/Results_Feb03/Orthogroups/Orthogroups_SingleCopyOrthologues.txt --orthogroups orthofinder/proteomes/primary_transcripts/OrthoFinder/Results_Feb03/Orthogroups/Orthogroups.tsv --pep orthofinder/proteomes/ --species species_list.tsv
+python3 coordinates_orthogroups.py --single_copy orthofinder/proteomes/primary_transcripts/OrthoFinder/Results_Feb03/Orthogroups/Orthogroups_SingleCopyOrthologues.txt --orthogroups orthofinder/proteomes/primary_transcripts/OrthoFinder/Results_Feb03/Orthogroups/Orthogroups.tsv --pep orthofinder/proteomes/ --species species_list.tsv
 
 # Check consistency of single copy orthogroups in the alignment
 cat orthofinder/proteomes/primary_transcripts/OrthoFinder/Results_Feb03/Orthogroups/Orthogroups_SingleCopyOrthologues.txt | while read orthogroup
