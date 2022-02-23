@@ -34,7 +34,7 @@ tRNAscan-SE -E -o method_1/mask_mrca/$REF.tRNA.txt method_1/mask_mrca/$REF.fa
 # Exclude ancestral repeats found in tRNAs
 python3 exclude_tRNAs.py --wm method_1/mask_mrca/$REF.sm.wm --tRNA method_1/mask_mrca/$REF.tRNA.txt
 
-# Get target genomes of alignment
+# Get target genomes
 halStats --genomes $HAL | tr -s ' '  '\n' | grep -v '^Anc' > method_1/genomes.txt
 targetGenomes=`cat method_1/genomes.txt | while read species;do echo $species;done  | paste -s -d, -`
 
@@ -58,7 +58,7 @@ done
 
 # Prepare input alignment for GERP analysis
 # This script will separate the ancestral contig based on the type of contig it aligns to in the other species, being this an autosome, W, or Z chromsome
-python3 prepare_alignment.py - -maf method_1/single_copy_regions/ --refGenome $REF
+python3 input_phyloFit.py - -maf method_1/single_copy_regions/ --refGenome $REF
 
 # Run phyloFit to obtain the neutral model
 mkdir -p method_1/neutral_model/
