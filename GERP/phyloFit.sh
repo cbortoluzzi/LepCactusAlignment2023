@@ -34,15 +34,19 @@ do
 	msa_view msa_view/$REF/$REF.$chr.codons.ss --in-format SS --out-format SS --tuple-size 1 > msa_view/$REF/$REF.$chr.sites.ss
 	# Estimate the nonconserved (neutral) model for each chromosome
 	tree=`cat tree_topology.nh`
-	phyloFit --tree $tree --subst-mod REV --EM --msa-format SS msa_view/$REF/$REF.$chr.sites.ss --out-root neutral_model/$REF/$REF.$chr.nonconserved-4d
+	phyloFit --tree $tree --subst-mod REV --EM --msa-format SS msa_view/$REF/$REF.$chr.sites.ss --out-root msa_view/$REF/$REF.$chr.nonconserved-4d
 done
 
 
 # Obtain the average nonconserved model
-#echo "Obtain the average nonconserved model"
-#re='^[0-9]+$'
-#autosomes=`cat sequences/$REF/$REF.bed | while read contig size;do if [[ $contig =~ $re ]]; then echo $contig; fi;done`
-#mod=`for chr in $autosomes;do ls neutral_model/$REF/$REF.$chr.nonconserved-4d.mod;done`
-#phyloBoot --read-mods $mod --output-average neutral_model/$REF/$REF.ave.nonconserved-4d.mod
+echo "Obtain the average nonconserved model"
+re='^[0-9]+$'
+autosomes=`cat sequences/$REF/$REF.bed | while read contig size;do if [[ $contig =~ $re ]]; then echo $contig; fi;done`
+mod=`for chr in $autosomes;do ls msa_view/$REF/$REF.$chr.nonconserved-4d.mod;done`
+phyloBoot --read-mods $mod --output-average neutral_model/$REF/$REF.ave.nonconserved-4d.mod
+mv msa_view/$REF/$REF.W.nonconserved-4d.mod neutral_model/$REF && mv msa_view/$REF/$REF.Z.nonconserved-4d.mod neutral_model/$REF
 
-#rm neutral_model/$REF/*.ss
+rm -r msa_view/$REF
+
+
+
