@@ -15,10 +15,10 @@ fi
 
 
 
-REF=$1 # name of species to use as reference (e.g. abrostola_tripartita_gca905340225v1)
+REF=$1 # name of species to use as reference as it appears in the alignment (e.g. inachis_io_gca905147045v1)
 HAL=$2 # name of cactus alignment in HAL format
-SPECIES=$3 # species latin name
-TOL=$4 # tol id of species
+SPECIES=$3 # species latin name (e.g. Inachis_io)
+TOL=$4 # tol id of species (e.g. ilAglIoxx1.1)
 
 
 mkdir -p sequences/$REF && mkdir -p annotation/$REF && mkdir -p assembly/$REF
@@ -49,3 +49,4 @@ gffread -v -V -g assembly/$REF/$REF.renamed.fasta annotation/$REF/$REF.gff3 -o a
 
 # Obtain merged CDS for all transcripts per gene
 python3 merge_coding_sequence_per_transcript.py --gff3 annotation/$REF/$REF.gff3 --refGenome $REF --feature CDS
+
