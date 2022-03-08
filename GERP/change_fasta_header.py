@@ -9,7 +9,7 @@ import argparse
 from Bio import SeqIO
 
 
-parser = argparse.ArgumentParser(description = 'Change the header of a FASTA file')
+parser = argparse.ArgumentParser(description = 'Change header of an assembly in FASTA format')
 parser.add_argument('--fa', help = 'Input FASTA file')
 parser.add_argument('--report', help = 'Assembly report')
 parser.add_argument('--out', help = 'Output FASTA file')
