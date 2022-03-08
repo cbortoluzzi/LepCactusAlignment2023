@@ -44,9 +44,8 @@ re='^[0-9]+$'
 autosomes=`cat sequences/$REF/$REF.bed | while read contig size;do if [[ $contig =~ $re ]]; then echo $contig; fi;done`
 mod=`for chr in $autosomes;do ls msa_view/$REF/$REF.$chr.nonconserved-4d.mod;done`
 phyloBoot --read-mods $mod --output-average neutral_model/$REF/$REF.ave.nonconserved-4d.mod
-mv msa_view/$REF/$REF.W.nonconserved-4d.mod neutral_model/$REF && mv msa_view/$REF/$REF.Z.nonconserved-4d.mod neutral_model/$REF
+mv msa_view/$REF/$REF.W.nonconserved-4d.mod neutral_model/$REF
+mv msa_view/$REF/$REF.Z.nonconserved-4d.mod neutral_model/$REF
 
-rm -r msa_view/$REF
-
-
+rm -r msa_view
 
