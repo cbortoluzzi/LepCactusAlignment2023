@@ -57,7 +57,7 @@ def filter_gap_sequences(mymaf, refGenome, output):
 if __name__ == "__main__":
 	args = parser.parse_args()
 	path = Path(args.maf).parents[0]
-	filename = Path(args.maf).stem +'.maf.input.gerp'
+	filename = Path(args.maf).stem +'.maf.gerp'
 	output_file = Path(path, filename)
 	split_maf = split_by_chromosome(args.maf, args.refGenome)
 	ungapped_maf = filter_gap_sequences(split_maf, args.refGenome, output_file)
