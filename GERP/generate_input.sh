@@ -28,7 +28,7 @@ mkdir -p sequences/$REF && mkdir -p annotation/$REF && mkdir -p assembly/$REF
 echo "Print sequences of given genome"
 halStats --bedSequences $REF $HAL | cut -f1,3 > sequences/$REF/$REF.bed
 
-# Extract, for each contig in the given genome, an alignment in MAF format. We will do this for autosomes and sex chromosomes, respectively
+# Extract, for each contig in the given genome, an alignment in MAF format
 echo "Obtain MAF for each sequence"
 cat sequences/$REF/$REF.bed | while read contig seq_length; do bsub -R'select[mem>12000] rusage[mem=12000]' -M12000 -q basement -n 15 -G rdgroup -J hal2maf -o output_%J -e error_%J hal2maf --refSequence $contig \
 --refGenome $REF --noAncestors --onlyOrthologs $HAL sequences/$REF/$REF.$contig.maf; done
