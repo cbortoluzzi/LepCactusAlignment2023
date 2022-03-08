@@ -16,7 +16,7 @@ fi
 
 
 
-REF=$1 # name of species to use as reference
+REF=$1 # name of species to use as reference as it appears in the alignment (e.g. inachis_io_gca905147045v1)
 HAL=$2 # name of cactus alignment in HAL format
 
 
