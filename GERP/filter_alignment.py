@@ -52,8 +52,7 @@ def filter_gap_sequences(mymaf, refGenome, output):
 					out.write('\n')
 
 
-
-
+					
 
 if __name__ == "__main__":
 	args = parser.parse_args()
