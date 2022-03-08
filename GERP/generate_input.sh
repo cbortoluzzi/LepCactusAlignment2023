@@ -38,7 +38,7 @@ echo "Copy annotation and assembly"
 cp /lustre/scratch123/tol/projects/lepidoptera/data/insects/$SPECIES/analysis/$TOL/gene/ensembl/latest/assembly.ensembl.genes.gff3.gz annotation/$REF/$REF.gff3.gz && gunzip annotation/$REF/$REF.gff3.gz
 cp /lustre/scratch123/tol/projects/lepidoptera/data/insects/$SPECIES/assembly/release/$TOL/insdc/GCA*.fasta.gz assembly/$REF/$REF.fasta.gz && gunzip assembly/$REF/$REF.fasta.gz
 
-# Change header of assembly
+# Change header of assembly. This needs to be done because contigs in the alignment are integers, while in the assembly are strings
 echo "Change assembly nomenclature"
 python3 change_fasta_header.py --fa assembly/$REF/$REF.fasta --report /lustre/scratch123/tol/projects/lepidoptera/data/insects/$SPECIES/assembly/release/$TOL/insdc/GCA*_assembly_report.txt --out assembly/$REF/$REF.renamed.fasta
 
