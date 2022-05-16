@@ -1,15 +1,16 @@
 #!/usr/bin/python
 
 
+
 import argparse
 from sys import argv
 from pathlib import Path
 
 
+
 parser = argparse.ArgumentParser(description = 'Generate supermatrix for RAxML')
 parser.add_argument('--i', help = 'Name input directory')
 parser.add_argument('--o', help = 'Name output directory')
-
 
 
 
