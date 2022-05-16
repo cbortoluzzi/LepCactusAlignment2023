@@ -87,3 +87,5 @@ if __name__ == "__main__":
 	species_group = get_species_group(args.species_list)
 	plot = plot_coverage(coverage_species, species_group, args.o, args.refGenome)
 
+	
+	
