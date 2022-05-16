@@ -18,7 +18,7 @@ HAL=$1
 REF=$2
 
 
-mkdir -p coverage/$refGenome
+mkdir -p coverage/$REF
 
 
 # Obtain a tab delimited genome file that will look like this: <chromName><TAB><chromSize>
@@ -39,6 +39,5 @@ do
 done
 
 # Plot coverage
-python3 plot_coverage.py --species_list ../lepidoptera/89way/version_202201/species/species_list_012022_v2.tsv --cov coverage/$REF
---t ../lepidoptera/89way/guide_tree/supermatrix_datafreeze_080621.treefile.pruned --o coverage/$REF --refGenome $REF
+python3 plot_coverage.py --species_list species_list_012022_v2.tsv --cov coverage/$REF --t supermatrix_datafreeze_080621.treefile.pruned --o coverage/$REF --refGenome $REF
 
