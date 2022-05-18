@@ -54,7 +54,7 @@ def get_species_group(species_list):
 	mygroup = {}
 	with open(species_list) as f:
 		for line in f:
-			assembly_id, assembly_name, p_class, order, family, species, iucn_red_list, project, group, genome = line.strip().split('\t')
+			assembly, tol_id, phylo_class, species_name, group = line.strip().split()			
 			mygroup[species] = group
 	return mygroup
 
