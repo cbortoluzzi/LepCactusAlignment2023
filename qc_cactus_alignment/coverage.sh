@@ -39,5 +39,6 @@ do
 done
 
 # Plot coverage
-python3 plot_coverage.py --species_list species_list_012022_v2.tsv --cov coverage/$REF --t supermatrix_datafreeze_080621.treefile.pruned --o coverage/$REF --refGenome $REF
+python3 plot_coverage.py --species_list species_list.tsv --cov coverage/$REF --t supermatrix_datafreeze_080621.treefile.pruned --o coverage/$REF --refGenome $REF
+
 
