@@ -1,88 +1,88 @@
-GCA_905340225.1	ilAbrTrip1.1	lepidoptera	Abrostola_tripartita
-GCA_905220435.1	ilAmpTrag2.1	lepidoptera	Amphipyra_tragopoginis
-GCA_905404175.1	ilAntCard3.1	lepidoptera	Anthocharis_cardamines
-GCA_905147355.1	ilApoTurb1.1	lepidoptera	Apotomis_turbidana
-GCA_905147365.1	ilAriAges1.1	lepidoptera	Aricia_agestis
-GCA_905333075.2	ilAteCent1.2	lepidoptera	Atethmia_centrago
-GCA_905146925.1	ilAutGamm1.1	lepidoptera	Autographa_gamma
-GCA_905475315.1	ilAutPulc1.1	lepidoptera	Autographa_pulchrina
-GCA_905404145.1	ilBisBetu1.1	lepidoptera	Biston_betularia
-GCA_907269095.1	ilBlaAdus2.1	lepidoptera	Blastobasis_adustella
-GCA_905147135.1	ilBlaLact1.1	lepidoptera	Blastobasis_lacticolella
-GCA_905231865.2	ilBolSele5.2	lepidoptera	Boloria_selene
-GCA_014905235.2	Bmori_2016v1.0	lepidoptera	Bombyx_mori
-GCA_014607495.1	ASM1460749v1	lepidoptera	Carposina_sasakii
-GCA_905187575.1	ilCelArgi3.1	lepidoptera	Celastrina_argiolus
-GCA_905475355.1	ilCloCurt1.1	lepidoptera	Clostera_curtula
-GCA_014851415.1	ASM1485141v1	lepidoptera	Cnaphalocrocis_medinalis
-GCA_905220415.1	ilColCroc2.1	lepidoptera	Colias_croceus
-GCA_905163495.1	ilCosTrap1.1	lepidoptera	Cosmia_trapezina
-GCA_905163465.1	ilCraLigu1.1	lepidoptera	Craniophora_ligustri
-GCA_907269065.1	ilCroElin1.1	lepidoptera	Crocallis_elinguaria
-GCA_905187585.1	ilCyaSemi1.1	lepidoptera	Cyaniris_semiargus
-GCA_018135715.1	MEX_DaPlex	lepidoptera	Danaus_plexippus
-GCA_905220455.1	ilDeiPorc1.1	lepidoptera	Deilephila_porcellus
-GCA_012273795.1	ASM1227379v1	lepidoptera	Dendrolimus_punctatus
-GCA_017562165.1	ASM1756216v1	lepidoptera	Ectropis_grisescens
-GCA_905163395.1	ilEndFlam1.1	lepidoptera	Endotricha_flammealis
-GCA_905220475.1	ilEnnFusc2.1	lepidoptera	Ennomos_fuscantarius
-GCA_018467065.1	Eelu-V1	lepidoptera	Ephestia_elutella
-GCA_905404285.1	ilEraDefo1.1	lepidoptera	Erannis_defoliaria
-GCA_905147235.1	ilEryTage1.1	lepidoptera	Erynnis_tages
-GCA_905147225.1	ilEupSimi1.1	lepidoptera	Euproctis_similis
-GCA_905404265.1	ilFabAdip1.1	lepidoptera	Fabriciana_adippe
-GCA_905404095.1	ilGlaAlex1.1	lepidoptera	Glaucopsyche_alexis
-GCA_907165245.1	ilHabPyri1.1	lepidoptera	Habrosyne_pyritoides
-GCA_905332915.1	ilHecDyso1.1	lepidoptera	Hecatera_dysodea
-GCA_905404275.1	ilHedSali1.1	lepidoptera	Hedya_salicella
-GCA_907164795.1	iHemFuc1.1	lepidoptera	Hemaris_fuciformis
-GCA_905404135.1	ilHesComm1.1	lepidoptera	Hesperia_comma
-GCA_905147375.1	ilHylFasc1.1	lepidoptera	Hylaea_fasciaria
-GCA_905147285.1	ilHypProb1.1	lepidoptera	Hypena_proboscidalis
-GCA_907269075.1	ilIdaAver1.1	lepidoptera	Idaea_aversata
-GCA_905147045.1	ilAglIoxx1.1	lepidoptera	Inachis_io
-GCA_905220505.1	ilLaoPopu1.1	lepidoptera	Laothoe_populi
-GCA_905147015.1	ilLasFlex1.1	lepidoptera	Laspeyria_flexula
-GCA_905404315.1	ilLepSina1.1	lepidoptera	Leptidea_sinapis
-GCA_905147385.1	ilLimCami1.1	lepidoptera	Limenitis_camilla
-GCA_905333005.1	ilLycPhla1.1	lepidoptera	Lycaena_phlaeas
-GCA_905163515.1	ilLymMona1.1	lepidoptera	Lymantria_monacha
-GCA_905333045.1	ilLysBell1.1	lepidoptera	Lysandra_bellargus
-GCA_905220515.1	ilLysCori1.1	lepidoptera	Lysandra_coridon
-GCA_905163435.1	ilMamBras1.1	lepidoptera	Mamestra_brassicae
-GCA_014839805.1	JHU_Msex_v1.0	lepidoptera	Manduca_sexta
-GCA_902806685.2	iAphHyp1.2	lepidoptera	Maniola_hyperantus
-GCA_905333055.1	ilManJurt1.1	lepidoptera	Maniola_jurtina
-GCA_905220565.1	ilMelCinx1.1	lepidoptera	Melitaea_cinxia
-GCA_905220545.1	ilMelAtha1.1	lepidoptera	Mellicta_athalia
-GCA_905332985.1	ilMimTili1.1	lepidoptera	Mimas_tiliae
-GCA_905147345.1	ilMytImpu1.1	lepidoptera	Mythimna_impura
-GCA_905163415.1	ilNocFimb1.1	lepidoptera	Noctua_fimbriata
-GCA_905220335.1	ilNocPron1.1	lepidoptera	Noctua_pronuba
-GCA_905163555.1	ilNotUddm1.1	lepidoptera	Notocelia_uddmanniana
-GCA_905147325.1	ilNotDrom1.1	lepidoptera	Notodonta_dromedarius
-GCA_905220585.1	ilNymPoly1.1	lepidoptera	Nymphalis_polychloros
-GCA_905147175.1	ilAglUrti1.1	lepidoptera	Nymphalis_urticae
-GCA_905404295.1	ilOchSylv3.1	lepidoptera	Ochlodes_sylvanus
-GCA_905475445.1	ilOchPlec1.1	lepidoptera	Ochropleura_plecta
-GCA_905163445.1	ilParAegt1.1	lepidoptera	Pararge_aegeria
-GCA_905147815.1	ilPhaBuce1.1	lepidoptera	Phalera_bucephala
-GCA_905404115.1	ilPheGnom1.1	lepidoptera	Pheosia_gnoma
-GCA_905333125.1	ilPheTrem1.1	lepidoptera	Pheosia_tremula
-GCA_905147745.1	ilPhlMeti2.1	lepidoptera	Phlogophora_meticulosa
-GCA_905147105.1	ilPieBrab1.1	lepidoptera	Pieris_brassicae
-GCA_905475465.1	ilPieNapi1.1	lepidoptera	Pieris_napi
-GCA_905404155.1	ilPleArgu1.1	lepidoptera	Plebejus_argus
-GCA_905475405.1	ilSchCost1.1	lepidoptera	Schrankia_costaestrigalis
-GCA_905220595.1	ilSpiLubr1.1	lepidoptera	Spilosoma_lubricipeda
-GCA_011316535.1	NJAU_Sexi_v1	lepidoptera	Spodoptera_exigua
-GCA_012979215.2	ASM1297921v2	lepidoptera	Spodoptera_frugiperda
-GCA_002706865.2	ASM270686v2	lepidoptera	Spodoptera_litura
-GCA_905147785.1	ilThyBati1.1	lepidoptera	Thyatira_batis
-GCA_905220615.1	ilTinTrin1.1	lepidoptera	Tinea_trinotella
-GCA_905147765.1	ilVanAtal1.1	lepidoptera	Vanessa_atalanta
-GCA_905220365.1	ilVanCard2.1	lepidoptera	Vanessa_cardui
-GCA_905147715.1	ilXesXant1.1	lepidoptera	Xestia_xanthographa
-GCA_012273895.2	Zerene_cesonia_1.1	lepidoptera	Zerene_cesonia
-GCA_907165235.1	ilZeuPyri1.1	lepidoptera	Zeuzera_pyrina
-GCA_907165275.1	ilZygFili1.1	lepidoptera	Zygaena_filipendulae
+GCA_905340225.1	ilAbrTrip1.1	lepidoptera	Abrostola_tripartita	Moth
+GCA_905220435.1	ilAmpTrag2.1	lepidoptera	Amphipyra_tragopoginis	Moth
+GCA_905404175.1	ilAntCard3.1	lepidoptera	Anthocharis_cardamines	Butterfly
+GCA_905147355.1	ilApoTurb1.1	lepidoptera	Apotomis_turbidana	Moth
+GCA_905147365.1	ilAriAges1.1	lepidoptera	Aricia_agestis	Butterfly
+GCA_905333075.2	ilAteCent1.2	lepidoptera	Atethmia_centrago	Moth
+GCA_905146925.1	ilAutGamm1.1	lepidoptera	Autographa_gamma	Moth
+GCA_905475315.1	ilAutPulc1.1	lepidoptera	Autographa_pulchrina	Moth
+GCA_905404145.1	ilBisBetu1.1	lepidoptera	Biston_betularia	Moth
+GCA_907269095.1	ilBlaAdus2.1	lepidoptera	Blastobasis_adustella	Moth
+GCA_905147135.1	ilBlaLact1.1	lepidoptera	Blastobasis_lacticolella	Moth
+GCA_905231865.2	ilBolSele5.2	lepidoptera	Boloria_selene	Butterfly
+GCA_014905235.2	Bmori_2016v1.0	lepidoptera	Bombyx_mori	Moth
+GCA_014607495.1	ASM1460749v1	lepidoptera	Carposina_sasakii	Moth
+GCA_905187575.1	ilCelArgi3.1	lepidoptera	Celastrina_argiolus	Butterfly
+GCA_905475355.1	ilCloCurt1.1	lepidoptera	Clostera_curtula	Moth
+GCA_014851415.1	ASM1485141v1	lepidoptera	Cnaphalocrocis_medinalis	Moth
+GCA_905220415.1	ilColCroc2.1	lepidoptera	Colias_croceus	Butterfly
+GCA_905163495.1	ilCosTrap1.1	lepidoptera	Cosmia_trapezina	Moth
+GCA_905163465.1	ilCraLigu1.1	lepidoptera	Craniophora_ligustri	Moth
+GCA_907269065.1	ilCroElin1.1	lepidoptera	Crocallis_elinguaria	Moth
+GCA_905187585.1	ilCyaSemi1.1	lepidoptera	Cyaniris_semiargus	Butterfly
+GCA_018135715.1	MEX_DaPlex	lepidoptera	Danaus_plexippus	Butterfly
+GCA_905220455.1	ilDeiPorc1.1	lepidoptera	Deilephila_porcellus	Moth
+GCA_012273795.1	ASM1227379v1	lepidoptera	Dendrolimus_punctatus	Moth
+GCA_017562165.1	ASM1756216v1	lepidoptera	Ectropis_grisescens	Moth
+GCA_905163395.1	ilEndFlam1.1	lepidoptera	Endotricha_flammealis	Moth
+GCA_905220475.1	ilEnnFusc2.1	lepidoptera	Ennomos_fuscantarius	Moth
+GCA_018467065.1	Eelu-V1	lepidoptera	Ephestia_elutella	Moth
+GCA_905404285.1	ilEraDefo1.1	lepidoptera	Erannis_defoliaria	Moth
+GCA_905147235.1	ilEryTage1.1	lepidoptera	Erynnis_tages	Butterfly
+GCA_905147225.1	ilEupSimi1.1	lepidoptera	Euproctis_similis	Moth
+GCA_905404265.1	ilFabAdip1.1	lepidoptera	Fabriciana_adippe	Butterfly
+GCA_905404095.1	ilGlaAlex1.1	lepidoptera	Glaucopsyche_alexis	Butterfly
+GCA_907165245.1	ilHabPyri1.1	lepidoptera	Habrosyne_pyritoides	Moth
+GCA_905332915.1	ilHecDyso1.1	lepidoptera	Hecatera_dysodea	Moth
+GCA_905404275.1	ilHedSali1.1	lepidoptera	Hedya_salicella	Moth
+GCA_907164795.1	iHemFuc1.1	lepidoptera	Hemaris_fuciformis	Moth
+GCA_905404135.1	ilHesComm1.1	lepidoptera	Hesperia_comma	Butterfly
+GCA_905147375.1	ilHylFasc1.1	lepidoptera	Hylaea_fasciaria	Moth
+GCA_905147285.1	ilHypProb1.1	lepidoptera	Hypena_proboscidalis	Moth
+GCA_907269075.1	ilIdaAver1.1	lepidoptera	Idaea_aversata	Moth
+GCA_905147045.1	ilAglIoxx1.1	lepidoptera	Inachis_io	Butterfly
+GCA_905220505.1	ilLaoPopu1.1	lepidoptera	Laothoe_populi	Moth
+GCA_905147015.1	ilLasFlex1.1	lepidoptera	Laspeyria_flexula	Moth
+GCA_905404315.1	ilLepSina1.1	lepidoptera	Leptidea_sinapis	Butterfly
+GCA_905147385.1	ilLimCami1.1	lepidoptera	Limenitis_camilla	Butterfly
+GCA_905333005.1	ilLycPhla1.1	lepidoptera	Lycaena_phlaeas	Butterfly
+GCA_905163515.1	ilLymMona1.1	lepidoptera	Lymantria_monacha	Moth
+GCA_905333045.1	ilLysBell1.1	lepidoptera	Lysandra_bellargus	Butterfly
+GCA_905220515.1	ilLysCori1.1	lepidoptera	Lysandra_coridon	Butterfly
+GCA_905163435.1	ilMamBras1.1	lepidoptera	Mamestra_brassicae	Moth
+GCA_014839805.1	JHU_Msex_v1.0	lepidoptera	Manduca_sexta	Moth
+GCA_902806685.2	iAphHyp1.2	lepidoptera	Maniola_hyperantus	Butterfly
+GCA_905333055.1	ilManJurt1.1	lepidoptera	Maniola_jurtina	Butterfly
+GCA_905220565.1	ilMelCinx1.1	lepidoptera	Melitaea_cinxia	Butterfly
+GCA_905220545.1	ilMelAtha1.1	lepidoptera	Mellicta_athalia	Butterfly
+GCA_905332985.1	ilMimTili1.1	lepidoptera	Mimas_tiliae	Moth
+GCA_905147345.1	ilMytImpu1.1	lepidoptera	Mythimna_impura	Moth
+GCA_905163415.1	ilNocFimb1.1	lepidoptera	Noctua_fimbriata	Moth
+GCA_905220335.1	ilNocPron1.1	lepidoptera	Noctua_pronuba	Moth
+GCA_905163555.1	ilNotUddm1.1	lepidoptera	Notocelia_uddmanniana	Moth
+GCA_905147325.1	ilNotDrom1.1	lepidoptera	Notodonta_dromedarius	Moth
+GCA_905220585.1	ilNymPoly1.1	lepidoptera	Nymphalis_polychloros	Butterfly
+GCA_905147175.1	ilAglUrti1.1	lepidoptera	Nymphalis_urticae	Butterfly
+GCA_905404295.1	ilOchSylv3.1	lepidoptera	Ochlodes_sylvanus	Butterfly
+GCA_905475445.1	ilOchPlec1.1	lepidoptera	Ochropleura_plecta	Moth
+GCA_905163445.1	ilParAegt1.1	lepidoptera	Pararge_aegeria	Butterfly
+GCA_905147815.1	ilPhaBuce1.1	lepidoptera	Phalera_bucephala	Moth
+GCA_905404115.1	ilPheGnom1.1	lepidoptera	Pheosia_gnoma	Moth
+GCA_905333125.1	ilPheTrem1.1	lepidoptera	Pheosia_tremula	Moth
+GCA_905147745.1	ilPhlMeti2.1	lepidoptera	Phlogophora_meticulosa	Moth
+GCA_905147105.1	ilPieBrab1.1	lepidoptera	Pieris_brassicae	Butterfly
+GCA_905475465.1	ilPieNapi1.1	lepidoptera	Pieris_napi	Butterfly
+GCA_905404155.1	ilPleArgu1.1	lepidoptera	Plebejus_argus	Butterfly
+GCA_905475405.1	ilSchCost1.1	lepidoptera	Schrankia_costaestrigalis	Moth
+GCA_905220595.1	ilSpiLubr1.1	lepidoptera	Spilosoma_lubricipeda	Moth
+GCA_011316535.1	NJAU_Sexi_v1	lepidoptera	Spodoptera_exigua	Moth
+GCA_012979215.2	ASM1297921v2	lepidoptera	Spodoptera_frugiperda	Moth
+GCA_002706865.2	ASM270686v2	lepidoptera	Spodoptera_litura	Moth
+GCA_905147785.1	ilThyBati1.1	lepidoptera	Thyatira_batis	Moth
+GCA_905220615.1	ilTinTrin1.1	lepidoptera	Tinea_trinotella	Moth
+GCA_905147765.1	ilVanAtal1.1	lepidoptera	Vanessa_atalanta	Butterfly
+GCA_905220365.1	ilVanCard2.1	lepidoptera	Vanessa_cardui	Butterfly
+GCA_905147715.1	ilXesXant1.1	lepidoptera	Xestia_xanthographa	Moth
+GCA_012273895.2	Zerene_cesonia_1.1	lepidoptera	Zerene_cesonia	Butterfly
+GCA_907165235.1	ilZeuPyri1.1	lepidoptera	Zeuzera_pyrina	Moth
+GCA_907165275.1	ilZygFili1.1	lepidoptera	Zygaena_filipendulae	Moth
