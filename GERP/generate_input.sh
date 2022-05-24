@@ -22,7 +22,6 @@ TOL=$3
 REF=$4
 
 
-
 mkdir -p sequences/$REF && mkdir -p annotation/$REF && mkdir -p assembly/$REF
 
 
