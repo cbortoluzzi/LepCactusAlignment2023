@@ -64,6 +64,7 @@ def assign_gerp_score_to_positions(mygerp, myrange, output_file):
 				begin, nucleotide = element[0][0], element[0][1]
 				neutral_rate, rejected_substitution_score = element[1][0], element[1][1]
 				stop = begin + 1
+				# Let's remove positions for which we do not have a nucleotide (these are the gaps between blocks in the multiple sequence alignment)
 				if nucleotide != '-':
 					f.write('{}\t{}\t{}\t{}\t{}\t{}\n'.format(chromosome, begin, stop, nucleotide, neutral_rate, rejected_substitution_score))
 
