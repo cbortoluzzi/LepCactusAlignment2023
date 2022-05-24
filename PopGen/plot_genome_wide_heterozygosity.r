@@ -19,7 +19,6 @@ sorted_data <- data[order(data$chrom),]
 
 pal <- wes_palette("Zissou1", 100, type = "continuous")
 # Plot genome-wide heterozygosity
-#p_genome_wide_heterozygosity <- ggplot(data=sorted_data, aes(x=start, y=1))+facet_grid(chrom ~ ., switch='y')+geom_tile(aes(fill=Heterozygosity))+scale_fill_gradientn(colours = pal, breaks=seq(min(sorted_data$Heterozygosity),max(sorted_data$Heterozygosity),(max(sorted_data$Heterozygosity)-min(sorted_data$Heterozygosity))/4))+theme_void()+theme(text = element_text(size = 7))
 p_genome_wide_heterozygosity <- ggplot(data=sorted_data, aes(x=start, y=1))+facet_grid(chrom ~ ., switch='y')+geom_tile(aes(fill=Heterozygosity))+scale_fill_gradientn(colours = pal, breaks=c(0.00,0.0150, 0.0300), limits=c(0.00, 0.0300))+theme_void()+theme(text = element_text(size = 7))
 
 
