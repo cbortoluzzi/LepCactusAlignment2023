@@ -32,6 +32,7 @@ def genome_wide_distribution_GERPscore(bed_f, path):
 				chromosome, start, end, nucleotide, neutral_rate, rejected_substitution_score = line.strip().split()
 				rejected_substitution_score = float(rejected_substitution_score)
 				start, end = int(start), int(end)
+				# We will consider only positions with a minimum rejected substitution score of 0
 				if rejected_substitution_score >= 0:
 					if chromosome == 'W':
 						mygerp[chromosome].append(rejected_substitution_score)
