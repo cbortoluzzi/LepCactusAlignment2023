@@ -13,8 +13,8 @@ import matplotlib.pyplot as plt
 
 
 parser = argparse.ArgumentParser(description = 'Plot consistency of BUSCO/OrthoFinder pairwise comparisons')
-parser.add_argument('--d' , help = 'Path to BUSCO/OrthoFinder quality check pairwise comparisons')
-parser.add_argument('--tree', help = 'Phylogenetic tree')
+parser.add_argument('--d' , help = 'Path to BUSCO quality check pairwise comparisons')
+parser.add_argument('--tree', help = 'Phylogenetic tree used as guide tree in cactus')
 parser.add_argument('--refGenome', help = 'Name of species used as query')
 parser.add_argument('--o', help = 'Output directory')
 
