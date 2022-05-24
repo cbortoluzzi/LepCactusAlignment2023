@@ -23,7 +23,7 @@ def get_genome_species_name(species_list):
         myspecies = {}
         with open(species_list) as f:
                 for line in f:
-                        assembly, tol_id, phylo_class, species_name, group = line.strip().split()
+                        assembly, tol_id, p_class, species_name, group = line.strip().split()
                         genome = species_name.lower() + "_" + assembly.replace('GCA_', 'gca').replace('.', 'v')
                         myspecies[genome] = species_name
         return myspecies
