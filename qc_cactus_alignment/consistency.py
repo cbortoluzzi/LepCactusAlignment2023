@@ -114,7 +114,6 @@ def get_busco_coordinates(query, target, species_d, genes, change_q, change_t, h
 
 
 def parse_fasta(main_path, species_name, species_tol_id, gene):
-	# Let's get the genomic coordinates (i.e. chromosomem, start, end) of each single-copy BUSCO gene
 	faa = Path(main_path, species_name, 'analysis', species_tol_id, 'busco', 'lepidoptera_odb10_metaeuk', 'run_lepidoptera_odb10', 'busco_sequences', 'single_copy_busco_sequences', gene+'.faa')
 	if not Path(faa).is_file():
 		faa = Path(main_path, species_name, 'analysis', species_tol_id, 'busco', 'mm49_lepidoptera_odb10_metaeuk', 'run_lepidoptera_odb10', 'busco_sequences', 'single_copy_busco_sequences', gene+'.faa')
