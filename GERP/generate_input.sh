@@ -10,8 +10,8 @@ export PATH=/lustre/scratch123/tol/teams/durbin/users/cb46/softwares/gffread:$PA
 
 
 if [ -z $1 ]; then
-        echo "Usage: ./generate_input.sh <input hal file> <species name> <tol id> <name of reference genome>"
-        exit -1
+	echo "Usage: ./generate_input.sh <input hal file> <species name> <tol id> <name of reference genome>"
+	exit -1
 fi
 
 
@@ -30,8 +30,20 @@ halStats --bedSequences $REF $HAL | cut -f1,3 > sequences/$REF/$REF.bed
 
 
 # Extract, for each contig in the given genome, an alignment in MAF format
-cat sequences/$REF/$REF.bed | while read contig seq_length; do bsub -R'select[mem>18000] rusage[mem=18000]' -18000 -q basement -n 15 -G rdgroup -J hal2maf -o output_%J -e error_%J hal2maf --refSequence $contig --refGenome $REF \
---noAncestors --onlyOrthologs $HAL sequences/$REF/$REF.$contig.maf; done
+re='^[0-9]+$'
+cat sequences/$REF/$REF.bed | while read contig seq_length
+do
+	if [[ $contig =~ $re ]]
+	then
+		bsub -R'select[mem>18000] rusage[mem=18000]' -18000 -q basement -n 15 -G rdgroup -J hal2maf -o output_%J -e error_%J hal2maf --refSequence $contig --refGenome $REF --noAncestors --onlyOrthologs $HAL sequences/$REF/$REF.$contig.maf
+	elif [[ $contig =~ "W" ]]
+	then
+		bsub -R'select[mem>18000] rusage[mem=18000]' -18000 -q basement -n 15 -G rdgroup -J hal2maf -o output_%J -e error_%J hal2maf --refSequence $contig --refGenome $REF --noAncestors --onlyOrthologs $HAL sequences/$REF/$REF.$contig.maf
+	elif [[ $contig =~ "Z" ]]
+	then
+		bsub -R'select[mem>18000] rusage[mem=18000]' -18000 -q basement -n 15 -G rdgroup -J hal2maf -o output_%J -e error_%J hal2maf --refSequence $contig --refGenome $REF --noAncestors --onlyOrthologs $HAL sequences/$REF/$REF.$contig.maf
+	fi
+done
 
 
 # Copy annotation (in gff3 format), assembly (in fasta format) and decompress
