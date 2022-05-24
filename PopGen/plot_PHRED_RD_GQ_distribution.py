@@ -58,9 +58,6 @@ def plot_histogram_distribution(values, species, xlabel, fig, color_bar):
 
 
 
-
-
-
 if __name__ == "__main__":
 	args = parser.parse_args()
 	sample = Path(args.vcf).name.split('.')[0]
