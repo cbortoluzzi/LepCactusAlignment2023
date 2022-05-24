@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 
 parser = argparse.ArgumentParser(description = 'Plot mutation events in cactus alignment')
 parser.add_argument('--count', help = 'Summary table of mutation events in cactus alignemt')
-parser.add_argument('--species_list', help = 'A tab delimited species list file')
+parser.add_argument('--species_list', help = 'Tab delimited species list file')
 parser.add_argument('--o', help = 'Output directory')
 
 
