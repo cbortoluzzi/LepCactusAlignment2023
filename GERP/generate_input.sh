@@ -44,11 +44,10 @@ cp /lustre/scratch123/tol/projects/lepidoptera/data/insects/$SPECIES/assembly/re
 python3 change_fasta_header.py --fa assembly/$REF/$REF.fasta --report /lustre/scratch123/tol/projects/lepidoptera/data/insects/$SPECIES/assembly/release/$TOL/insdc/GCA*_assembly_report.txt --out assembly/$REF/$REF.renamed.fasta
 
 
-# Remove transcripts with internal stop codons
+# Remove transcripts with internal stop codons: this shouldn't lead to anything
 gffread -v -V -g assembly/$REF/$REF.renamed.fasta annotation/$REF/$REF.gff3 -o annotation/$REF/$REF.filtered.gff3
-# This shouldn't lead to anything
 
 
-# Obtain merged CDS for all transcripts per gene
+# Obtain merged CDS of all transcripts per gene
 python3 feature_selection.py --gff3 annotation/$REF/$REF.gff3 --refGenome $REF --feature CDS
 
