@@ -4,7 +4,6 @@
 # Author : @cb46
 
 
-import gzip
 import argparse
 from Bio import SeqIO
 
