@@ -30,6 +30,7 @@ parser.add_argument('--o', help = 'Output directory')
 
 def sequences_bam(bam_f):
 	mygenome = {}
+	# Get BAM index stats
 	command = 'samtools idxstats %s | cut -f 1,2' %(bam_f)
 	cmd = subprocess.check_output(command, shell = True).decode()
 	outcmd = cmd.split('\n')
@@ -41,6 +42,7 @@ def sequences_bam(bam_f):
 				if str(chromosome) == 'W' or str(chromosome) == 'Z' or isinstance(int(chromosome), int):
 					mygenome[chromosome] = length
 			except ValueError:
+				# We exclude contigs/scaffolds
 				print (f"Contig {chromosome} is not considered")
 	return mygenome
 
