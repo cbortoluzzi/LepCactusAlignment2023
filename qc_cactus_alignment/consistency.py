@@ -65,35 +65,41 @@ def busco_genes(list_genes):
 
 def change_assembly_coordinates(query, target, species_d):
 	query_d, target_d = {}, {}
-	main_path = '/lustre/scratch123/tol/projects/lepidoptera/data/insects'
+	main_path = '/lustre/scratch123/tol/projects/lepidoptera/freeze/2021-06-21/data/insects'
+	alternative_path = '/lustre/scratch123/tol/teams/durbin/users/cb46/darwin/lepidoptera/busco.v5'
 	# We need to change the chromosome nomenclature to match the one in the cactus alignment
 	# For example, HG992306.1 is chromosome '1' in Tinea trinotella
-	change_q = change_coordinates(main_path, query, species_d[query][0], species_d[query][1], query_d)
-	change_t = change_coordinates(main_path, target, species_d[target][0], species_d[target][1], target_d)
+	change_q = change_coordinates(main_path, alternative_path, query, species_d[query][0], species_d[query][1], query_d)
+	change_t = change_coordinates(main_path, alternative_path, target, species_d[target][0], species_d[target][1], target_d)
+	print (change_t)
 	return change_q, change_t
 
 
 
-def change_coordinates(main_path, species_name, species_tol_id, species_assembly, dictionary):
+def change_coordinates(main_path, alternative_path, species_name, species_tol_id, species_assembly, dictionary):
 	assembly_report = Path(main_path, species_name, 'assembly', 'release', species_tol_id, 'insdc', species_assembly+'_assembly_report.txt')
-	if Path(assembly_report).is_file():
-		with open(assembly_report) as f:
-			for line in f:
-				if not line.startswith('#'):
-					line = line.strip().split()
-					if line[1] == 'assembled-molecule':
-						dictionary[line[4]] = line[2]
-					elif line[1] == 'unplaced-scaffold':
-						dictionary[line[4]] = line[0]
+	if not Path(assembly_report).is_file():
+		assembly_report = Path(alternative_path, species_name, species_assembly+'_assembly_report.txt')
+	with open(assembly_report) as f:
+		for line in f:
+			if not line.startswith('#'):
+				line = line.strip().split()
+				if line[1] == 'assembled-molecule':
+					dictionary[line[4]] = line[2]
+				elif line[1] == 'unplaced-scaffold':
+					dictionary[line[4]] = line[0]
+				elif line[1] == 'unlocalized-scaffold':
+					dictionary[line[4]] = line[0]
 	return dictionary
 
 
 
 def get_busco_coordinates(query, target, species_d, genes, change_q, change_t, hal, path):
-	main_path = '/lustre/scratch123/tol/projects/lepidoptera/data/insects'
+	main_path = '/lustre/scratch123/tol/projects/lepidoptera/freeze/2021-06-21/data/insects'
+	alternative_path = '/lustre/scratch123/tol/teams/durbin/users/cb46/darwin/lepidoptera/busco.v5'
 	for gene in genes:
-		coordinates_q = parse_fasta(main_path, query, species_d[query][0], gene)
-		coordinates_t = parse_fasta(main_path, target, species_d[target][0], gene)
+		coordinates_q = parse_fasta(main_path, alternative_path, query, species_d[query][0], gene)
+		coordinates_t = parse_fasta(main_path, alternative_path, target, species_d[target][0], gene)
 		with open(coordinates_q) as gene_q, open(coordinates_t) as gene_t:
 			for line_q, line_t in zip(gene_q, gene_t):
 				if line_q.startswith('>') and line_t.startswith('>'):
@@ -113,10 +119,11 @@ def get_busco_coordinates(query, target, species_d, genes, change_q, change_t, h
 
 
 
-def parse_fasta(main_path, species_name, species_tol_id, gene):
+def parse_fasta(main_path, alternative_path, species_name, species_tol_id, gene):
+	# Let's get the genomic coordinates (i.e. chromosomem, start, end) of each single-copy BUSCO gene
 	faa = Path(main_path, species_name, 'analysis', species_tol_id, 'busco', 'lepidoptera_odb10_metaeuk', 'run_lepidoptera_odb10', 'busco_sequences', 'single_copy_busco_sequences', gene+'.faa')
 	if not Path(faa).is_file():
-		faa = Path(main_path, species_name, 'analysis', species_tol_id, 'busco', 'mm49_lepidoptera_odb10_metaeuk', 'run_lepidoptera_odb10', 'busco_sequences', 'single_copy_busco_sequences', gene+'.faa')
+		faa = Path(alternative_path, species_name, 'lepidoptera_odb10_metaeuk', 'run_lepidoptera_odb10', 'busco_sequences', 'single_copy_busco_sequences', gene+'.faa')
 	return faa
 
 
@@ -172,5 +179,3 @@ if __name__ == "__main__":
 		assembly_coordinates_query, assembly_coordinates_target = change_assembly_coordinates(query, target, species_tol_id)
 		evaluate_consistency = get_busco_coordinates(query, target, species_tol_id, list_busco_orthogroups, assembly_coordinates_query, assembly_coordinates_target, args.hal, args.o)
 
-    
-    
