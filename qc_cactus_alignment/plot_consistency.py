@@ -12,80 +12,88 @@ from collections import defaultdict
 import matplotlib.pyplot as plt
 
 
-parser = argparse.ArgumentParser(description = 'Plot consistency of BUSCO/OrthoFinder pairwise comparisons')
+parser = argparse.ArgumentParser(description = 'Plot consistency of BUSCO pairwise comparisons')
 parser.add_argument('--d' , help = 'Path to BUSCO quality check pairwise comparisons')
-parser.add_argument('--tree', help = 'Phylogenetic tree used as guide tree in cactus')
+parser.add_argument('--tree', help = 'Phylogenetic tree')
 parser.add_argument('--refGenome', help = 'Name of species used as query')
+parser.add_argument('--species_list', help = 'Tab delimited species list file')
 parser.add_argument('--o', help = 'Output directory')
 
 
 
-def phylogenetic_distance(tree, refGenome):
-	distance = {}
+
+def get_species_group(species_list):
+	mygroup = {}
+	with open(species_list) as f:
+		for line in f:
+			assembly, tol_id, phylo_class, species_name, group = line.strip().split()
+			mygroup[species_name] = group
+	return mygroup
+
+
+
+
+def plot_consistency(mygroup, tree, refGenome, directory, output_directory):
+	inconsistent_genes = defaultdict(list)
+	mydict = defaultdict(list)
 	t = Tree(tree)
 	# Reroot the tree to the outgroup
 	t.set_outgroup('Hydropsyche_tenuis')
 	for node in t.traverse("postorder"):
 		if node.is_leaf():
 			if node.name != refGenome and node.name != "Hydropsyche_tenuis":
-				d = t.get_distance(refGenome, node.name)
-				distance[node.name] = float(d)
-	return distance
-
-
-
-def plot_coverage_number_consistent_genes(directory, distance, path):
-	mydict = defaultdict(list)
-	inconsistent_genes = defaultdict(list)
-	for subdir, dirs, files in os.walk(directory):
-		for file in files:
-			query, target = Path(subdir).stem.split('_vs_')
-			qc_file = os.path.join(subdir, file)
-			if qc_file.endswith('.qc'):
-				file_size = os.path.getsize(qc_file)
-				n = 0
-				if file_size == 0:
-					n += 1
-					gene_name = Path(qc_file).stem
-					inconsistent_genes[gene_name].append(n)
-				else:
-					with open(qc_file) as f:
-						for line in f:
-							qGenome, qChrom, qStart, qEnd, tGenome, tChrom, tStart, tEnd, number_bases = line.strip().split()
-							number_bases = int(number_bases)
-							p_distance = distance[target]
-							mydict[p_distance, target].append(number_bases)
+				num_inconsistent_genes, num_consistent_genes = number_consistent_inconsistent_genes(refGenome, node.name, directory, inconsistent_genes, mydict)
 
 	x, y = [], []
-	for key in sorted(mydict):
-		print (key)
-		num_consistent_genes = len(mydict[key])
+	for key in num_consistent_genes:
+		num_genes = len(num_consistent_genes[key])
 		x.append(key[1])
-		y.append(num_consistent_genes)
+		y.append(num_genes)
 
+	list_colors = {'Noctuoidea': 'y', 'Bombycoidea': 'peru', 'Geometroidea': 'palevioletred', 'Drepanoidea': 'steelblue', 'Pyraloidea': 'gold', 'Papilionoidea': 'darkturquoise', 'Hesperioidea': 'darkgray',
+	'Gelechioidea': 'coral', 'Zygaeinoidea': 'yellow', 'Cossoidea': 'slateblue', 'Torticoidea': 'yellowgreen', 'Tineoidea': 'cornflowerblue'}
+
+	list_group = [mygroup[species] for species in x]
+	color = [list_colors[x] for x in list_group]
 	fig, ax = plt.subplots(figsize=(15, 8))
 	plt.xticks(rotation = 90, ha = 'right', fontsize = 6)
-	plt.bar(x, y, color = '#2ca02c')
+	plt.bar(x, y, color = color)
 	plt.ylabel('Number of consistent genes')
-	plt.ylim(0, 2500)
-	plt.axhline(y=2451, color='r', linestyle='-')
-	figure = Path(path, 'number_consistent_genes.pdf')
+	plt.ylim(0, 2451)
+	figure = Path(output_directory, 'number_consistent_genes.pdf')
 	plt.savefig(figure, dpi = 500, bbox_inches = 'tight')
-	plt.clf()
 
 
-	file = Path(path,' inconsistent_genes.bed')
+
+	file = Path(output_directory, 'inconsistent_genes.bed')
 	with open(file, 'w') as out:
-		for gene in inconsistent_genes:
-			num_species = len(inconsistent_genes[gene])
+		for gene in num_inconsistent_genes:
+			num_species = len(num_inconsistent_genes[gene])
 			out.write('{}\t{}\n'.format(gene, num_species))
+
+
+def number_consistent_inconsistent_genes(query, target, directory, inconsistent_genes, mydict):
+	path = Path(directory, query + '_vs_' + target)
+	quality_check = list(Path(path).rglob('*.qc'))
+	for file in quality_check:
+		file_size = os.path.getsize(file)
+		n = 0
+		if file_size == 0:
+			n += 1
+			gene_name = Path(file).stem
+			inconsistent_genes[gene_name].append(n)
+		else:
+			with open(file) as f:
+				for line in f:
+					qGenome, qChrom, qStart, qEnd, tGenome, tChrom, tStart, tEnd, number_bases = line.strip().split()
+					number_bases = int(number_bases)
+					mydict[query,  target].append(number_bases)
+	return inconsistent_genes, mydict
 
 
 
 if __name__ == "__main__":
 	args = parser.parse_args()
-	p_distance = phylogenetic_distance(args.tree, args.refGenome)
-	plot_genes = plot_coverage_number_consistent_genes(args.d, p_distance, args.o)
-
-
+	species_group = get_species_group(args.species_list)
+	consistency = plot_consistency(species_group, args.tree, args.refGenome, args.d, args.o)
 
