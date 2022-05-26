@@ -71,7 +71,6 @@ def change_assembly_coordinates(query, target, species_d):
 	# For example, HG992306.1 is chromosome '1' in Tinea trinotella
 	change_q = change_coordinates(main_path, alternative_path, query, species_d[query][0], species_d[query][1], query_d)
 	change_t = change_coordinates(main_path, alternative_path, target, species_d[target][0], species_d[target][1], target_d)
-	print (change_t)
 	return change_q, change_t
 
 
@@ -179,3 +178,5 @@ if __name__ == "__main__":
 		assembly_coordinates_query, assembly_coordinates_target = change_assembly_coordinates(query, target, species_tol_id)
 		evaluate_consistency = get_busco_coordinates(query, target, species_tol_id, list_busco_orthogroups, assembly_coordinates_query, assembly_coordinates_target, args.hal, args.o)
 
+
+		
