@@ -7,7 +7,7 @@
 
 
 if [ -z $1 ]; then
-                echo "Usage: ./alignment_depth.sh <annotation in GFF (General Feature Format) format> <reference genome> <input hal file>"
+                echo "Usage: ./alignment_depth.sh <annotation in GFF (General Feature Format) format> <name of reference genome> <input hal file>"
                 exit -1
 fi
 
