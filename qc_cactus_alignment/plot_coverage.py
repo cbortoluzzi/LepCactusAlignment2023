@@ -55,7 +55,7 @@ def get_species_group(species_list):
 	with open(species_list) as f:
 		for line in f:
 			assembly, tol_id, phylo_class, species_name, superfamily = line.strip().split()
-			mygroup[species_name] = group
+			mygroup[species_name] = superfamily
 	return mygroup
 
 
