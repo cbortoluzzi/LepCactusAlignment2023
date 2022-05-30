@@ -5,7 +5,7 @@
 # Author: @cb46
 
 
-export PATH=:$PATH
+export PATH=/lustre/scratch123/tol/teams/durbin/users/cb46/softwares/OrthoFinder:$PATH
 
 
 if [ -z $1 ]; then
@@ -22,7 +22,7 @@ do
   # Unzip proteome file
   gunzip orthofinder/proteomes/$species_name.pep.fa.gz
   # Obtain primary transcript
-  python ~/orthofinder_tutorial/OrthoFinder/tools/primary_transcript.py  orthofinder/proteomes/$species_name.pep.fa
+  python /lustre/scratch123/tol/teams/durbin/users/cb46/softwares/OrthoFinder/tools/primary_transcript.py orthofinder/proteomes/$species_name.pep.fa
 done
 
 # Run OrthoFinder on all primary transcripts of all 49 lepidoptera species
