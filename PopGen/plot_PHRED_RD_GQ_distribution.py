@@ -25,9 +25,9 @@ def get_species_group(species_list):
 	mygenome = {}
 	with open(species_list) as f:
 		for line in f:
-			assembly, tol_id, p_class, species_name, group = line.strip().split()
+			assembly, tol_id, p_class, species_name, superfamily = line.strip().split()
 			tol = tol_id.split('.')[0]
-			mygenome[tol] = [group, species_name]
+			mygenome[tol] = [superfamily, species_name]
 	return mygenome
 
 
