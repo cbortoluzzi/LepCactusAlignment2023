@@ -26,8 +26,8 @@ def get_species_group(species_list):
 	mygroup = {}
 	with open(species_list) as f:
 		for line in f:
-			assembly, tol_id, phylo_class, species_name, group = line.strip().split()
-			mygroup[species_name] = group
+			assembly, tol_id, phylo_class, species_name, superfamily = line.strip().split()
+			mygroup[species_name] = superfamily
 	return mygroup
 
 
@@ -52,7 +52,6 @@ def plot_consistency(mygroup, tree, refGenome, directory, output_directory):
 
 	list_colors = {'Noctuoidea': 'y', 'Bombycoidea': 'peru', 'Geometroidea': 'palevioletred', 'Drepanoidea': 'steelblue', 'Pyraloidea': 'gold', 'Papilionoidea': 'darkturquoise', 'Hesperioidea': 'darkgray',
 	'Gelechioidea': 'coral', 'Zygaeinoidea': 'yellow', 'Cossoidea': 'slateblue', 'Torticoidea': 'yellowgreen', 'Tineoidea': 'cornflowerblue'}
-
 	list_group = [mygroup[species] for species in x]
 	color = [list_colors[x] for x in list_group]
 	fig, ax = plt.subplots(figsize=(15, 8))
