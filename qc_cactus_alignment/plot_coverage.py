@@ -60,7 +60,7 @@ def get_species_group(species_list):
 
 
 
-def plot_coverage(coverage, mygroup, path, species_name):
+def plot_coverage(coverage, mygroup, path, refGenome, species_name):
 	list_sp, list_cov, list_group = [], [], []
 	for species in coverage:
 		list_group.append(mygroup[species])
@@ -77,7 +77,8 @@ def plot_coverage(coverage, mygroup, path, species_name):
 	for artist, color in zip(bplot['boxes'], colors):
 		patch = mpatches.PathPatch(artist.get_path(), color=color)
 		ax.add_artist(patch)
-	figure = Path(path, species_name + '_coverage.pdf')
+	plt.title(species_name)
+	figure = Path(path, refGenome + '_coverage.pdf')
 	plt.savefig(figure, dpi = 500, bbox_inches = 'tight')
 
 
@@ -85,8 +86,11 @@ def plot_coverage(coverage, mygroup, path, species_name):
 if __name__ == "__main__":
 	args = parser.parse_args()
 	cov_f = list(Path(args.cov).rglob('*.cov'))
+	p = Path(args.o)
+	p.mkdir(parents=True, exist_ok=True)
+	species_name = '_'.join(args.refGenome.split('_')[0:2]).capitalize()
 	coverage_species = order_species_by_phylo(args.t, cov_f, args.bp)
 	species_group = get_species_group(args.species_list)
-	plot = plot_coverage(coverage_species, species_group, args.o, args.refGenome)
+	plot = plot_coverage(coverage_species, species_group, args.o, args.refGenome, species_name)
 
-
+	
