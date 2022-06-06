@@ -94,6 +94,8 @@ def number_consistent_inconsistent_genes(query, target, directory, inconsistent_
 
 if __name__ == "__main__":
 	args = parser.parse_args()
+	p = Path(args.o)
+	p.mkdir(parents=True, exist_ok=True)
 	species_group = get_species_group(args.species_list)
 	consistency = plot_consistency(species_group, args.tree, args.refGenome, args.d, args.o)
 
