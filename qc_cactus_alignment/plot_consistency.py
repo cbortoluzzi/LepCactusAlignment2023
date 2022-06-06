@@ -58,7 +58,7 @@ def plot_consistency(mygroup, tree, refGenome, directory, output_directory):
 	fig, ax = plt.subplots(figsize=(15, 8))
 	plt.xticks(rotation = 90, ha = 'right', fontsize = 6)
 	plt.bar(x, y, color = color, edgecolor = 'black')
-	plt.ylabel('Number of consistent genes')
+	plt.ylabel('Number of consistent BUSCO genes')
 	plt.ylim(0, 2451)
 	figure = Path(output_directory, 'number_consistent_genes.pdf')
 	plt.savefig(figure, dpi = 500, bbox_inches = 'tight')
