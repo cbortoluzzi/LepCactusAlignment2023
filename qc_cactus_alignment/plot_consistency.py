@@ -57,7 +57,7 @@ def plot_consistency(mygroup, tree, refGenome, directory, output_directory):
 	color = [list_colors[x] for x in list_group]
 	fig, ax = plt.subplots(figsize=(15, 8))
 	plt.xticks(rotation = 90, ha = 'right', fontsize = 6)
-	plt.bar(x, y, color = color)
+	plt.bar(x, y, color = color, edgecolor = 'black')
 	plt.ylabel('Number of consistent genes')
 	plt.ylim(0, 2451)
 	figure = Path(output_directory, 'number_consistent_genes.pdf')
