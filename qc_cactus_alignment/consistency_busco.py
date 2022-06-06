@@ -16,7 +16,7 @@ from collections import defaultdict
 
 
 parser = argparse.ArgumentParser(description = 'Check consistency of BUSCO genomic coordinates with cactus alignment')
-parser.add_argument('--refGenome', help = 'Name of query species. We recommend to use the outgroup or the most basal species')
+parser.add_argument('--refGenome', help = 'Name of reference species. We recommend to use the outgroup or the most basal species')
 parser.add_argument('--list_genes', help = 'List of single-copy BUSCO genes, one per line')
 parser.add_argument('--species_list', help = 'List of species, one per line')
 parser.add_argument('--tree', help = 'Phylogenetic tree used as guide tree in cactus')
@@ -34,6 +34,7 @@ def pairwise_comparisons(refGenome, tree, path):
 	for node in phylo.traverse('postorder'):
 		if node.is_leaf():
 			if node.name != refGenome and node.name != "Hydropsyche_tenuis":
+				# Phylogenetic distance
 				output_directory = Path(path, refGenome + '_vs_' + node.name)
 				output_directory.mkdir(parents=True, exist_ok=True)
 				list_nodes.append(node.name)
@@ -46,7 +47,7 @@ def get_species_name_tol_id(species_list):
 	species_d = {}
 	with open(species_list) as f:
 		for line in f:
-			assembly, tol_id, p_class, species_name, superfamily = line.strip().split()
+			assembly, tol_id, p_class, species_name, group = line.strip().split()
 			species_d[species_name] = [tol_id, assembly]
 	return species_d
 
@@ -177,5 +178,3 @@ if __name__ == "__main__":
 		assembly_coordinates_query, assembly_coordinates_target = change_assembly_coordinates(query, target, species_tol_id)
 		evaluate_consistency = get_busco_coordinates(query, target, species_tol_id, list_busco_orthogroups, assembly_coordinates_query, assembly_coordinates_target, args.hal, args.o)
 
-
-		
