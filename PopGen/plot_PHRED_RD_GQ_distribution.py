@@ -46,10 +46,13 @@ def plot_vcf_statistics(vcf_f, tol_vcf, mygenome, output_directory):
 					phred_scaled_quality_score.append(record.QUAL)
 					read_depth.append(genotype_depth)
 					genotype_quality_score.append(genotype_quality)
-	if mygenome[tol_vcf][0] == 'Moth':
-		color = '#2f6694'
-	else:
-		color = '#ff8000'
+
+	list_colors = {'Noctuoidea': 'y', 'Bombycoidea': 'peru', 'Geometroidea': 'palevioletred', 'Drepanoidea': 'steelblue', 'Pyraloidea': 'gold', 'Papilionoidea': 'darkturquoise', 'Hesperioidea': 'darkgray',
+	'Gelechioidea': 'coral', 'Zygaeinoidea': 'yellow', 'Cossoidea': 'slateblue', 'Torticoidea': 'yellowgreen', 'Tineoidea': 'cornflowerblue'}
+
+	superfamily = mygenome[tol_vcf][0]
+	color = list_colors[superfamily]
+
 	fig = Path(output_directory, mygenome[tol_vcf][1] + '.PHRED.pdf')
 	plot_phred_score = plot_histogram_distribution(phred_scaled_quality_score, mygenome[tol_vcf][1], 'PHRED-quality score', fig, color)
 	fig = Path(output_directory, mygenome[tol_vcf][1] + '.DP.pdf')
@@ -80,5 +83,4 @@ if __name__ == "__main__":
 	tol_vcf = Path(args.vcf).stem.split('.')[0]
 	statistics = plot_vcf_statistics(args.vcf, tol_vcf, species_group, path)
 
-	
 	
