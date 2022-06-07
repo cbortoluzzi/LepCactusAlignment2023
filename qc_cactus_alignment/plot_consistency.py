@@ -35,7 +35,7 @@ def get_species_group(species_list):
 
 def plot_consistency(mygroup, tree, refGenome, directory, output_directory):
 	inconsistent_genes = defaultdict(list)
-	mydict = defaultdict(list)
+	mydict = {}
 	t = Tree(tree)
 	# Reroot the tree to the outgroup
 	t.set_outgroup('Hydropsyche_tenuis')
@@ -46,7 +46,7 @@ def plot_consistency(mygroup, tree, refGenome, directory, output_directory):
 
 	x, y = [], []
 	for key in num_consistent_genes:
-		num_genes = len(num_consistent_genes[key])
+		num_genes = num_consistent_genes[key]
 		x.append(key[1])
 		y.append(num_genes)
 
@@ -75,6 +75,7 @@ def plot_consistency(mygroup, tree, refGenome, directory, output_directory):
 def number_consistent_inconsistent_genes(query, target, directory, inconsistent_genes, mydict):
 	path = Path(directory, query + '_vs_' + target)
 	quality_check = list(Path(path).rglob('*.qc'))
+	count = 0
 	for file in quality_check:
 		file_size = os.path.getsize(file)
 		n = 0
@@ -86,8 +87,8 @@ def number_consistent_inconsistent_genes(query, target, directory, inconsistent_
 			with open(file) as f:
 				for line in f:
 					qGenome, qChrom, qStart, qEnd, tGenome, tChrom, tStart, tEnd, number_bases = line.strip().split()
-					number_bases = int(number_bases)
-					mydict[query,  target].append(number_bases)
+					count += 1
+	mydict[query,  target] = count
 	return inconsistent_genes, mydict
 
 
@@ -98,5 +99,6 @@ if __name__ == "__main__":
 	p.mkdir(parents=True, exist_ok=True)
 	species_group = get_species_group(args.species_list)
 	consistency = plot_consistency(species_group, args.tree, args.refGenome, args.d, args.o)
+
 
 
