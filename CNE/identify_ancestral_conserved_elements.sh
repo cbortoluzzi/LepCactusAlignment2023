@@ -23,3 +23,4 @@ do
         # By default, this python script will retain conserved sequences that are at least 50 bp long and are at least 70% identical to the query sequence
         python3 ancestral_conserved_elements_v1.py --maf $REFSEQ/$species.maf --refGenome $REFGENOME --refSequence $REFSEQ
 done
+
