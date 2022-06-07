@@ -47,7 +47,7 @@ def parse_multiple_sequence_alignment(maf, refGenome):
 						mymaf[srcChrom, srcStart, srcLen, srcStrand, srcSize, srcSeq].append([targetChromosome, tgtStart, tgtLen, tgtStrand, tgtSize, tgtSeq])
 				except ValueError:
 					pass
-	return mymaf
+	return mymaf, targetGenome
 
 
 
@@ -155,8 +155,8 @@ def percentage_sequence_repeats(sequence):
 
 
 
-def write_ancestral_conserved_elements(myelem, refGenome, path):
-	output_file = Path(path, 'ancestral_conserved_elements_' + refGenome + '.txt')
+def write_ancestral_conserved_elements(myelem, targetGenome, path):
+	output_file = Path(path, 'ancestral_conserved_elements_' + targetGenome + '.txt')
 	with open(output_file, 'w') as output:
 		for query in myelem:
 			query_v = '\t'.join(map(str, query))
@@ -165,8 +165,8 @@ def write_ancestral_conserved_elements(myelem, refGenome, path):
 				output.write('{}\t{}\n'.format(target_v, query_v))
 
 
-				
-				
+
+
 
 if __name__ == "__main__":
 	args = parser.parse_args()
@@ -174,10 +174,11 @@ if __name__ == "__main__":
 	path = Path(args.refSequence)
 	path.mkdir(parents = True, exist_ok = True)
 	# Obtain relevant information from multiple sequence alignment
-	maf_f = parse_multiple_sequence_alignment(args.maf, args.refGenome)
+	maf_f, targetGenome = parse_multiple_sequence_alignment(args.maf, args.refGenome)
 	# Obtain ungapped sequences for the target species
 	ungapped_seq = ungapped_sequences(maf_f)
 	# Filter ungapped sequences
 	filtered_seq = filtering_ungapped_sequence(ungapped_seq, args.length, args.score)
-	save_to_file = write_ancestral_conserved_elements(filtered_seq, args.refGenome, path)
+	save_to_file = write_ancestral_conserved_elements(filtered_seq, targetGenome, path)
+
 
