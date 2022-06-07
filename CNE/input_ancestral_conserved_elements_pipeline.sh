@@ -17,9 +17,9 @@ HAL=$2
 
 
 
-# Print sequences of a given genome in bed format (in our case the genome is the MRCA). We will retain only sequences with a minimum length of 50 bp
-halStats --bedSequences $REF $HAL | awk '{if($3 >= 50)print}' | sort -k3,3 -nr > $REF.sequences.50bp.bed
-split -l 300 $REF.sequences.50bp.bed sequences
+# Print sequences of a given genome in bed format (in our case the genome is the MRCA
+halStats --bedSequences $REF $HAL | sort -k3,3 -nr > $REF.sequences.bed
+split -l 300 $REF.sequences.bed sequences
 
 
 # Print the list of genomes in the alignment
