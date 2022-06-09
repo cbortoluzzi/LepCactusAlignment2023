@@ -11,8 +11,8 @@ from collections import defaultdict
 
 
 parser = argparse.ArgumentParser(description = 'Obtain unique non-overlapping instances of each feature type')
-parser.add_argument('--gff', help = 'Annotation in GFF (General Feature Format) format ')
-parser.add_argument('--feature', help = 'Feature type')
+parser.add_argument('--gff', help = 'Annotation in GFF (General Feature Format) format [e.g. abrostola_tripartita_gca905340225v1.gff3]')
+parser.add_argument('--feature', help = 'Feature type [default: CDS]', type = str, default = CDS)
 parser.add_argument('--o', help = 'Output directory')
 
 
@@ -59,9 +59,12 @@ def unique_nonoverlapping_instances(mygff, feature, refGenome, path):
 
 if __name__ == "__main__":
 	args = parser.parse_args()
+	# Obtain name of genome from the annotation file (e.g. abrostola_tripartita_gca905340225v1.gff3)
 	refGenome = Path(args.gff).stem
+	# Create output directory if it doesn't exist
 	path = Path(args.o)
 	path.mkdir(parents=True, exist_ok=True)
+	# Obtain unique non-overlapping instances
 	select_features = parse_annotation(args.gff, args.feature)
 	unique_elements = unique_nonoverlapping_instances(select_features, args.feature, refGenome, path)
 
