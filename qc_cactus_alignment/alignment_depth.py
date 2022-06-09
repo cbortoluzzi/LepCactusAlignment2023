@@ -14,15 +14,15 @@ import matplotlib.pyplot as plt
 
 
 
-parser = argparse.ArgumentParser(description = 'Make alignment depth wiggle plot for a genome')
+parser = argparse.ArgumentParser(description = 'Obtain alignment depth for a genome')
 parser.add_argument('--hal', help = 'Input hal file')
-parser.add_argument('--refGenome', help = 'Reference genome to scan')
-parser.add_argument('--refSequence', help = 'Reference sequence')
+parser.add_argument('--refGenome', help = 'Name of reference genome to scan')
+parser.add_argument('--refSequence', help = 'Name of reference sequence')
 parser.add_argument('--start', help = 'Coordinate within reference genome (or sequence if specified) to start at [default = 0]', type = int, default = 0)
-parser.add_argument('--length', help = 'Length of the reference genome (or sequence if specified) to convert. If set to 0, the entire thing is converted [default = 0]', type = int, default = 0)
+parser.add_argument('--length', help = 'Length of the reference genome (or sequence if specified). If set to 0, the entire thing is converted [default = 0]', type = int, default = 0)
 parser.add_argument('--step', help = 'Step size [default = 1]', type = int, default = 1)
-parser.add_argument('--depth', help = 'Minimum number of other unique genomes', type = int)
-parser.add_argument('--plot', help = 'Decide whether to plot the number of unique genomes each base aligns to [default = Yes]', type = str, default = 'Yes')
+parser.add_argument('--depth', help = 'Minimum number of other unique genomes each base pair aligns to', type = int)
+parser.add_argument('--plot', help = 'Option to plot the number of unique genomes each base aligns to [default = Yes]', type = str, default = 'Yes')
 parser.add_argument('--o', help = 'Output directory')
 
 
@@ -30,8 +30,10 @@ parser.add_argument('--o', help = 'Output directory')
 def alignment_depth(hal, refGenome, sequence, start, length, step, min_depth, path):
 	# Count the number of other unique genomes each base aligns to, excluding ancestral genomes
 	mydepth = defaultdict(list)
+	# If length == 0, then the entire genome is considered
 	if length == 0:
-		command = 'halAlignmentDepth --noAncestors --refSequence %s --step %d --start %d %s %s' %(sequence, step, start, hal, refGenome)
+		command = 'halAlignmentDepth --noAncestors --refSequence %s --step %d %s %s' %(sequence, step, hal, refGenome)
+	# Otherwise, a region is considered
 	else:
 		command = 'halAlignmentDepth --noAncestors --refSequence %s --step %d --start %d --length %d %s %s' %(sequence, step, start, length, hal, refGenome)
 	cmd = subprocess.check_output(command, shell = True).decode()
@@ -51,7 +53,7 @@ def alignment_depth(hal, refGenome, sequence, start, length, step, min_depth, pa
 				if depth >= min_depth:
 					ncov += 1
 					mydepth[sequence].append((position - 1, depth))
-	# Print number of bases covered
+	# Print number of aligned bases
 	output_f = Path(path, refGenome + '.tsv')
 	with open(output_f, 'a') as tsv:
 		end = start + nbases
@@ -68,7 +70,7 @@ def plot_halAlignmentDepth(mydepth, path, refGenome, sequence):
 	for key in mydepth[0]:
 		x.append([i[0] for i in mydepth[0][key]])
 		y.append([i[1] for i in mydepth[0][key]])
-		# Plot of depth versus position in the sequence
+		# Plot depth versus position in the sequence
 		plt.figure(figsize=(10,5))
 		plt.plot(x[0], y[0])
 		plt.xlabel('Position along the genome (bp)')
@@ -82,13 +84,16 @@ def plot_halAlignmentDepth(mydepth, path, refGenome, sequence):
 
 if __name__ == "__main__":
 	args = parser.parse_args()
+	# Create output directory if it doesn't exist
 	path = Path(args.o)
 	path.mkdir(parents=True, exist_ok=True)
+	# We will run the halAlignmentDepth utility using multiprocessing
 	num_workers = multiprocessing.cpu_count()
 	pool = multiprocessing.Pool(num_workers)
 	wiggle = pool.starmap(alignment_depth, [(args.hal, args.refGenome, args.refSequence, args.start, args.length, args.step, args.depth, path)])
 	pool.close()
 	pool.join()
+	# If --plot is chosen, then plot alignment depth
 	if args.plot == 'Yes':
 		plot_alignmentdepth = plot_halAlignmentDepth(wiggle, path, args.refGenome, args.refSequence)
 
