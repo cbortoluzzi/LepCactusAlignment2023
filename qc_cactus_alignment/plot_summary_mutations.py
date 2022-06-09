@@ -19,18 +19,18 @@ parser.add_argument('--o', help = 'Output directory')
 
 
 
-def get_genome_species_name(species_list):
-        myspecies = {}
+def get_species_name_genome(species_list):
+        genomes = {}
         with open(species_list) as f:
                 for line in f:
                         assembly, tol_id, p_class, species_name, superfamily = line.strip().split()
                         genome = species_name.lower() + "_" + assembly.replace('GCA_', 'gca').replace('.', 'v')
-                        myspecies[genome] = species_name
-        return myspecies
+                        genomes[genome] = species_name
+        return genomes
 
 
 
-def summary_mutation_events_alignment(count_f, myspecies, path):
+def summary_mutation_events_alignment(count_f, genomes, path):
         mymut = {}
         with open(count_f) as f:
                 next(f)
@@ -41,7 +41,7 @@ def summary_mutation_events_alignment(count_f, myspecies, path):
                                 # Skip ancestors
                                 if 'Anc' not in line[0] and 'Total' not in line[0] and 'Average' not in line[0]:
                                         genomeName = line[0].replace(',', '')
-                                        species_name = myspecies[genomeName]
+                                        species_name = genomes[genomeName]
                                         mut = [int(i.replace(',', '')) for i in line[5:]]
                                         substitutions, transitions, transversions, insertions, deletions, inversions, duplications, transpositions, other = mut[0], mut[1], mut[2], mut[8], mut[10], mut[12], mut[14], mut[16], mut[18]
                                         mymut[species_name] = [substitutions, transitions, transversions, insertions, deletions, inversions, duplications, transpositions]
@@ -60,7 +60,11 @@ def summary_mutation_events_alignment(count_f, myspecies, path):
 
 if __name__ == "__main__":
         args = parser.parse_args()
-        species_name = get_genome_species_name(args.species_list)
+        # Create output directory if it doesn't exist
+        p = Path(args.o)
+        p.mkdir(parents=True, exist_ok=True)
+        # Plot mutation events in cactus alignment
+        species_name = get_species_name_genome(args.species_list)
         summary_mutations = summary_mutation_events_alignment(args.count, species_name, args.o)
 
 
