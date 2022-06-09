@@ -27,5 +27,6 @@ python3 feature_selection.py --gff $GFF --feature CDS --o coding_sequence/$REFGE
 cat coding_sequence/$REFGENOME/$REFGENOME\_CDS.merged.bed | while read chrom start end feature strand gene
 do
         # We set the --plot option to No becasue we don't want to generate a plot for each coding sequence
+        # We set the --depth to 1 because we want each position in the coding sequence to map to at least one genome
         python3 alignment_depth.py --hal $HAL --refSequence $chrom --start $start --length `expr $end - $start` --depth 1 --refGenome $REFGENOME --plot No --o coding_sequence/$REFGENOME
 done
