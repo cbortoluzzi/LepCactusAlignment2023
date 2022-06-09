@@ -55,13 +55,13 @@ def alignment_depth(hal, refGenome, sequence, start, length, step, min_depth, pa
 					mydepth[sequence].append((position - 1, depth))
 	# Print number of aligned bases
 	output_f = Path(path, refGenome + '.tsv')
-	with open(output_f, 'a') as tsv:
+	with open(output_f, 'a') as output:
 		end = start + nbases
 		try:
 			ncov = ncov
 		except IndexError:
 			ncov = 0
-		tsv.write('{}\t{}\t{}\t{}\t{}\n'.format(sequence, start, end, nbases, ncov))
+		output.write('{}\t{}\t{}\t{}\t{}\n'.format(sequence, start, end, nbases, ncov))
 	return mydepth
 
 
