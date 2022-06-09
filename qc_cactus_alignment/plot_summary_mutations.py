@@ -52,7 +52,7 @@ def summary_mutation_events_alignment(count_f, genomes, path):
         fig = plt.figure(figsize=(10, 3))
         figure = Path(path, 'summary_mutations_in_alignment.pdf')
         log_df.plot.bar(stacked = True)
-        plt.ylabel('Log10 number of mutations in the alignment')
+        plt.ylabel('Log10 count of mutation events in cactus alignment')
         plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
         plt.savefig(figure, dpi = 500, bbox_inches = 'tight')
 
