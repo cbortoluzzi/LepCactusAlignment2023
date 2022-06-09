@@ -17,3 +17,4 @@ HAL=$1
 
 # Print list of species in the alignment
 halStats --genomes $HAL | tr -s ' '  '\n' | grep -v '^Anc' | sort > genomes_noAncestors.txt
+
