@@ -43,7 +43,7 @@ if __name__ == "__main__":
 	# Create folder where to print primary transcripts
 	longest_transcript_output_directory = Path(path, 'primary_transcripts')
 	longest_transcript_output_directory.mkdir(parents=True, exist_ok=True)
-	# Create folder where to print the genomic coordinates of the longest transcript
+	# Create folder where to print the genomic coordinates of primary transcripts
 	genomic_coordinates_longest_transcript = Path(path, 'primary_transcripts_coordinates')
 	genomic_coordinates_longest_transcript.mkdir(parents=True, exist_ok=True)
 	# Identify longest transcript
