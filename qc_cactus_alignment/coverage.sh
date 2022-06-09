@@ -21,18 +21,17 @@ REF=$2
 mkdir -p coverage/$REF
 
 
-# Obtain a tab delimited genome file that will look like this: <chromName><TAB><chromSize>
+# Print sequences of given genome in BED format 
 halStats --bedSequences $REF $HAL | cut -f1,3 > coverage/$REF/$REF.genome
 
 
-# Let's now generate 100 random intervals, each 1,000,000 bp long
+# Generate 100 random intervals, each 1,000,000 bp long
 bedtools random -g coverage/$REF/$REF.genome -l 1000000 -seed 12345 -n 100 > coverage/$REF/$REF.random.intervals
 
 
-# Let's now get an alignment for each of these 1,000 random intervals
+# Convert HAL database to an alignment in multiple alignment format (MAF)
 cat coverage/$REF/$REF.random.intervals | while read contig start end num length strand
 do
-        echo "Generating an alignment for random interval number" $num
         hal2maf --refSequence $contig --start $start --length `(expr $end - $start)` --refGenome $REF --onlyOrthologs --noAncestors $HAL coverage/$REF/$REF.random.intervals.$num.maf
         # Calculate coverage
         maf_stream coverage $REF coverage/$REF/$REF.random.intervals.$num.maf coverage/$REF/$REF.random.intervals.$num.maf.cov
