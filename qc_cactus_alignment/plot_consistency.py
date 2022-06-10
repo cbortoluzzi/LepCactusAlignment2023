@@ -102,7 +102,7 @@ if __name__ == "__main__":
 	if 'orthofinder' in args.d:
 		label = 'orthogroups'
 	else:
-		label = 'BUSCO'
+		label = 'BUSCO genes'
 	species_superfamily = get_species_group(args.species_list)
 	consistency = plot_consistency(species_superfamily, args.tree, args.refGenome, args.d, args.o, label)
 
