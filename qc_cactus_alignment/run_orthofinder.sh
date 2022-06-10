@@ -33,3 +33,9 @@ done
 # Run OrthoFinder on all primary transcripts of all 49 lepidoptera species
 orthofinder -f orthofinder/proteomes/primary_transcripts/
 
+# Check consistency of single-copy orthogroups
+python3 consistency_orthofinder.py --refGenome Tinea_trinotella --list_orthogroups orthofinder/proteomes/primary_transcripts/OrthoFinder/Results_Feb03/Orthogroups/Orthogroups_SingleCopyOrthologues.txt\
+--species_list species_list.tsv --tree supermatrix_datafreeze_080621.treefile.pruned --hal Lepidoptera_88_way-202201.hal --o orthofinder_quality_check
+
+
+
