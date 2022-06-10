@@ -4,6 +4,7 @@
 # Author : @cb46
 
 
+import os
 import argparse
 import subprocess
 from ete3 import Tree
@@ -14,8 +15,8 @@ from collections import defaultdict
 
 
 parser = argparse.ArgumentParser(description = 'Check consistency of Orthogroups genomic coordinates with cactus alignment')
-parser.add_argument('--refGenome', help = 'Name of reference species. We recommend to use the outgroup or the most basal species')
-parser.add_argument('--list_orthogroups', help = 'List of single-copy Orthogroups, one per line')
+parser.add_argument('--refGenome', help = 'Name of reference specie to use as query')
+parser.add_argument('--list_orthogroups', help = 'List of single-copy orthogroups, one per line')
 parser.add_argument('--species_list', help = 'Tab delimited species list file')
 parser.add_argument('--tree', help = 'Phylogenetic tree used as guide tree in cactus')
 parser.add_argument('--hal', help = 'Input hal file')
@@ -139,7 +140,7 @@ def pairwise_alignment(refSequence, genome_query, refStart, refEnd, length, geno
 					len = end - start
 					n += len
 			quality_check.write('{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n'.format(genome_query, refSequence, refStart, refEnd, genome_target, targetSequence, start_t, end_t, n))
-
+	os.remove(output_maf)
 
 
 
@@ -148,9 +149,11 @@ def pairwise_alignment(refSequence, genome_query, refStart, refEnd, length, geno
 
 if __name__ == "__main__":
 	args = parser.parse_args()
+	# Generate all pairwise comparisons
 	pairwise_combinations = pairwise_comparisons(args.refGenome, args.tree, args.o)
 	species_tol_id = get_species_name_tol_id(args.species_list)
 	for (target, query) in pairwise_combinations:
+		# Loop through each comparison
 		genomic_coordinates_query = get_genomic_coordinates(query)
 		genomic_coordinates_target = get_genomic_coordinates(target)
 		single_copy_orthogroups = get_single_copy_orthogroups(args.list_orthogroups, query, target, genomic_coordinates_query, genomic_coordinates_target, species_tol_id, args.hal, args.o)
