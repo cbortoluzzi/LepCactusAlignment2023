@@ -47,7 +47,7 @@ def plot_consistency(superfamilies, tree, refGenome, directory, output_directory
 
 	x, y = [], []
 	for key in num_consistent_genes:
-		if key:
+		if num_consistent_genes[key] > 0:
 			num_genes = num_consistent_genes[key]
 			x.append(key[1])
 			y.append(num_genes)
@@ -59,8 +59,7 @@ def plot_consistency(superfamilies, tree, refGenome, directory, output_directory
 	fig, ax = plt.subplots(figsize=(15, 8))
 	plt.xticks(rotation = 90, ha = 'right', fontsize = 6)
 	plt.bar(x, y, color = color, edgecolor = 'black')
-	plt.ylabel('Number of consistent' + label)
-	plt.ylim(0, 2576)
+	plt.ylabel('Number of consistent ' + label)
 	figure = Path(output_directory, 'number_consistent_' + label + '.pdf')
 	plt.savefig(figure, dpi = 500, bbox_inches = 'tight')
 
@@ -102,8 +101,7 @@ if __name__ == "__main__":
 	if 'orthofinder' in args.d:
 		label = 'orthogroups'
 	else:
-		label = 'BUSCO genes'
+		label = 'BUSCO'
 	species_superfamily = get_species_group(args.species_list)
 	consistency = plot_consistency(species_superfamily, args.tree, args.refGenome, args.d, args.o, label)
-
 
