@@ -9,19 +9,19 @@ export PATH=/lustre/scratch123/tol/teams/durbin/users/cb46/softwares/OrthoFinder
 
 
 if [ -z $1 ]; then
-        echo "Usage: ./run_orthofinder.sh <a tab delimited species list file> <name of reference genome>"
+        echo "Usage: ./run_orthofinder.sh <name of reference genome>"
         exit -1
 fi
 
 
-FILE=$1
-QUERY=$2
+
+QUERY=$1
 
 
 mkdir -p orthofinder/proteomes
 
 
-cat $FILE | while read assembly tol_id class species_name superfamily
+cat species_list.tsv | while read assembly tol_id class species_name superfamily
 do
   # Copy proteome file 
   cp -r /lustre/scratch123/tol/projects/lepidoptera/data/insects/$species_name/analysis/$tol_id/gene/ensembl/latest/assembly.ensembl.pep.fa.gz orthofinder/proteomes/$species_name.pep.fa.gz
@@ -36,8 +36,8 @@ orthofinder -f orthofinder/proteomes/primary_transcripts/
 
 # Check consistency of single-copy orthogroups
 python3 consistency_orthofinder.py --refGenome $QUERY --list_orthogroups orthofinder/proteomes/primary_transcripts/OrthoFinder/Results_Feb03/Orthogroups/Orthogroups_SingleCopyOrthologues.txt \
---species_list $FILE --tree supermatrix_datafreeze_080621.treefile.pruned --hal Lepidoptera_88_way-202201.hal --o orthofinder_quality_check
+--species_list species_list.tsv --tree supermatrix_datafreeze_080621.treefile.pruned --hal Lepidoptera_88_way-202201.hal --o orthofinder_quality_check
 
 # Plot consistency
-python3 plot_consistency.py --d orthofinder_quality_check/ --tree supermatrix_datafreeze_080621.treefile.pruned --refGenome $QUERY --species_list $FILE --o orthofinder_quality_check
+python3 plot_consistency.py --d orthofinder_quality_check/ --tree supermatrix_datafreeze_080621.treefile.pruned --refGenome $QUERY --species_list species_list.tsv --o orthofinder_quality_check
 
