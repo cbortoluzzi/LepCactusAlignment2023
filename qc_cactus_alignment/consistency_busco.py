@@ -15,10 +15,10 @@ from collections import defaultdict
 
 
 
-parser = argparse.ArgumentParser(description = 'Check consistency of BUSCO genomic coordinates with cactus alignment')
-parser.add_argument('--refGenome', help = 'Name of reference species. We recommend to use the outgroup or the most basal species')
+parser = argparse.ArgumentParser(description = 'Check consistency of single-copy BUSCO genes genomic coordinates with cactus alignment')
+parser.add_argument('--refGenome', help = 'Name of species to use as query')
 parser.add_argument('--list_genes', help = 'List of single-copy BUSCO genes, one per line')
-parser.add_argument('--species_list', help = 'List of species, one per line')
+parser.add_argument('--species_list', help = 'A tab delimited species list file')
 parser.add_argument('--tree', help = 'Phylogenetic tree used as guide tree in cactus')
 parser.add_argument('--hal', help = 'Input hal file')
 parser.add_argument('--o', help = 'Output directory')
@@ -33,6 +33,7 @@ def pairwise_comparisons(refGenome, tree, path):
 	phylo.set_outgroup('Hydropsyche_tenuis')
 	for node in phylo.traverse('postorder'):
 		if node.is_leaf():
+			# Remove the outgroup from the pairwise comparisons
 			if node.name != refGenome and node.name != "Hydropsyche_tenuis":
 				# Phylogenetic distance
 				output_directory = Path(path, refGenome + '_vs_' + node.name)
@@ -47,7 +48,7 @@ def get_species_name_tol_id(species_list):
 	species_d = {}
 	with open(species_list) as f:
 		for line in f:
-			assembly, tol_id, p_class, species_name, group = line.strip().split()
+			assembly, tol_id, p_class, species_name, superfamily = line.strip().split()
 			species_d[species_name] = [tol_id, assembly]
 	return species_d
 
@@ -77,6 +78,7 @@ def change_assembly_coordinates(query, target, species_d):
 
 def change_coordinates(main_path, alternative_path, species_name, species_tol_id, species_assembly, dictionary):
 	assembly_report = Path(main_path, species_name, 'assembly', 'release', species_tol_id, 'insdc', species_assembly+'_assembly_report.txt')
+	# Check that assembly report file exists
 	if not Path(assembly_report).is_file():
 		assembly_report = Path(alternative_path, species_name, species_assembly+'_assembly_report.txt')
 	with open(assembly_report) as f:
@@ -121,6 +123,7 @@ def get_busco_coordinates(query, target, species_d, genes, change_q, change_t, h
 def parse_fasta(main_path, alternative_path, species_name, species_tol_id, gene):
 	# Let's get the genomic coordinates (i.e. chromosomem, start, end) of each single-copy BUSCO gene
 	faa = Path(main_path, species_name, 'analysis', species_tol_id, 'busco', 'lepidoptera_odb10_metaeuk', 'run_lepidoptera_odb10', 'busco_sequences', 'single_copy_busco_sequences', gene+'.faa')
+	# Check if file exists
 	if not Path(faa).is_file():
 		faa = Path(alternative_path, species_name, 'lepidoptera_odb10_metaeuk', 'run_lepidoptera_odb10', 'busco_sequences', 'single_copy_busco_sequences', gene+'.faa')
 	return faa
@@ -132,6 +135,7 @@ def multiple_alignment_format(genome_query, chromosome_q, start_q, end_q, genome
 	len_q = int(end_q) - int(start_q)
 	output_maf = Path(path, query + '_vs_' + target, gene + '.maf')
 	output_qc = Path(path, query + '_vs_' + target, gene + '.qc')
+	# Run hal2maf to obtain an alignment in multiple alignment format (MAF)
 	cmd = 'hal2maf --refSequence %s --refGenome %s --start %s --length %s --noAncestors --onlyOrthologs --targetGenomes %s %s %s' %(chromosome_q, genome_query, start_q, len_q, genome_target, hal, output_maf)
 	try:
 		command = subprocess.check_output(cmd, shell = True).decode()
@@ -164,6 +168,7 @@ def multiple_alignment_format(genome_query, chromosome_q, start_q, end_q, genome
 					len = end - start
 					n += len
 			quality_check.write('{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n'.format(genome_query, chromosome_q, start_q, end_q, genome_target, chromosome_t, start_g, end_g, n))
+	# We can now remove the MAF file
 	os.remove(output_maf)
 
 
@@ -171,10 +176,15 @@ def multiple_alignment_format(genome_query, chromosome_q, start_q, end_q, genome
 
 if __name__ == "__main__":
 	args = parser.parse_args()
+	# Generate all possible pairwise comparisons between the query and the target species
 	pairwise_combinations = pairwise_comparisons(args.refGenome, args.tree, args.o)
 	species_tol_id = get_species_name_tol_id(args.species_list)
 	list_busco_orthogroups = busco_genes(args.list_genes)
+	# Iterate over each pairwise comparison and each single-copy BUSCO gene
 	for (target, query) in pairwise_combinations:
+		# Update genomic coordinates of BUSCO genes using the assembly report file
 		assembly_coordinates_query, assembly_coordinates_target = change_assembly_coordinates(query, target, species_tol_id)
+		# Obtain an alignment in multiple alignment format (MAF) for each BUSCO gene and check consistency
 		evaluate_consistency = get_busco_coordinates(query, target, species_tol_id, list_busco_orthogroups, assembly_coordinates_query, assembly_coordinates_target, args.hal, args.o)
 
+		
