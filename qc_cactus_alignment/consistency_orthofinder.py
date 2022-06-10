@@ -146,7 +146,6 @@ def pairwise_alignment(refSequence, genome_query, refStart, refEnd, length, geno
 
 
 
-
 if __name__ == "__main__":
 	args = parser.parse_args()
 	# Generate all pairwise comparisons
@@ -158,3 +157,4 @@ if __name__ == "__main__":
 		genomic_coordinates_target = get_genomic_coordinates(target)
 		single_copy_orthogroups = get_single_copy_orthogroups(args.list_orthogroups, query, target, genomic_coordinates_query, genomic_coordinates_target, species_tol_id, args.hal, args.o)
 
+	
