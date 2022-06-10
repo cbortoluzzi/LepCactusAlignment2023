@@ -47,10 +47,9 @@ def plot_consistency(superfamilies, tree, refGenome, directory, output_directory
 
 	x, y = [], []
 	for key in num_consistent_genes:
-		if num_consistent_genes[key] > 0:
-			num_genes = num_consistent_genes[key]
-			x.append(key[1])
-			y.append(num_genes)
+		num_genes = num_consistent_genes[key]
+		x.append(key[1])
+		y.append(num_genes)
 
 	list_colors = {'Noctuoidea': 'y', 'Bombycoidea': 'peru', 'Geometroidea': 'palevioletred', 'Drepanoidea': 'steelblue', 'Pyraloidea': 'gold', 'Papilionoidea': 'darkturquoise', 'Hesperioidea': 'darkgray',
 	'Gelechioidea': 'coral', 'Zygaeinoidea': 'yellow', 'Cossoidea': 'slateblue', 'Torticoidea': 'yellowgreen', 'Tineoidea': 'cornflowerblue'}
