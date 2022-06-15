@@ -69,19 +69,27 @@ def calculate_total_genome_size(genome_size_f):
 def plot_ancestral_conserved_elements(myelem, mydict, mygenome, path):
 	list_colors = {'Noctuoidea': 'y', 'Bombycoidea': 'peru', 'Geometroidea': 'palevioletred', 'Drepanoidea': 'steelblue', 'Pyraloidea': 'gold', 'Papilionoidea': 'darkturquoise', 'Hesperioidea': 'darkgray',
 	'Gelechioidea': 'coral', 'Zygaeinoidea': 'yellow', 'Cossoidea': 'slateblue', 'Torticoidea': 'yellowgreen', 'Tineoidea': 'cornflowerblue'}
-	x, y, colors = [], [], []
+	x, y, z, colors = [], [], [], []
 	for species_name in myelem:
+		# Total length of ancestral conserved elements
 		len_aCEs = myelem[species_name]
 		total_len_aCEs = sum(len_aCEs)
+		aCEs_mb = total_len_aCEs / 1000000
+		# Genome size in Mb
+		genome_mb = mygenome[species_name] / 1000000
+		# Total number of ancestral conserved elements
+		num_aCEs = len(myelem[species_name])
+		# Get color for each superfamily
 		superfamily = mydict[species_name]
 		superfamily_color = list_colors[superfamily]
-		genome_mb = mygenome[species_name] / 1000000
-		aCEs_mb = total_len_aCEs / 1000000
+		# Append values for plot
 		x.append(genome_mb)
 		y.append(aCEs_mb)
+		z.append(num_aCEs)
 		colors.append(superfamily_color)
 		len_distribution = plot_len_distribution(species_name, len_aCEs, superfamily_color, path)
 	genome_vs_aCEs = plot_genome_size_vs_aCEs(x, y, colors, path)
+	number_vs_length = plot_number_vs_length_aCEs(y,z, colors, path)
 
 
 def plot_len_distribution(label, value, color, path):
@@ -105,6 +113,17 @@ def plot_genome_size_vs_aCEs(x, y, colors, path):
 	plt.clf()
 
 
+def plot_number_vs_length_aCEs(y, z, colors, path):
+	figure = Path(path, 'correlation_number_vs_size_aCEs.pdf')
+	plt.scatter(y, z, c = colors, alpha = 0.5, s = 100, edgecolor = 'black')
+	plt.xlabel('Total length of ancestral conserved elements (Mb)')
+	plt.ylabel('Total number of ancestral conserved elements')
+	#plt.xlim(0, 25)
+	plt.savefig(figure, dpi = 500, bbox_inches = 'tight')
+	plt.clf()
+
+
+
 
 
 
@@ -122,5 +141,4 @@ if __name__ == "__main__":
 	# Plot
 	plot_aCEs = plot_ancestral_conserved_elements(filtered_aCEs, sp_superfamily, genome_size, args.o)
 
-
-
+	
