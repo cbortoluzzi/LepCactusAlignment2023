@@ -33,12 +33,7 @@ mkdir -p $BUSCO
 num_genomes=`cat $FILE | wc -l`
 
 
-# Obtain a list of Unique complete BUSCO genes, one per line
-# The input file should look like this:
-# GCA_904848185.1	fAcaLat1.1	fish	Acanthopagrus_latus
-# GCA_900324465.3	fAnaTes1.3	fish	Anabas_testudineus
-# where, in order, we have information on the assembly version, tol_id, class, and species_name
-cat $FILE | while read assembly tol_id class species group
+cat $FILE | while read assembly tol_id class species family
 do
 	cat $INPUT_DIR/$class/busco.v5/$species/vertebrata_odb10_metaeuk/run_vertebrata_odb10/full_table.tsv | grep -v '^#' | awk '$2=="Complete" {print $1}' >> $BUSCO/complete_busco_ids.txt
 done
