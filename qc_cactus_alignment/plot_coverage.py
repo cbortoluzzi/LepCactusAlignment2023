@@ -69,8 +69,8 @@ def plot_coverage(coverage, superfamilies, path, refGenome, species_name):
 		list_species.append(species)
 		list_coverage.append(coverage[species])
 	# Manually create colors following Wright et al.
-	list_colors = {'Noctuoidea': 'y', 'Bombycoidea': 'peru', 'Geometroidea': 'palevioletred', 'Drepanoidea': 'steelblue', 'Pyraloidea': 'gold', 'Papilionoidea': 'darkturquoise', 'Hesperioidea': 'darkgray',
-        'Gelechioidea': 'coral', 'Zygaeinoidea': 'yellow', 'Cossoidea': 'slateblue', 'Torticoidea': 'yellowgreen', 'Tineoidea': 'cornflowerblue'}
+	list_colors = {'Noctuoidea': '#B1C968', 'Bombycoidea': '#C5A07A', 'Geometroidea': '#DB98AE', 'Drepanoidea': '#8AB1C9', 'Pyraloidea': '#ECC978', 'Papilionoidea': '#66C2A5', 'Hesperioidea': '#B3B3B3', 'Gelechioidea': '#DD927E', 
+        'Zygaeinoidea': '#FCD738', 'Cossoidea': '#BE93C6', 'Torticoidea': '#CED843', 'Tineoidea': '#979EC1'}
 	fig, ax = plt.subplots(figsize=(15, 8))
 	bplot = ax.boxplot(list_coverage, positions=range(len(list_coverage)), labels=list_species, notch=True)
 	plt.xticks(rotation = 90, ha = 'right', fontsize = 8)
