@@ -4,8 +4,8 @@ Example:
 
 ./busco.sh ../darwin/lepidoptera/busco.v5/Abrostola_tripartita/GCA_905340225.1.fasta busco_downloads/vertebrata_odb10
 
-The script assumes a directory for each assembly named after the species name (i.e. Tautogolabrus_adspersus). The script also assumes that the lineage dataset (i.e. vertebrata_odb10) is already downloaded. 
-BUSCO will store all results, logs and intermediate data in a folder named after the lineage (i.e. vertebrata_odb10_metaeuk). 
+The script assumes a directory for each assembly named after the species name (i.e. Abrostola_tripartita). The script also assumes that the lineage dataset (i.e. vertebrata_odb10) is already downloaded. 
+BUSCO will store all results, logs and intermediate data in a folder named after the lineage (i.e. lepidoptera_odb10_metaeuk). 
 
 
 ./busco2phylo.sh species_list.tsv ../darwin
