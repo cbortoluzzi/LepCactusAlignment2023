@@ -5,6 +5,7 @@
 
 
 
+
 import argparse
 import subprocess
 import seaborn as sns
@@ -15,8 +16,8 @@ from collections import defaultdict
 
 
 
-parser = argparse.ArgumentParser(description = 'Plot distribution of GERP score along the genome, as well as in CDS and introns')
-parser.add_argument('--bed', help = 'Path to species folder with GERP score output files (BED format)')
+parser = argparse.ArgumentParser(description = 'Plot distribution of GERP score along the genome and in CDS/introns')
+parser.add_argument('--bed', help = 'Path to species folder with GERP score bed files')
 parser.add_argument('--CDS', help = 'Genomic coordinates of coding sequences')
 parser.add_argument('--intron', help = 'Genomic coordinates of intron')
 parser.add_argument('--o', help = 'Output directory')
@@ -31,8 +32,6 @@ def genome_wide_distribution_GERPscore(bed_f, path):
 			for line in f:
 				chromosome, start, end, nucleotide, neutral_rate, rejected_substitution_score = line.strip().split()
 				rejected_substitution_score = float(rejected_substitution_score)
-				start, end = int(start), int(end)
-				# We will consider only positions with a minimum rejected substitution score of 0
 				if rejected_substitution_score >= 0:
 					if chromosome == 'W':
 						mygerp[chromosome].append(rejected_substitution_score)
@@ -45,9 +44,9 @@ def genome_wide_distribution_GERPscore(bed_f, path):
 	color = {'Autosomes': 'red', 'W': 'gold', 'Z': 'green'}
 	fig = plt.figure(figsize=(6, 4))
 	# Plot density distribution of GERP score genome-wide
-	for key in sorted(mygerp):
-		scores = mygerp[key]
-		sns.kdeplot(x=scores, fill=True, common_norm=False, alpha=.5, linewidth=0, label=key, color=color[key])
+	for chrom in sorted(mygerp):
+		scores = mygerp[chrom]
+		sns.kdeplot(x=scores, fill=True, common_norm=False, alpha=.5, linewidth=0, label=chrom, color=color[chrom])
 	plt.xlabel('GERP score')
 	plt.ylabel('Density')
 	plt.legend(prop={'size': 8})
@@ -66,14 +65,14 @@ def distribution_GERPscore_coding_sequence_intron(cds_f, intron_f, bed_f, specie
 	# Plot density distribution of GERP score in CDS and introns
 	color = {'Autosomes': 'red', 'W': 'gold', 'Z': 'green'}
 	fig, ax = plt.subplots(1, 2, figsize=(12, 4))
-	for key in sorted(cds_gerp):
-		scores = cds_gerp[key]
-		sns.kdeplot(x=scores, fill=True, common_norm=False, alpha=.5, linewidth=0, label=key, color=color[key], ax = ax[0])
+	for chrom in sorted(cds_gerp):
+		scores = cds_gerp[chrom]
+		sns.kdeplot(x=scores, fill=True, common_norm=False, alpha=.5, linewidth=0, label=chrom, color=color[chrom], ax = ax[0])
 	ax[0].set_ylabel('Density')
 	ax[0].set_xlabel('GERP score CDS')
-	for key in sorted(intron_gerp):
-		scores = intron_gerp[key]
-		sns.kdeplot(x=scores, fill=True, common_norm=False, alpha=.5, linewidth=0, label=key, color=color[key], ax = ax[1])
+	for chrom in sorted(intron_gerp):
+		scores = intron_gerp[chrom]
+		sns.kdeplot(x=scores, fill=True, common_norm=False, alpha=.5, linewidth=0, label=chrom, color=color[chrom], ax = ax[1])
 	ax[1].set_xlabel('GERP score intron')
 	plt.legend(prop={'size': 8})
 	plt.title(species_name)
