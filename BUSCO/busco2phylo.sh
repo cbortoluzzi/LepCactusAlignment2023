@@ -60,7 +60,7 @@ do
 	# Perform alignment with MAFFT
 	mafft --amino $BUSCO/mafft/$busco_id.aln > $BUSCO/mafft/$busco_id.aln.mafft
 
-	Trim alignment with trimal
+	# Trim alignment with trimal
 	trimal -in $BUSCO/mafft/$busco_id.aln.mafft -out $BUSCO/trimAl/$busco_id.aln.mafft.trimAl -automated1
 done
 
