@@ -57,7 +57,7 @@ def plot_consistency(superfamilies, tree, refGenome, directory, output_directory
 	list_superfamilies = [superfamilies[species] for species in x]
 	color = [list_colors[x] for x in list_superfamilies]
 	fig, ax = plt.subplots(figsize=(15, 8))
-	plt.xticks(rotation = 90, ha = 'right', fontsize = 6)
+	plt.xticks(rotation = 90, ha = 'right', fontsize = 12)
 	plt.bar(x, y, color = color, edgecolor = 'black')
 	plt.ylabel('Number of consistent ' + label)
 	figure = Path(output_directory, 'number_consistent_' + label + '.pdf')
