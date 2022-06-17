@@ -64,9 +64,8 @@ def plot_alignment_depth(list_nodes, superfamilies, mydict, output_directory):
 		if species in mydict.keys():
 			x.append(species)
 			y.append(mydict[species])
-
 	# Manually create colors following Wright et al.
-	 list_colors = {'Noctuoidea': '#B1C968', 'Bombycoidea': '#C5A07A', 'Geometroidea': '#DB98AE', 'Drepanoidea': '#8AB1C9', 'Pyraloidea': '#ECC978', 'Papilionoidea': '#66C2A5', 'Hesperioidea': '#B3B3B3', 'Gelechioidea': '#DD927E', 
+	list_colors = {'Noctuoidea': '#B1C968', 'Bombycoidea': '#C5A07A', 'Geometroidea': '#DB98AE', 'Drepanoidea': '#8AB1C9', 'Pyraloidea': '#ECC978', 'Papilionoidea': '#66C2A5', 'Hesperioidea': '#B3B3B3', 'Gelechioidea': '#DD927E', 
         'Zygaeinoidea': '#FCD738', 'Cossoidea': '#BE93C6', 'Torticoidea': '#CED843', 'Tineoidea': '#979EC1'}
 	list_superfamily = [superfamilies[species] for species in x]
 	colors = [list_colors[superfamily] for superfamily in list_superfamily]
@@ -91,5 +90,3 @@ if __name__ == "__main__":
 	alignment_depth = alignment_depth_cds(list_tsv)
 	plot_depth = plot_alignment_depth(species_order, species_superfamily, alignment_depth, args.o)
 
-  
-  
