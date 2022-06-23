@@ -41,18 +41,19 @@ def unique_nonoverlapping_instances(mygff, feature, refGenome, path):
 	with open(output_file, 'w') as out:
 		for gene in mygff:
 			intervals = mygff[gene]
-			# Sort genomic coordinates
-			intervals.sort(key=lambda interval: interval[0])
-			merged = [intervals[0]]
-			# Combine overlapping features
-			for current in intervals:
-				previous = merged[-1]
-				if current[0] <= previous[1]:
-					previous[1] = max(previous[1], current[1])
-				else:
-					merged.append(current)
-			for genomic_coordinate in merged:
-				out.write('{}\t{}\t{}\t{}\t{}\t{}\n'.format(gene[0], genomic_coordinate[0], genomic_coordinate[1], feature, gene[4], gene[5]))
+			if intervals:
+				# Sort genomic coordinates
+				intervals.sort(key=lambda interval: interval[0])
+				merged = [intervals[0]]
+				# Combine overlapping features
+				for current in intervals:
+					previous = merged[-1]
+					if current[0] <= previous[1]:
+						previous[1] = max(previous[1], current[1])
+					else:
+						merged.append(current)
+				for genomic_coordinate in merged:
+					out.write('{}\t{}\t{}\t{}\t{}\t{}\n'.format(gene[0], genomic_coordinate[0], genomic_coordinate[1], feature, gene[4], gene[5]))
 
 
 
@@ -67,5 +68,4 @@ if __name__ == "__main__":
 	# Obtain unique non-overlapping instances
 	select_features = parse_annotation(args.gff, args.feature)
 	unique_elements = unique_nonoverlapping_instances(select_features, args.feature, refGenome, path)
-
 
