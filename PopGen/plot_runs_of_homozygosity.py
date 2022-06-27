@@ -76,8 +76,8 @@ def fraction_genome_covered_by_ROH(roh_f, mydict, mygen, path):
 		num_short.append(len(short_ROH)), num_medium.append(len(medium_ROH)), num_long.append(len(long_ROH))
 		sum_short.append(sum(short_ROH)), sum_medium.append(sum(medium_ROH)), sum_long.append(sum(long_ROH))
 
-	list_colors = {'Noctuoidea': 'y', 'Bombycoidea': 'peru', 'Geometroidea': 'palevioletred', 'Drepanoidea': 'steelblue', 'Pyraloidea': 'gold', 'Papilionoidea': 'darkturquoise', 'Hesperioidea': 'darkgray',
-	'Gelechioidea': 'coral', 'Zygaeinoidea': 'yellow', 'Cossoidea': 'slateblue', 'Torticoidea': 'yellowgreen', 'Tineoidea': 'cornflowerblue'}
+	list_colors = {'Noctuoidea': '#B1C968', 'Bombycoidea': '#C5A07A', 'Geometroidea': '#DB98AE', 'Drepanoidea': '#8AB1C9', 'Pyraloidea': '#ECC978', 'Papilionoidea': '#66C2A5', 'Hesperioidea': '#B3B3B3', 'Gelechioidea': '#DD927E', 
+        'Zygaeinoidea': '#FCD738', 'Cossoidea': '#BE93C6', 'Torticoidea': '#CED843', 'Tineoidea': '#979EC1'}
 
 	colors = [list_colors[x] for x in list_superfamily]
 	plt.tick_params(labelsize = 8)
