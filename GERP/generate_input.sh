@@ -5,9 +5,6 @@
 # Author: @cb46
 
 
-export PATH=/lustre/scratch123/tol/teams/durbin/users/cb46/softwares/gffread:$PATH
-
-
 
 if [ -z $1 ]; then
 	echo "Usage: ./generate_input.sh <input hal file> <name of reference genome>"
