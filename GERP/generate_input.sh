@@ -10,55 +10,39 @@ export PATH=/lustre/scratch123/tol/teams/durbin/users/cb46/softwares/gffread:$PA
 
 
 if [ -z $1 ]; then
-	echo "Usage: ./generate_input.sh <input hal file> <species name> <tol id> <name of reference genome>"
+	echo "Usage: ./generate_input.sh <input hal file> <name of reference genome>"
 	exit -1
 fi
 
 
 
 HAL=$1
-SPECIES=$2
-TOL=$3
-REF=$4
+REF=$2
 
 
-mkdir -p sequences/$REF && mkdir -p annotation/$REF && mkdir -p assembly/$REF
+
+mkdir -p sequences/$REF && mkdir -p gerp_score/$REF
 
 
-# Print sequences of given genome in bed format
+# Print sequences of a given genome
 halStats --bedSequences $REF $HAL | cut -f1,3 > sequences/$REF/$REF.bed
 
 
-# Extract, for each contig in the given genome, an alignment in MAF format
 re='^[0-9]+$'
-cat sequences/$REF/$REF.bed | while read contig seq_length
+cat sequences/$REF/$REF.bed | while read contig length
 do
-	if [[ $contig =~ $re ]]
+	if [[ $contig =~ $re ]] || [[ $contig =~ "W" ]] || [[ $contig =~ "Z" ]]
 	then
-		bsub -R'select[mem>18000] rusage[mem=18000]' -18000 -q basement -n 15 -G rdgroup -J hal2maf -o output_%J -e error_%J hal2maf --refSequence $contig --refGenome $REF --noAncestors --onlyOrthologs $HAL sequences/$REF/$REF.$contig.maf
-	elif [[ $contig =~ "W" ]]
-	then
-		bsub -R'select[mem>18000] rusage[mem=18000]' -18000 -q basement -n 15 -G rdgroup -J hal2maf -o output_%J -e error_%J hal2maf --refSequence $contig --refGenome $REF --noAncestors --onlyOrthologs $HAL sequences/$REF/$REF.$contig.maf
-	elif [[ $contig =~ "Z" ]]
-	then
-		bsub -R'select[mem>18000] rusage[mem=18000]' -18000 -q basement -n 15 -G rdgroup -J hal2maf -o output_%J -e error_%J hal2maf --refSequence $contig --refGenome $REF --noAncestors --onlyOrthologs $HAL sequences/$REF/$REF.$contig.maf
+		# Obtain a multiple sequence alignment in MAF format for each contig
+		echo "hal2maf --refSequence $contig --refGenome $REF --noAncestors --onlyOrthologs $HAL sequences/$REF/$REF.$contig.maf" > run.hal2maf.$contig.sh
+		# Make alignment depth wiggle plot for a genome. By default, this is a count of the number of other unique genomes each base aligns to, including ancestral genomes
+		echo "halAlignmentDepth --noAncestors --outWiggle sequences/$REF/$REF.$contig.wig --refSequence $contig $HAL $REF" >> run.hal2maf.$contig.sh
+		# Identify consecutive regions with at least 3 ungapped species
+		echo "python3 select_sites_with_ungapped_species.py --w sequences/$REF/$REF.$contig.wig --o sequences/$REF" >> run.hal2maf.$contig.sh
+		# Filter multiple sequence alignment
+		echo "cat sequences/$REF/$REF.$contig.bed | while read chrom begin stop len;do hal2maf --refSequence "'$chrom'" --refGenome $REF --start "'$begin'" --length "'$len'" --noAncestors --onlyOrthologs --append $HAL gerp_score/$REF/$REF.$contig.maf;done" >> run.hal2maf.$contig.sh
 	fi
 done
 
-
-# Copy annotation (in gff3 format), assembly (in fasta format) and decompress
-cp /lustre/scratch123/tol/projects/lepidoptera/data/insects/$SPECIES/analysis/$TOL/gene/ensembl/latest/assembly.ensembl.genes.gff3.gz annotation/$REF/$REF.gff3.gz && gunzip annotation/$REF/$REF.gff3.gz
-cp /lustre/scratch123/tol/projects/lepidoptera/data/insects/$SPECIES/assembly/release/$TOL/insdc/GCA*.fasta.gz assembly/$REF/$REF.fasta.gz && gunzip assembly/$REF/$REF.fasta.gz
-
-
-# Change header of assembly. This needs to be done because contigs in the alignment are integers (e.g. 1, 2, 3, ...), while in the assembly are strings (e.g. HG996487.1, HG996488.1, HG996489.1, ...)
-python3 change_fasta_header.py --fa assembly/$REF/$REF.fasta --report /lustre/scratch123/tol/projects/lepidoptera/data/insects/$SPECIES/assembly/release/$TOL/insdc/GCA*_assembly_report.txt --out assembly/$REF/$REF.renamed.fasta
-
-
-# Remove transcripts with internal stop codons: this shouldn't lead to anything
-gffread -v -V -g assembly/$REF/$REF.renamed.fasta annotation/$REF/$REF.gff3 -o annotation/$REF/$REF.filtered.gff3
-
-
-# Obtain merged CDS of all transcripts per gene
-python3 feature_selection.py --gff3 annotation/$REF/$REF.gff3 --refGenome $REF --feature CDS
+chmod +x run.hal2maf.*.sh
 
