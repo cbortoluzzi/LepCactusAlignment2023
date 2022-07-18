@@ -5,45 +5,34 @@
 # Author: @cb46
 
 
-export PATH=/software/team118/phast/bin:$PATH
-
-
 
 if [ -z $1 ]; then
-	echo "Usage: ./phyloFit.sh <input hal file> <name of reference genome>"
-	exit -1
+        echo "Usage: ./phyloFit.sh <name of reference genome>"
+        exit -1
 fi
 
 
 
-HAL=$1
-REF=$2
+genome=$1
 
 
+mkdir -p neutral_mod/$genome
 
-mkdir -p msa_view/$REF && mkdir -p neutral_model/$REF
-
-
-# Extract 4d sites: since we have an alignment for each contig, we will estimate a nonconserved (neutral) model for each of them and then calculate the average nonconserved model
-# A separate nonconserved model will be estimated for the W and Z chromosome
-for f in sequences/$REF/*.maf
+for maf in maf/$genome/*.maf;
 do
-	chr=$(basename $f .maf | cut -f2 -d'.')
-	# Obtain 4d sites in SS format
-	msa_view sequences/$REF/$REF.$chr.maf --in-format MAF --4d --features annotation/$REF/$REF.$chr.CDS.gff3 --out-format SS > msa_view/$REF/$REF.$chr.codons.ss
-	msa_view msa_view/$REF/$REF.$chr.codons.ss --in-format SS --out-format SS --tuple-size 1 > msa_view/$REF/$REF.$chr.sites.ss
-	# Estimate the nonconserved (neutral) model for each chromosome
-	phyloFit --tree `cat tree_topology.nh` --subst-mod REV --EM --msa-format SS msa_view/$REF/$REF.$chr.sites.ss --out-root msa_view/$REF/$REF.$chr.nonconserved-4d
+        chr=$(basename $maf .maf | cut -f2 -d'.')
+        # Estimate the nonconserved (neutral) model for each chromosome
+        phyloFit --tree `cat tree_topology.nh` --subst-mod REV --EM --msa-format FASTA 4d_sites/$genome/$genome.$chr.sites.fa --out-root 4d_sites/$genome/$genome.$chr.nonconserved-4d
 done
 
-
-# Obtain the average nonconserved model
+## Obtain the average nonconserved model for the autosomes
 re='^[0-9]+$'
-autosomes=`cat sequences/$REF/$REF.bed | while read contig size;do if [[ $contig =~ $re ]]; then echo $contig; fi;done`
-mod=`for chr in $autosomes;do ls msa_view/$REF/$REF.$chr.nonconserved-4d.mod;done`
-phyloBoot --read-mods $mod --output-average neutral_model/$REF/$REF.ave.nonconserved-4d.mod
+autosomes=`cat maf/$genome/$genome.bed | while read contig length;do if [[ $contig =~ $re ]]; then echo $contig; fi;done`
+mod=`for chr in $autosomes;do ls 4d_sites/$genome/$genome.$chr.nonconserved-4d.mod;done`
+phyloBoot --read-mods $mod --output-average neutral_mod/$genome/$genome.ave.nonconserved-4d.mod
 
-mv msa_view/$REF/$REF.W.nonconserved-4d.mod neutral_model/$REF
-mv msa_view/$REF/$REF.Z.nonconserved-4d.mod neutral_model/$REF
 
-rm -r msa_view
+## Move nonconserved model of sex chromosomes to the right folder
+mv 4d_sites/$genome/$genome.Z.nonconserved-4d.mod neutral_mod/$genome
+mv 4d_sites/$genome/$genome.W.nonconserved-4d.mod neutral_mod/$genome
+
