@@ -22,9 +22,9 @@ maf=$1
 
 ## Select sites with at least 3 ungapped sequences
 genome=$(basename $maf .maf | cut -f1 -d'.')
-#mkdir -p bed/$genome
-#python3 select_sites_with_ungapped_species.py --maf $maf --o bed/$genome
-#echo "Done with selecting sites"
+mkdir -p bed/$genome
+python3 select_sites_with_ungapped_species.py --maf $maf --o bed/$genome
+echo "Done with selecting sites"
 
 
 ## Filter input maf file
