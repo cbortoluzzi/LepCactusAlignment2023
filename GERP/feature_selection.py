@@ -4,6 +4,7 @@
 # Author : @cb46
 
 
+import gzip
 import argparse
 from pathlib import Path
 from collections import defaultdict
@@ -12,14 +13,13 @@ from collections import defaultdict
 
 parser = argparse.ArgumentParser(description = 'Obtain unique non-overlapping instances of each feature type')
 parser.add_argument('--gff', help = 'Annotation in GFF (General Feature Format) format [e.g. abrostola_tripartita_gca905340225v1.gff3]')
-parser.add_argument('--feature', help = 'Feature type [default: CDS]', type = str, default = "CDS")
-parser.add_argument('--o', help = 'Output directory')
+parser.add_argument('--feature', help = 'Feature type', type = str)
 
 
 
 def parse_annotation(gff_f, feature):
 	mygff = defaultdict(list)
-	with open(gff_f) as f:
+	with gzip.open(gff_f, 'rt') as f:
 		for line in f:
 			if not line.startswith('#'):
 				contig, ensembl, feature_type, start, end, dot, strand, value, info = line.strip().split()
@@ -37,24 +37,25 @@ def parse_annotation(gff_f, feature):
 
 
 def unique_nonoverlapping_instances(mygff, feature, refGenome, path):
-	for gene in mygff:
-		intervals = mygff[gene]
-		if intervals:
-			# Sort genomic coordinates
-			intervals.sort(key=lambda interval: interval[0])
-			merged = [intervals[0]]
-			# Combine overlapping features
-			for current in intervals:
-				previous = merged[-1]
-				if current[0] <= previous[1]:
-					previous[1] = max(previous[1], current[1])
-				else:
-					merged.append(current)
-				output_file = Path(path, refGenome + '.' + gene[0] + '.merged.bed')
-				with open(output_file, 'a') as out:
-					for genomic_coordinate in merged:
-						chromosome = refGenome + '.' + gene[0]
-						out.write('{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n'.format(chromosome, "Ensembl", feature, genomic_coordinate[0], genomic_coordinate[1], '.', gene[4], '.', gene[5]))
+	output_file = Path(path, refGenome + '.' + feature + '.bed')
+	with open(output_file, 'w') as out:
+		for gene in mygff:
+			intervals = mygff[gene]
+			if intervals:
+				# Sort genomic coordinates
+				intervals.sort(key=lambda interval: interval[0])
+				merged = [intervals[0]]
+				# Combine overlapping features
+				for current in intervals:
+					previous = merged[-1]
+					if current[0] <= previous[1]:
+						previous[1] = max(previous[1], current[1])
+					else:
+						merged.append(current)
+				for genomic_coordinate in merged:
+					begin = genomic_coordinate[0] - 1
+					stop = genomic_coordinate[1]
+					out.write('{}\t{}\t{}\t{}\t{}\t{}\n'.format(gene[0], begin, stop, feature, gene[4], gene[5]))
 
 
 
@@ -64,10 +65,9 @@ if __name__ == "__main__":
 	# Obtain name of genome from the annotation file (e.g. abrostola_tripartita_gca905340225v1.gff3)
 	refGenome = Path(args.gff).stem
 	# Create output directory if it doesn't exist
-	path = Path(args.o)
+	path = Path(args.gff).parent
 	path.mkdir(parents=True, exist_ok=True)
 	# Obtain unique non-overlapping instances
 	select_features = parse_annotation(args.gff, args.feature)
 	unique_elements = unique_nonoverlapping_instances(select_features, args.feature, refGenome, path)
 
-  
