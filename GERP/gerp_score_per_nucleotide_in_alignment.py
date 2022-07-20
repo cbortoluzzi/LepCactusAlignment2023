@@ -12,7 +12,7 @@ from collections import defaultdict
 
 
 parser = argparse.ArgumentParser(description = 'Assign the neutral rate and rejected substitution score (i.e. GERP score) to each position in the alignment')
-parser.add_argument('--maf', help = 'Alignment in multiple alignment (MAF) format')
+parser.add_argument('--maf', help = 'Alignment in multiple alignment (MAF) format. The input is the filtered MAF file')
 
 
 
@@ -75,10 +75,10 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	refGenome = Path(args.maf).name.split('.')[0]
 	# GERP++ output
-	gerp = str(Path(args.maf))+".4d.rates"
+	gerp = str(Path(args.maf))+".rates"
 	output_file = gerp + '.bed'
 	list_positions = get_alignment_positions(args.maf, refGenome)
 	neutral_rate_rejected_substitution_score = gerp_score(gerp)
 	assigned_gerp_score = assign_gerp_score_to_positions(neutral_rate_rejected_substitution_score, list_positions, output_file)
 
-  
+
