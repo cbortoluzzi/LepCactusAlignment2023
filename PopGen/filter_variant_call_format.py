@@ -5,16 +5,20 @@
 # Author : @cb46
 
 
+import os
 import vcf
 import argparse
+import subprocess
 from pathlib import Path
 
 
 
 
-parser = argparse.ArgumentParser(description = 'Filter VCF file based on PHRED-quality score, read depth, and genotype quality')
+parser = argparse.ArgumentParser(description = 'Calculate genome-wide heterozygosity using a sliding window approach')
 parser.add_argument('--vcf', help = 'VCF file')
 parser.add_argument('--cov', help = 'Genome-wide coverage')
+parser.add_argument('--hal', help = 'Input hal file')
+parser.add_argument('--refGenome', help = 'Name of reference genome')
 parser.add_argument('--q', help = 'Minimum phred-quality score [default = 15]', type = int, default = 15)
 parser.add_argument('--dp', help = 'Minimum read depth to retain a variant [default = 6]', type = int, default = 6)
 parser.add_argument('--gq', help = 'Minimum genotype quality to retain a variant [default = 20]' , type = int, default = 20)
@@ -33,10 +37,9 @@ def average_genome_coverage(coverage):
 
 
 
-def filter_vcf_file(vcf_f, min_qual, min_depth, max_depth, min_gq, output_file):
+def filter_vcf_file(vcf_f, min_qual, min_depth, max_depth, min_gq, hal, refGenome, output_file):
 	vcf_reader = vcf.Reader(filename=vcf_f)
 	vcf_writer = vcf.Writer(open(output_file, 'w'), vcf_reader)
-	nhet = 0
 	for record in vcf_reader:
 		# let's consider only bi-allelic SNPs that pass all filtering criteria
 		if not record.FILTER and record.is_snp:
@@ -45,8 +48,14 @@ def filter_vcf_file(vcf_f, min_qual, min_depth, max_depth, min_gq, output_file):
 					read_depth = call['DP']
 					genotype_quality = call['GQ']
 					if read_depth >= min_depth and read_depth <= max_depth and genotype_quality >= min_gq:
-						nhet += record.num_het
-						vcf_writer.write_record(record)
+						chromosome = record.CHROM
+						start = record.POS
+						command = 'halBranchMutations --refSequence %s --start %s --length 1 %s %s --snpFile stdout' %(chromosome, start, hal, refGenome)
+						cmd = subprocess.check_output(command, shell = True).decode()
+						if cmd:
+							snp_ancestral = list(cmd.split('\n')[0].split()[3])[2]
+							record.add_info('AA', snp_ancestral)
+							vcf_writer.write_record(record)
 
 
 if __name__ == "__main__":
@@ -56,5 +65,4 @@ if __name__ == "__main__":
 	output_file_name = Path(args.vcf).stem.replace('.vcf', '.filtered.vcf')
 	output_file = Path(path, output_file_name)
 	max_depth = average_genome_coverage(args.cov)
-	filtered_vcf = filter_vcf_file(args.vcf, args.q, args.dp, max_depth, args.gq, output_file)
-
+	filtered_vcf = filter_vcf_file(args.vcf, args.q, args.dp, max_depth, args.gq, args.hal, args.refGenome, output_file)
