@@ -11,7 +11,6 @@ import vcf
 import argparse
 import subprocess
 from pathlib import Path
-import matplotlib.pyplot as plt
 
 
 
@@ -20,9 +19,6 @@ parser.add_argument('--vcf', help = 'VCF file')
 parser.add_argument('--bam', help = 'BAM file')
 parser.add_argument('--cov', help = 'Genome-wide coverage')
 parser.add_argument('--w', help = 'Window size [default = 10000 bp]', type = int, default = 10000)
-parser.add_argument('--q', help = 'Minimum phred-quality score [default = 15]', type = int, default = 15)
-parser.add_argument('--dp', help = 'Minimum read depth to retain a variant [default = 6]', type = int, default = 6)
-parser.add_argument('--gq', help = 'Minimum genotype quality to retain a variant [default = 20]' , type = int, default = 20)
 parser.add_argument('--o', help = 'Output directory')
 
 
@@ -58,17 +54,17 @@ def average_genome_coverage(coverage):
 
 
 
-def calculate_binned_heterozygosity(mygenome, window, min_depth, max_depth, bam_f, vcf_f, min_gq, min_qual, filename, path):
+def calculate_binned_heterozygosity(mygenome, window, max_depth, bam_f, vcf_f, filename, path):
 	for chromosome in mygenome:
 		seq_length = mygenome[chromosome]
 		for i in range(0, seq_length, window):
 			start = i
 			end = i + window
-			bam_depth(chromosome, start, end, min_depth, max_depth, bam_f, vcf_f, min_gq, min_qual, window, filename, path)
+			bam_depth(chromosome, start, end, max_depth, bam_f, vcf_f, window, filename, path)
 
 
 
-def bam_depth(chromosome, start, end, min_depth, max_depth, bam_f, vcf_f, min_gq, min_qual, window, filename, path):
+def bam_depth(chromosome, start, end, max_depth, bam_f, vcf_f, window, filename, path):
 	cov_sites = 0
 	command = 'samtools depth -r %s:%d-%d %s' %(chromosome, start, end, bam_f)
 	cmd = subprocess.check_output(command, shell = True).decode()
@@ -76,24 +72,20 @@ def bam_depth(chromosome, start, end, min_depth, max_depth, bam_f, vcf_f, min_gq
 	for line in outcmd:
 		if line:
 			chromosome, position, depth = line.strip().split()
-			if int(depth) >= min_depth and int(depth) <= max_depth:
+			if int(depth) >= 6 and int(depth) <= max_depth:
 				cov_sites += 1
-	heterozygosity(chromosome, start, end, cov_sites, vcf_f, min_depth, max_depth, min_gq, min_qual, window, filename, path)
+	heterozygosity(chromosome, start, end, cov_sites, vcf_f, window, filename, path)
 
 
 
-def heterozygosity(chromosome, start, end, cov_sites, vcf_f, min_depth, max_depth, min_gq, min_qual, window, filename, path):
+def heterozygosity(chromosome, start, end, cov_sites, vcf_f, window, filename, path):
 	vcf_reader = vcf.Reader(filename=vcf_f)
 	nhet = 0
 	for record in vcf_reader.fetch(chromosome, start, end):
 		# let's consider only bi-allelic SNPs that pass all filtering criteria
 		if not record.FILTER and record.is_snp:
-			if record.QUAL >= min_qual:
-				for call in record.samples:
-					read_depth = call['DP']
-					genotype_quality = call['GQ']
-					if read_depth >= min_depth and read_depth <= max_depth and genotype_quality >= min_gq:
-						nhet += record.num_het
+			for call in record.samples:
+				nhet += record.num_het
 	if cov_sites == window + 1:
 		cov_sites = window
 	try:
@@ -114,4 +106,6 @@ if __name__ == "__main__":
 	path.mkdir(parents=True, exist_ok=True)
 	sequences = sequences_bam(args.bam)
 	max_depth = average_genome_coverage(args.cov)
-	binned_heterozygosity = calculate_binned_heterozygosity(sequences, args.w, args.dp, max_depth, args.bam, args.vcf, args.gq, args.q, filename, args.o)
+	binned_heterozygosity = calculate_binned_heterozygosity(sequences, args.w, max_depth, args.bam, args.vcf, filename, args.o)
+
+	
