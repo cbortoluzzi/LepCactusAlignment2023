@@ -12,7 +12,7 @@ from pathlib import Path
 
 
 
-parser = argparse.ArgumentParser(description = 'Calculate genome-wide heterozygosity using a sliding window approach')
+parser = argparse.ArgumentParser(description = 'Filter VCF file based on PHRED-quality score, read depth, and genotype quality')
 parser.add_argument('--vcf', help = 'VCF file')
 parser.add_argument('--cov', help = 'Genome-wide coverage')
 parser.add_argument('--q', help = 'Minimum phred-quality score [default = 15]', type = int, default = 15)
