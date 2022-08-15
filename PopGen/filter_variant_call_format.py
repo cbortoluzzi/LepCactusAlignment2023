@@ -57,10 +57,12 @@ def filter_vcf_file(vcf_f, min_qual, min_depth, max_depth, min_gq, hal, refGenom
 							if len(cmd.split('\n')) == 5:
 								output_reference = cmd.split('\n')[1].split()[-1]
 								output_ancestor = cmd.split('\n')[2].split()[-1]
-								if record.REF == output_reference.upper():
-									record.add_info('AA', output_ancestor)
-									vcf_writer.write_record(record)
+								assert record.REF == output_reference.upper(), "Reference allele is different from that in alignment"
+								record.add_info('AA', output_ancestor)
+								vcf_writer.write_record(record)
 							else:
+								output_reference = cmd.split('\n')[1].split()[-1]
+								assert record.REF == output_reference.upper(), "Reference allele is different from that in alignment"
 								record.add_info('AA', '.')
 								vcf_writer.write_record(record)
 						except subprocess.CalledProcessError as e:
