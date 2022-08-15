@@ -50,12 +50,19 @@ def filter_vcf_file(vcf_f, min_qual, min_depth, max_depth, min_gq, hal, refGenom
 					if read_depth >= min_depth and read_depth <= max_depth and genotype_quality >= min_gq:
 						chromosome = record.CHROM
 						start = record.POS
-						command = 'halBranchMutations --refSequence %s --start %s --length 1 %s %s --snpFile stdout' %(chromosome, start, hal, refGenome)
-						cmd = subprocess.check_output(command, shell = True).decode()
-						if cmd:
-							snp_ancestral = list(cmd.split('\n')[0].split()[3])[2]
-							record.add_info('AA', snp_ancestral)
-							vcf_writer.write_record(record)
+						try:
+							command = 'halBranchMutations --refSequence %s --start %s --length 1 %s %s --snpFile stdout' %(chromosome, start, hal, refGenome)
+							cmd = subprocess.check_output(command, stderr=subprocess.STDOUT, shell = True).decode()
+							if cmd:
+								snp_ancestral = list(cmd.split('\n')[0].split()[3])[2]
+								record.add_info('AA', snp_ancestral)
+								vcf_writer.write_record(record)
+							else:
+								record.add_info('AA', '.')
+								vcf_writer.write_record(record)
+						except subprocess.CalledProcessError as e:
+							output = e.output.decode()
+							continue
 
 
 if __name__ == "__main__":
@@ -66,3 +73,4 @@ if __name__ == "__main__":
 	output_file = Path(path, output_file_name)
 	max_depth = average_genome_coverage(args.cov)
 	filtered_vcf = filter_vcf_file(args.vcf, args.q, args.dp, max_depth, args.gq, args.hal, args.refGenome, output_file)
+
