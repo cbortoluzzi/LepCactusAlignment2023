@@ -109,3 +109,4 @@ if __name__ == "__main__":
 	binned_heterozygosity = calculate_binned_heterozygosity(sequences, args.w, max_depth, args.bam, args.vcf, filename, args.o)
 
 	
+	
