@@ -84,4 +84,6 @@ if __name__ == "__main__":
 	command = 'halStats --parent %s %s' %(args.refGenome, args.hal)
 	ancestor = subprocess.check_output(command, shell = True).decode().strip('\n')
 	filtered_vcf = filter_and_polarize_vcf_file(args.vcf, args.q, args.dp, max_depth, args.gq, args.hal, args.refGenome, ancestor, output_file)
+	
+	
 
