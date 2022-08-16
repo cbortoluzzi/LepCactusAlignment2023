@@ -14,7 +14,7 @@ from pathlib import Path
 
 
 
-parser = argparse.ArgumentParser(description = 'Calculate genome-wide heterozygosity using a sliding window approach')
+parser = argparse.ArgumentParser(description = 'Polarize and filter sites based on phred-quality score, read depth, and genotype quality')
 parser.add_argument('--vcf', help = 'VCF file')
 parser.add_argument('--cov', help = 'Genome-wide coverage')
 parser.add_argument('--hal', help = 'Input hal file')
@@ -37,21 +37,24 @@ def average_genome_coverage(coverage):
 
 
 
-def filter_vcf_file(vcf_f, min_qual, min_depth, max_depth, min_gq, hal, refGenome, ancestor, output_file):
+def filter_and_polarize_vcf_file(vcf_f, min_qual, min_depth, max_depth, min_gq, hal, refGenome, ancestor, output_file):
 	vcf_reader = vcf.Reader(filename=vcf_f)
 	vcf_writer = vcf.Writer(open(output_file, 'w'), vcf_reader)
 	for record in vcf_reader:
-		# let's consider only bi-allelic SNPs that pass all filtering criteria
+		# Let's consider only bi-allelic SNPs that pass all filtering criteria
 		if not record.FILTER and record.is_snp:
+			# Filter based on phred-quality score
 			if record.QUAL >= min_qual:
 				for call in record.samples:
 					read_depth = call['DP']
 					genotype_quality = call['GQ']
+					# Filter based on read depth and genotype quality
 					if read_depth >= min_depth and read_depth <= max_depth and genotype_quality >= min_gq:
 						chromosome = record.CHROM
-						# This is because the VCF file is 1-based
+						# We need to substract 1 from the position, because the VCF file is 1-based
 						start = record.POS - 1
 						try:
+							# Obtain ancestral allele
 							command = 'hal2maf --refSequence %s --start %s --length 1 --refGenome %s --onlyOrthologs --targetGenomes %s %s stdout' %(chromosome, start, refGenome, ancestor, hal)
 							cmd = subprocess.check_output(command, stderr=subprocess.STDOUT, shell = True).decode()
 							if len(cmd.split('\n')) == 5:
@@ -77,7 +80,8 @@ if __name__ == "__main__":
 	output_file_name = Path(args.vcf).stem.replace('.vcf', '.filtered.vcf')
 	output_file = Path(path, output_file_name)
 	max_depth = average_genome_coverage(args.cov)
+	# Obtain name of ancestor of target species
 	command = 'halStats --parent %s %s' %(args.refGenome, args.hal)
 	ancestor = subprocess.check_output(command, shell = True).decode().strip('\n')
-	filtered_vcf = filter_vcf_file(args.vcf, args.q, args.dp, max_depth, args.gq, args.hal, args.refGenome, ancestor, output_file)
+	filtered_vcf = filter_and_polarize_vcf_file(args.vcf, args.q, args.dp, max_depth, args.gq, args.hal, args.refGenome, ancestor, output_file)
 
