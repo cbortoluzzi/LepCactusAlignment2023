@@ -26,7 +26,7 @@ parser.add_argument('--o', help = 'Output directory')
 
 def sequences_bam(bam_f):
 	mygenome = {}
-	# Get BAM index stats
+	# Get BAM index stats: we will retain only the chromosome and total sequence length (in bp)
 	command = 'samtools idxstats %s | cut -f 1,2' %(bam_f)
 	cmd = subprocess.check_output(command, shell = True).decode()
 	outcmd = cmd.split('\n')
@@ -66,12 +66,14 @@ def calculate_binned_heterozygosity(mygenome, window, max_depth, bam_f, vcf_f, f
 
 def bam_depth(chromosome, start, end, max_depth, bam_f, vcf_f, window, filename, path):
 	cov_sites = 0
+	# Obtain the read depth of each site in the BAM file
 	command = 'samtools depth -r %s:%d-%d %s' %(chromosome, start, end, bam_f)
 	cmd = subprocess.check_output(command, shell = True).decode()
 	outcmd = cmd.split('\n')
 	for line in outcmd:
 		if line:
 			chromosome, position, depth = line.strip().split()
+			# Filter sites based on read depth
 			if int(depth) >= 6 and int(depth) <= max_depth:
 				cov_sites += 1
 	heterozygosity(chromosome, start, end, cov_sites, vcf_f, window, filename, path)
@@ -82,14 +84,12 @@ def heterozygosity(chromosome, start, end, cov_sites, vcf_f, window, filename, p
 	vcf_reader = vcf.Reader(filename=vcf_f)
 	nhet = 0
 	for record in vcf_reader.fetch(chromosome, start, end):
-		# let's consider only bi-allelic SNPs that pass all filtering criteria
-		if not record.FILTER and record.is_snp:
-			for call in record.samples:
-				nhet += record.num_het
+		for call in record.samples:
+			nhet += record.num_het
 	if cov_sites == window + 1:
 		cov_sites = window
 	try:
-		SNPcount = round((window/cov_sites)*nhet, 3)
+		SNPcount = round((window / cov_sites) * nhet, 3)
 	except ZeroDivisionError:
 		SNPcount = 0.0
 	output_f = Path(path, filename + '.heterozygosity.txt')
