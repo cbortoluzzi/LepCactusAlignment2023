@@ -32,7 +32,7 @@ bedtools random -g coverage/$REF/$REF.genome -l 1000000 -seed 12345 -n 100 > cov
 # Convert HAL database to an alignment in multiple alignment format (MAF)
 cat coverage/$REF/$REF.random.intervals | while read contig start end num length strand
 do
-        hal2maf --refSequence $contig --start $start --length `(expr $end - $start)` --refGenome $REF --onlyOrthologs --noAncestors $HAL coverage/$REF/$REF.random.intervals.$num.maf
+        hal2maf --refSequence $contig --start $start --length 1000000 --refGenome $REF --onlyOrthologs --noAncestors $HAL coverage/$REF/$REF.random.intervals.$num.maf
         # Calculate coverage
         maf_stream coverage $REF coverage/$REF/$REF.random.intervals.$num.maf coverage/$REF/$REF.random.intervals.$num.maf.cov
 done
