@@ -60,7 +60,7 @@ def ungapped_sequences(mymaf, species_name, output_file):
 			length = stop - begin
 			sample, chromosome = species_name.split('.')
 			if length > 0:
-				out.write('{}\t{}\t{}\t{}\n'.format(chromosome, begin, stop, length))
+				out.write('{}\t{}\t{}\n'.format(chromosome, begin, stop))
 
 
 if __name__ == "__main__":
