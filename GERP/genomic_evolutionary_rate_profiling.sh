@@ -52,3 +52,12 @@ then
 fi
 echo "Done with GERP++"
 
+
+## Obtain the position for each rejected substitution score in the multiple sequence alignment
+python3 gerp_score_per_nucleotide_in_alignment.py --maf GERP++/$genome/$bed.maf
+
+
+## Filter out sites that do evolve neutrally (GERP score < 0)
+cat GERP++/$genome/$bed.maf.rates.bed | awk '{if($6 >= 0)print}' > GERP++/$genome/$bed.maf.rates.conserved.bed
+
+
