@@ -24,7 +24,7 @@ mkdir -p orthofinder/proteomes
 cat species_list.tsv | while read assembly tol_id class species_name superfamily
 do
   # Copy proteome file 
-  cp -r /lustre/scratch123/tol/projects/lepidoptera/data/insects/$species_name/analysis/$tol_id/gene/ensembl/latest/assembly.ensembl.pep.fa.gz orthofinder/proteomes/$species_name.pep.fa.gz
+  cp -r /lustre/scratch123/tol/projects/lepidoptera/data/insects/$species_name/analysis/$tol_id/gene/ensembl/latest/$assembly.*.pep.fa.gz orthofinder/proteomes/$species_name.pep.fa.gz
   # Unzip proteome file
   gunzip orthofinder/proteomes/$species_name.pep.fa.gz
   # Obtain primary transcript
