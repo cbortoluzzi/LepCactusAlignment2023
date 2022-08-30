@@ -32,7 +32,6 @@ def pairwise_comparisons(refGenome, tree, path):
 	for node in phylo.traverse('postorder'):
 		if node.is_leaf():
 			if node.name != refGenome and node.name != "Hydropsyche_tenuis":
-				# Phylogenetic distance
 				output_directory = Path(path, refGenome + '_vs_' + node.name)
 				output_directory.mkdir(parents=True, exist_ok=True)
 				list_nodes.append(node.name)
