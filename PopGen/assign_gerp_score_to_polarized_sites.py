@@ -47,13 +47,18 @@ def assign_gerp_score_to_polarized_variants(mydict, vcf_f, output_file):
 					# Retain only those alleles for which the ancestral allele is either equal to reference or alternative allele
 					if ancestral_allele == alternative_allele or ancestral_allele == record.REF:
 						# We need to do this because the VCF file is 1-based
+						chromosome = record.CHROM
 						start = record.POS - 1
 						end = start + 1
-						if (record.CHROM, start, end) in mydict.keys():
-							key = mydict[record.CHROM, start, end]
-							if record.REF == key[0] and call['GT'] == '0/1':
-								out.write('{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n'.format(record.CHROM, start, end, record.REF, record.ALT[0], ancestral_allele, key[1], key[2]))
-
+						# Retain only sites on autosomes
+						try:
+							if isinstance(int(chromosome), int):
+								if (record.CHROM, start, end) in mydict.keys():
+									key = mydict[record.CHROM, start, end]
+									if record.REF == key[0] and call['GT'] == '0/1':
+										out.write('{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n'.format(record.CHROM, start, end, record.REF, record.ALT[0], ancestral_allele, key[1], key[2]))
+						except ValueError:
+							pass
 
 
 
@@ -66,10 +71,11 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	path = Path(args.o)
 	path.mkdir(parents=True, exist_ok=True)
+	# Since we are interested in constrained sites, we will use as input the set of sites with a GERP score >= 0 to speed up the function
 	bed_files = list(Path(args.bed).rglob('*.conserved.bed'))
 	output_f = Path(args.vcf).stem + '.GERPscore.bed'
 	output_file = Path(path, output_f)
 	scored_variants = gerp_score_per_variant(bed_files)
 	scored_polarized_variants = assign_gerp_score_to_polarized_variants(scored_variants, args.vcf, output_file)
-  
-  
+
+
