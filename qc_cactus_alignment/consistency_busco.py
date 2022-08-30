@@ -15,7 +15,7 @@ from collections import defaultdict
 
 
 
-parser = argparse.ArgumentParser(description = 'Check consistency of single-copy BUSCO genes genomic coordinates with cactus alignment')
+parser = argparse.ArgumentParser(description = 'Check consistency of single copy BUSCO genes genomic coordinates with cactus alignment')
 parser.add_argument('--refGenome', help = 'Name of species to use as query')
 parser.add_argument('--list_genes', help = 'List of single-copy BUSCO genes, one per line')
 parser.add_argument('--species_list', help = 'A tab delimited species list file')
@@ -35,7 +35,6 @@ def pairwise_comparisons(refGenome, tree, path):
 		if node.is_leaf():
 			# Remove the outgroup from the pairwise comparisons
 			if node.name != refGenome and node.name != "Hydropsyche_tenuis":
-				# Phylogenetic distance
 				output_directory = Path(path, refGenome + '_vs_' + node.name)
 				output_directory.mkdir(parents=True, exist_ok=True)
 				list_nodes.append(node.name)
