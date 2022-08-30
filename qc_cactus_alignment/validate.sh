@@ -12,7 +12,9 @@ if [ -z $1 ]; then
 fi
 
 
-HAL=$1
+hal=$1
 
 # Check if the HAL database is valid
-halValidate $HAL
+halValidate $hal
+
+
