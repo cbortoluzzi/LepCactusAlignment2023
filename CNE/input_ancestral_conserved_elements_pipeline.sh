@@ -12,18 +12,18 @@ if [ -z $1 ]; then
 fi
 
 
-REF=$1
-HAL=$2
+ref=$1
+hal=$2
 
 
 
 # Print sequences of a given genome in bed format (in our case the genome is the MRCA
-halStats --bedSequences $REF $HAL | sort -k3,3 -nr > $REF.sequences.bed
-split -l 300 $REF.sequences.bed sequences_
+halStats --bedSequences $ref $hal | sort -k3,3 -nr > $ref.sequences.bed
+split -l 300 $ref.sequences.bed sequences_
 
 
 # Print the list of genomes in the alignment
-halStats --genomes $HAL > genomes.txt
+halStats --genomes $hal > genomes.txt
 for species in `cat genomes.txt`; do echo $species | grep -v '^Anc';done > genomes_noAncestors.txt
 rm genomes.txt
 
