@@ -9,7 +9,7 @@ export PATH=/lustre/scratch123/tol/teams/durbin/users/cb46/softwares:$PATH
 
 
 if [ -z $1 ]; then
-        echo "Usage: ./density.sh <ancestral conserved elements> <genome file size>"
+        echo "Usage: ./density_ancestral_conserved_elements.sh <ancestral conserved elements> <genome file size>"
         exit -1
 fi
 
