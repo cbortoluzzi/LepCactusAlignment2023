@@ -18,16 +18,16 @@ ancestral_f=$1
 genome=$2
 
 
-mkdir -p LSHCE_density
+mkdir -p LSHCE/density_100kb
 
 species_name=$(basename $ancestral_f .bed | cut -f1 -d'.')
 
 # Calculate density in N bp window: we are using a window size of 100 kb, but this number can be changed
-bedtools makewindows -g $genome -w 100000 > LSHCE_density/$species_name.window.bed
+bedtools makewindows -g $genome -w 100000 > LSHCE/density_100kb/$species_name.window.bed
 # We will consider only ancestral conserved elements that do not contain repeats
-cat $ancestral_f | awk 'OFS="\t"{print $1,$2,$2+$3}' | bedtools coverage -a LSHCE_density/$species_name.window.bed -b stdin > LSHCE_density/$species_name.100kb.bed
-rm LSHCE_density/$species_name.window.bed
+cat $ancestral_f | awk 'OFS="\t"{print $1,$2,$2+$3}' | bedtools coverage -a LSHCE/density_100kb/$species_name.window.bed -b stdin > LSHCE/density_100kb/$species_name.100kb.bed
+rm LSHCE/density_100kb/$species_name.window.bed
 
 # Average density in N bp window
-cat LSHCE_density/$species_name.100kb.bed | awk '{sum+=$4}END{print sum/NR}'
+cat LSHCE/density_100kb/$species_name.100kb.bed | awk '{sum+=$4}END{print sum/NR}'
 
