@@ -14,7 +14,7 @@ from collections import defaultdict
 
 
 
-parser = argparse.ArgumentParser(description = 'Estimate SNP density inside and outside ancestral conserved elements')
+parser = argparse.ArgumentParser(description = 'Estimate SNP density inside and outside lepidoptera-specific ancestral conserved elements')
 parser.add_argument('--vcf', help = 'VCF file')
 parser.add_argument('--a', help = 'Ancestral conserved elements')
 parser.add_argument('--o', help = 'Output directory')
