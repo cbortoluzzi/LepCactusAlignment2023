@@ -14,7 +14,7 @@ export PATH=/lustre/scratch123/tol/teams/durbin/users/cb46/softwares/standard-RA
 
 
 if [ -z $1 ]; then
-	echo "Usage: ./busco2phylo.sh <species list file in tsv format> <name of busco input directory>"
+	echo "Usage: ./busco2phylo.sh <species list file> <name of busco input directory>"
 	exit -1
 fi
 
