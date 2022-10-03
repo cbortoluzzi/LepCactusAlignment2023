@@ -21,52 +21,48 @@ fi
 
 
 FILE=$1
-INPUT_DIR=$2
-DATE="$(date +'%Y%m%d')"
-BUSCO="busco_"$DATE
+DIRECTORY=$2
 
-
-mkdir -p $BUSCO
+mkdir -p busco
 
 
 # Count number of genomes
 num_genomes=`cat $FILE | wc -l`
 
-
-cat $FILE | while read assembly tol_id class species family
+cat $FILE | while read species_name
 do
-	cat $INPUT_DIR/$class/busco.v5/$species/vertebrata_odb10_metaeuk/run_vertebrata_odb10/full_table.tsv | grep -v '^#' | awk '$2=="Complete" {print $1}' >> $BUSCO/complete_busco_ids.txt
+	cat $DIRECTORY/$species_name/vertebrata_odb10_metaeuk/run_vertebrata_odb10/full_table.tsv | grep -v '^#' | awk '$2=="Complete" {print $1}' >> busco/complete_busco_ids.txt
 done
-sort $BUSCO/complete_busco_ids.txt | uniq -c | awk '$1=="'$num_genomes'"{print $2}' > $BUSCO/final_busco_ids.txt && rm $BUSCO/complete_busco_ids.txt
+sort busco/complete_busco_ids.txt | uniq -c | awk '$1=="'$num_genomes'"{print $2}' > busco/final_busco_ids.txt && rm busco/complete_busco_ids.txt
 
 
 # Obtain MAFFT alignment for each single-copy BUSCO gene
-mkdir -p $BUSCO/mafft && mkdir -p $BUSCO/trimAl
+mkdir -p busco/mafft && mkdir -p busco/trimAl
 
-cat $BUSCO/final_busco_ids.txt | while read busco_id
+cat busco/final_busco_ids.txt | while read busco_id
 do
-	mkdir -p $BUSCO/fasta/$busco_id
-	cat $FILE | while read assembly tol_id class species group
+	mkdir -p busco/fasta/$busco_id
+	cat $FILE | while read species_name
 	do
-		for faa in $INPUT_DIR/$class/busco.v5/$species/vertebrata_odb10_metaeuk/run_vertebrata_odb10/busco_sequences/single_copy_busco_sequences/$busco_id.faa
+		for faa in $DIRECTORY/$species_name/vertebrata_odb10_metaeuk/run_vertebrata_odb10/busco_sequences/single_copy_busco_sequences/$busco_id.faa
 		do
 			# Reformat amino-acid fasta sequence of each single copy gene and species
-			cat $faa | awk '/^>/{print ">'$species'"; next}{print}' > $BUSCO/fasta/$busco_id/$species\_$busco_id.fa
+			cat $faa | awk '/^>/{print ">'$species_name'"; next}{print}' > busco/fasta/$busco_id/$species_name\_$busco_id.fa
 		done
 	done
 
-	cat $BUSCO/fasta/$busco_id/*.fa >> $BUSCO/mafft/$busco_id.aln
+	cat busco/fasta/$busco_id/*.fa >> busco/mafft/$busco_id.aln
 
 	# Perform alignment with MAFFT
-	mafft --amino $BUSCO/mafft/$busco_id.aln > $BUSCO/mafft/$busco_id.aln.mafft
+	mafft --amino busco/mafft/$busco_id.aln > busco/mafft/$busco_id.aln.mafft
 
 	# Trim alignment with trimal
-	trimal -in $BUSCO/mafft/$busco_id.aln.mafft -out $BUSCO/trimAl/$busco_id.aln.mafft.trimAl -automated1
+	trimal -in busco/mafft/$busco_id.aln.mafft -out busco/trimAl/$busco_id.aln.mafft.trimAl -automated1
 done
 
 # Generate supermatrix
-python3 superalignment.py -i $BUSCO/trimAl -o $BUSCO/matrix
+python3 superalignment.py -i busco/trimAl -o busco/matrix
 
 # Runn Raxml
-raxmlHPC-PTHREADS-SSE3 -T 8 -f a -m PROTGAMMAJTT -N 100 -n my_busco_phylo -s busco_20220513/matrix/supermatrix.aln.faa -p 13432 -x 89090
+raxmlHPC-PTHREADS-SSE3 -T 8 -f a -m PROTGAMMAJTT -N 100 -n my_busco_phylo -s busco/matrix/supermatrix.aln.faa -p 13432 -x 89090
 
