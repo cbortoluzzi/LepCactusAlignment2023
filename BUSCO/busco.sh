@@ -26,5 +26,5 @@ directory=$(dirname $fasta)
 busco -i $fasta -l $lineage -o $species -c 8 -m genome --offline
 
 # Rename and move output
-mv $species $directory/$lineage
+mv $directory/$species $directory/$(basename $lineage)
 
