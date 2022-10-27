@@ -11,7 +11,7 @@ export PATH=/software/team118/maf_stream/target/release:$PATH
 
 
 if [ -z $1 ]; then
-        echo "Usage: ./coverage.sh <input hal file> <genome to calculate coverage on>"
+        echo "Usage: ./coverage.sh <input hal file> <name of genome to calculate coverage on>"
         exit -1
 fi
 
