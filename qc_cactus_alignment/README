@@ -1,0 +1,23 @@
+Set of scripts to run our quality check metrics on the cactus alignment
+
+Download cactus alignment
+The first step we need to take is that of downloading the alignment, step that can be done by simply running the download_hal.sh script as follow:
+
+./download_hal.sh.
+
+The script already contains the path the cactus alignment as stored in the Ensembl Rapid Release database.
+
+Validate cactus database
+Once we have downloaded the cactus alignment, we want to make sure that the hal database is valid. We can check this by running the valide.sh script as follow:
+
+./validate.sh <name of cactus alignment in hal format>
+
+Coverage of reference genome
+In this second step we want to calculate the proportion of sites in species A (i.e. query) that aligns to n or more sites in species B (i.e. target).  We are going to calculate, for each species in the cactus alignment, the coverage by running the following script:
+
+./coverage.sh <input hal file> <name of genome to calculate coverage on>
+
+The script will generate 100 random intervals, each 1 Mb long (only autosomes and sex chromosomes are considered). Coverage will be calculated on each of these 100 random intervals using coverage option in maf_stream, after obtaining an alignment in multiple alignment format (MAF). 
+
+
+
