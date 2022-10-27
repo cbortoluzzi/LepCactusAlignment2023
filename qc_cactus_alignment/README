@@ -17,7 +17,9 @@ In this second step we want to calculate the proportion of sites in species A (i
 
 ./coverage.sh <input hal file> <name of genome to calculate coverage on>
 
-The script will generate 100 random intervals, each 1 Mb long (only autosomes and sex chromosomes are considered). Coverage will be calculated on each of these 100 random intervals using the coverage option in maf_stream, after obtaining an alignment in multiple alignment format (MAF) for each random interval. 
+The script will generate 100 random intervals, each 1 Mb long (only autosomes and sex chromosomes are considered). Coverage will be calculated on each 
+of these 100 random intervals using the coverage option in maf_stream, after obtaining an alignment in multiple alignment format (MAF) for each
+random interval. 
 
 
 
