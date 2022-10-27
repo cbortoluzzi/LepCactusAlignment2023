@@ -1,7 +1,7 @@
 Set of scripts to run our quality metrics on the cactus alignment
 
 Download cactus alignment
-The first step we need to take is that of downloading the alignment, step that can be done by simply running the download_hal.sh script as follow:
+The first step we need to take is that of downloading the cactus alignment, step that can be done by simply running the download_hal.sh script as follow:
 
 ./download_hal.sh.
 
