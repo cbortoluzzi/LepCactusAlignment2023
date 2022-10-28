@@ -32,6 +32,7 @@ mycolors = {'Noctuoidea': '#B1C968', 'Bombycoidea': '#C5A07A', 'Geometroidea': '
 def order_species_following_phylogenetic_tree(tree, bp, cov_f):
 	cov_d = defaultdict(list)
 	t = Tree(tree, format = 1)
+	t.set_outgroup('tinea_trinotella_gca905220615v1')
 	for node in t.traverse('postorder'):
 		if node.is_leaf():
 			coverageD = get_coverage(node.name, cov_f, cov_d, bp)
