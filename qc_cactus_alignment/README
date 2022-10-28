@@ -8,7 +8,7 @@ The first step we need to take is that of downloading the cactus alignment, step
 The script already contains the path to the cactus alignment, as stored in the Ensembl Rapid Release database.
 
 Validate cactus database
-Once we have downloaded the cactus alignment, we want to make sure that the hal database is valid. We can check this by running the valide.sh script as follow:
+Once we have downloaded the cactus alignment, we want to make sure that the hal database is valid. We can check this by running the valide.sh script:
 
 ./validate.sh <name of cactus alignment in hal format>
 
