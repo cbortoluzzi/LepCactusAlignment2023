@@ -16,6 +16,7 @@ from itertools import groupby, count
 
 parser = argparse.ArgumentParser(description = 'Identify sites in the alignment with at least 3 ungapped sequences')
 parser.add_argument('--maf', help = 'Input maf file')
+parser.add_argument('--n', help = 'Maximum number of gaps per site [default = 3]', type = int, default = 3)
 parser.add_argument('--o', help = 'Output directory')
 
 
@@ -26,30 +27,35 @@ def multiple_sequence_alignment(input):
 	for multiple_alignment in AlignIO.parse(maf, "maf"):
 		for seqrec in multiple_alignment:
 			if seqrec.id.startswith(species_name):
-				srcStart, srcSeq = seqrec.annotations["start"], str(seqrec.seq)
+				srcStart = seqrec.annotations["start"]
+				srcSeq = str(seqrec.seq)
 				mymaf[species_name, srcStart, srcSeq]
 			else:
-				tgtId, tgtSeq = seqrec.id, str(seqrec.seq)
+				tgtId = seqrec.id
+				tgtSeq = str(seqrec.seq)
 				mymaf[species_name, srcStart, srcSeq].append([tgtId, tgtSeq])
 	return mymaf
 
 
-def ungapped_sequences(mymaf, species_name, output_file):
+
+def ungapped_sequences(mymaf, max_num_gap, chromosome, species_name, output_file):
 	list_pos = []
 	for key in mymaf[0]:
-		if len(mymaf[0][key]) >= 3:
-			sequences = [i[-1] for i in mymaf[0][key]]
-			all_seqs = list(zip(*sequences))
-			n = -1
+		targetSpecies = [i[0] for i in mymaf[0][key]]
+		# We want to retain only alignment blocks with at least 3 species
+		if len(targetSpecies) >= 3:
+			list_sequences = [i[-1] for i in mymaf[0][key]]
+			sequences = list(zip(*list_sequences))
+			n = 0
 			start = key[1]
-			for seq in all_seqs:
-				count_gap = seq.count('-')
-				count_nucl = len(seq) - count_gap
+			for seq in sequences:
+				gapCount = seq.count('-')
+				nuclCount = len(seq) - gapCount
 				n += 1
 				position = start + n
-				if count_nucl >= 3:
+				# Within each alignment block, we want to retain only sites with less than N gaps (N = 3 by default)
+				if gapCount < max_num_gap:
 					list_pos.append(position)
-
 
 	with open(output_file, 'w') as out:
 		groups = groupby(list_pos, key=lambda item, c=count():item-next(c))
@@ -57,17 +63,16 @@ def ungapped_sequences(mymaf, species_name, output_file):
 		for elem in tmp:
 			begin = elem[0]
 			stop = elem[-1]
-			length = stop - begin
-			sample, chromosome = species_name.split('.')
-			if length > 0:
-				out.write('{}\t{}\t{}\n'.format(chromosome, begin, stop))
+			out.write('{}\t{}\t{}\n'.format(chromosome, begin, stop))
+
+
 
 
 if __name__ == "__main__":
 	args = parser.parse_args()
 	p = Path(args.o)
 	p.mkdir(parents=True, exist_ok=True)
-	species_name = Path(args.maf).stem
+	species_name, chromosome, start, end = Path(args.maf).stem.split('.')
 	# Start multiprocessing ...
 	num_workers = multiprocessing.cpu_count()
 	pool = multiprocessing.Pool(num_workers)
@@ -75,7 +80,7 @@ if __name__ == "__main__":
 	parse_maf = pool.map(multiple_sequence_alignment, input)
 	pool.close()
 	pool.join()
-	output_file = Path(args.o, species_name + '.bed')
-	sequence_range = ungapped_sequences(parse_maf, species_name, output_file)
-
+	output_name = Path(args.maf).stem + '.bed'
+	output_file = Path(args.o, output_name)
+	sequence_range = ungapped_sequences(parse_maf, args.n, chromosome, species_name, output_file)
 
