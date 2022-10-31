@@ -25,7 +25,7 @@ parser.add_argument('--o', help = 'Output directory')
 
 
 
-main_path = '/lustre/scratch123/tol/teams/durbin/users/cb46/gitHub/qc_cactus_alignment/orthofinder/proteomes/primary_transcripts'
+main_path = '/lustre/scratch123/tol/teams/durbin/users/cb46/whole_genome_alignment/lepidoptera/89way/202201/quality_check/orthofinder/proteomes/primary_transcripts'
 
 
 def pairwise_comparisons(refGenome, tree, path):
@@ -50,7 +50,7 @@ def get_species_name_tol_id(species_list):
 		for line in f:
 			tol_id, pclass, order, superfamily, family, latin_name, assembly = line.strip().split()
 			genome = latin_name.lower() + '_' + assembly.replace('GCA_', 'gca').replace('.', 'v')
-			species_d[latin_name] = [tol_id, assembly, genome]
+			species_d[genome] = [tol_id, assembly]
 	return species_d
 
 
@@ -64,14 +64,14 @@ def get_single_copy_orthogroups(orthogroups, query, target, main_path, species_d
 			for key, value in gene_names.items():
 				query = key[1]
 				target = key[2]
-				output_maf = Path(path, species_d[query][2] + '_vs_' + species_d[target][2], key[0] + '.maf')
-				output_qc = Path(path, species_d[query][2] + '_vs_' + species_d[target][2], key[0] + '.qc')
+				output_maf = Path(path, query + '_vs_' + target, key[0] + '.maf')
+				output_qc = Path(path, query + '_vs_' + target, key[0] + '.qc')
 				# Query
 				qSeq, qStart, qEnd, qLength = value[0], value[1], value[2], value[3]
-				qGenome = species_d[query][2]
+				qGenome = query
 				# Target species
 				tSeq, tStart, tEnd = value[4], value[5], value[6]
-				tGenome = species_d[target][2]
+				tGenome = target
 				maf = pairwise_alignment(qSeq, qGenome, qStart, qEnd, qLength, tGenome, hal, output_maf, output_qc, tSeq, tStart, tEnd)
 	return gene_names
 
@@ -79,7 +79,7 @@ def get_single_copy_orthogroups(orthogroups, query, target, main_path, species_d
 
 def get_gene_name(orthogroup_id, query, target, main_path):
 	dictionary = {}
-	pep_query_vs_pep_target = Path(main_path, 'OrthoFinder/Results_Oct28/Orthologues/', 'Orthologues_' + query + '.pep', query + '.pep__v__' + target + '.pep.tsv')
+	pep_query_vs_pep_target = Path(main_path, 'OrthoFinder/Results_Oct31/Orthologues/', 'Orthologues_' + query + '.pep', query + '.pep__v__' + target + '.pep.tsv')
 	if Path(pep_query_vs_pep_target).is_file():
 		with open(pep_query_vs_pep_target) as f:
 			next(f)
@@ -136,8 +136,6 @@ if __name__ == "__main__":
 	pairwise_combinations = pairwise_comparisons(args.refGenome, args.t, args.o)
 	species_tol_id = get_species_name_tol_id(args.f)
 	for (target, query) in pairwise_combinations:
-		query_name = '_'.join(query.split('_')[0:2]).capitalize()
-		target_name = '_'.join(target.split('_')[0:2]).capitalize()
-		single_copy_orthogroups = get_single_copy_orthogroups(args.ort, query_name, target_name, main_path, species_tol_id, args.hal, args.o)
+		single_copy_orthogroups = get_single_copy_orthogroups(args.ort, query, target, main_path, species_tol_id, args.hal, args.o)
 
 
