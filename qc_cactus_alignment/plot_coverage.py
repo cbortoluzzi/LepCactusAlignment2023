@@ -77,13 +77,14 @@ def plot_coverage(coverageD, superfamilies, mycolors, refGenome, path):
 	reference = '_'.join(refGenome.split('_')[0:2]).capitalize()
 	fig, ax = plt.subplots(figsize=(15, 8))
 	bplot = ax.boxplot(coverageL, positions=range(len(coverageL)), labels=speciesL, notch=True)
-	plt.xticks(rotation = 90, ha = 'right', fontsize = 8)
-	plt.ylabel('Coverage %')
+	plt.xticks(rotation = 90, ha = 'right', fontsize = 10)
+	plt.yticks(fontsize = 16)
+	plt.ylabel('Coverage %', fontsize = 16)
 	colors = [mycolors[superfamily] for superfamily in superfamilyL]
 	for artist, color in zip(bplot['boxes'], colors):
 		patch = mpatches.PathPatch(artist.get_path(), color=color)
 		ax.add_artist(patch)
-	plt.title(reference)
+	plt.title(reference, fontsize = 20)
 	figure = Path(path, refGenome + '_coverage.pdf')
 	plt.savefig(figure, dpi = 500, bbox_inches = 'tight')
 
