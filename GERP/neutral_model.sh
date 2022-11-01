@@ -29,7 +29,7 @@ do
         awk 'OFS="\t"{print "'$1'."$1,"ensembl","CDS",$2,$3,".","+",".","ID=CDS"}' > 4d_sites/$genome/$genome.$(basename $bed .bed).uniqueCDS.gff3
 
         echo "Estimate neutral (or nonconserved model)"
-        msa_view maf/$genome/$genome.$(basename $bed .bed).maf --in-format MAF --4d --features 4d_sites/$genome/$genome.$(basename $bed .bed).uniqueCDS.gff3 --out-format SS > $output.codons.ss
+        msa_view maf/$genome/$genome.$(basename $bed .bed).maf --in-format MAF --4d --features 4d_sites/$genome/$genome.$(basename $bed .bed).uniqueCDS.gff3 --out-format SS > 4d_sites/$genome/$(basename $maf .maf).codons.ss
         msa_view 4d_sites/$genome/$(basename $maf .maf).codons.ss --in-format SS --out-format FASTA --tuple-size 1 > 4d_sites/$genome/$(basename $maf .maf).sites.fa
         phyloFit --tree `cat tree_topology.nh` --subst-mod REV --EM --msa-format FASTA 4d_sites/$genome/$(basename $maf .maf).sites.fa --out-root 4d_sites/$genome/$(basename $maf .maf).nonconserved-4d
 done
