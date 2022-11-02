@@ -21,7 +21,7 @@ parser.add_argument('--t', help = 'Phylogenetic tree used as guide tree in cactu
 parser.add_argument('--f', help = 'Tab delimited species list file')
 parser.add_argument('--ort', help = 'List of single copy orthogroups, one per line')
 parser.add_argument('--hal', help = 'Input hal file')
-parser.add_argument('--o', help = 'Output directory')
+parser.add_argument('--o', help = 'Output directory [default = orthofinder_quality_check]', default = 'orthofinder_quality_check')
 
 
 
@@ -32,7 +32,7 @@ def pairwise_comparisons(refGenome, tree, path):
 	list_nodes = []
 	tree = Tree(tree, format = 1)
 	# Re-root the guide tree to the outgroup
-	tree.set_outgroup('tinea_trinotella_gca905220615v1')
+	#tree.set_outgroup('tinea_trinotella_gca905220615v1')
 	for node in tree.traverse('postorder'):
 		if node.is_leaf():
 			if node.name != refGenome:
@@ -137,5 +137,4 @@ if __name__ == "__main__":
 	species_tol_id = get_species_name_tol_id(args.f)
 	for (target, query) in pairwise_combinations:
 		single_copy_orthogroups = get_single_copy_orthogroups(args.ort, query, target, main_path, species_tol_id, args.hal, args.o)
-
 
