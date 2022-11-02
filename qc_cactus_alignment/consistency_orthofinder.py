@@ -32,7 +32,7 @@ def pairwise_comparisons(refGenome, tree, path):
 	list_nodes = []
 	tree = Tree(tree, format = 1)
 	# Re-root the guide tree to the outgroup
-	#tree.set_outgroup('tinea_trinotella_gca905220615v1')
+	tree.set_outgroup('tinea_trinotella_gca905220615v1')
 	for node in tree.traverse('postorder'):
 		if node.is_leaf():
 			if node.name != refGenome:
