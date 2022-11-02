@@ -17,7 +17,7 @@ from itertools import groupby, count
 parser = argparse.ArgumentParser(description = 'Identify sites in the alignment with at least 3 ungapped sequences')
 parser.add_argument('--maf', help = 'Input maf file')
 parser.add_argument('--n', help = 'Maximum number of gaps per site [default = 3]', type = int, default = 3)
-parser.add_argument('--nsp', help = 'Minimum number of species per block [default = 3], type = int, default = 3)
+parser.add_argument('--nsp', help = 'Minimum number of species per block [default = 3]', type = int, default = 3)
 parser.add_argument('--o', help = 'Output directory')
 
 
