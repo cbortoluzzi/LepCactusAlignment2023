@@ -17,6 +17,7 @@ from itertools import groupby, count
 parser = argparse.ArgumentParser(description = 'Identify sites in the alignment with at least 3 ungapped sequences')
 parser.add_argument('--maf', help = 'Input maf file')
 parser.add_argument('--n', help = 'Maximum number of gaps per site [default = 3]', type = int, default = 3)
+parser.add_argument('--nsp', help = 'Minimum number of species per block [default = 3], type = int, default = 3)
 parser.add_argument('--o', help = 'Output directory')
 
 
@@ -38,12 +39,12 @@ def multiple_sequence_alignment(input):
 
 
 
-def ungapped_sequences(mymaf, max_num_gap, chromosome, species_name, output_file):
+def ungapped_sequences(mymaf, max_num_gap, chromosome, species_name, min_num_species, output_file):
 	list_pos = []
 	for key in mymaf[0]:
 		targetSpecies = [i[0] for i in mymaf[0][key]]
 		# We want to retain only alignment blocks with at least 3 species
-		if len(targetSpecies) >= 3:
+		if len(targetSpecies) >= min_num_species:
 			list_sequences = [i[-1] for i in mymaf[0][key]]
 			sequences = list(zip(*list_sequences))
 			n = 0
@@ -82,5 +83,5 @@ if __name__ == "__main__":
 	pool.join()
 	output_name = Path(args.maf).stem + '.bed'
 	output_file = Path(args.o, output_name)
-	sequence_range = ungapped_sequences(parse_maf, args.n, chromosome, species_name, output_file)
+	sequence_range = ungapped_sequences(parse_maf, args.n, chromosome, species_name, args.nsp, output_file)
 
