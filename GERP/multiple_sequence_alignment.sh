@@ -25,7 +25,7 @@ re='^[0-9]+$'
 echo "Print sequences of given genome in bed format"
 halStats --bedSequences $genome $hal | cut -f1,3 | sort -k1,1 -k2,2n | while read chromosome length
 do
-        if [[ $chromosome =~ $re ]] || [[ $chromosome =~ "W" ]] || [[ $chromosome =~ "Z" ]]
+        if [[ $chromosome =~ $re ]] || [[ $chromosome == "W" ]] || [[ $chromosome == "Z" ]]
         then
                 printf "%s\t%s\n" $chromosome $length >> maf/$genome/$genome.txt
         fi
