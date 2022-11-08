@@ -32,7 +32,7 @@ do
                 cat nmodel/$genome/$genome.ave.nonconserved-4d.mod | grep 'TREE:' | sed 's/TREE: //g' > nmodel/$genome/$genome.ave.nh
                 gerpcol -t nmodel/$genome/$genome.ave.nh -f GERP++/$genome/$(basename $maf) -e $1 -j
                 python3 gerp_score_per_nucleotide_in_alignment.py --maf GERP++/$genome/$(basename $maf)
-        elif [[ $chromosome =~ "Z" ]]
+        elif [[ $chromosome == "Z" ]]
         then
                 cat nmodel/$genome/$genome.Z.nonconserved-4d.mod | grep 'TREE:' | sed 's/TREE: //g' > nmodel/$genome/$genome.Z.nh
                 gerpcol -t nmodel/$genome/$genome.Z.nh -f GERP++/$genome/$(basename $maf) -e $1 -j
