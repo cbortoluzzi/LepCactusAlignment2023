@@ -7,7 +7,7 @@
 
 
 if [ -z $1 ]; then
-	echo "Usage: ./alignment_depth.sh <input hal file>"
+	echo "Usage: ./alignment_depth_protein_coding_sequences.sh <input hal file>"
 	exit -1
 fi
 
