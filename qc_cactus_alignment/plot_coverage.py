@@ -5,7 +5,6 @@
 # Author : @cb46
 
 
-import json
 import argparse
 from ete3 import Tree
 from pathlib import Path
@@ -18,13 +17,13 @@ from collections import defaultdict
 parser = argparse.ArgumentParser(description = 'Plot genome-wide coverage')
 parser.add_argument('--t', help = 'Phylogenetic tree used as guide tree in the cactus alignment')
 parser.add_argument('--l', help = 'Length of the region in base pairs [default = 1000000]', type = int, default = 1000000)
-parser.add_argument('--c', help = 'Path to directory with coverage output')
+parser.add_argument('--c', help = 'Path to directory with coverage output (e.g. coverage/vanessa_atalanta_gca905147765v1)')
 parser.add_argument('--f', help = 'Tab delimited species list file')
 parser.add_argument('--refGenome', help = 'Name of reference genome')
 parser.add_argument('--o', help = 'Output directory')
 
 
-# Manually set color dictionary
+# Manually set color dictionary --> CHECK
 mycolors = {'Noctuoidea': '#B1C968', 'Bombycoidea': '#C5A07A', 'Geometroidea': '#DB98AE', 'Drepanoidea': '#8AB1C9', 'Pyraloidea': '#ECC978', 'Papilionoidea': '#66C2A5', 'Hesperioidea': '#B3B3B3', 'Gelechioidea': '#DD927E', 'Zygaeinoidea': '#FCD738', 'Cossoidea': '#BE93C6', 'Torticoidea': '#CED843', 'Tineoidea': '#979EC1'}
 
 
@@ -75,11 +74,11 @@ def plot_coverage(coverageD, superfamilies, mycolors, refGenome, path):
 		superfamilyL.append(superfamilies[species_name])
 
 	reference = '_'.join(refGenome.split('_')[0:2]).capitalize()
-	fig, ax = plt.subplots(figsize=(15, 8))
+	fig, ax = plt.subplots(figsize=(25, 10))
 	bplot = ax.boxplot(coverageL, positions=range(len(coverageL)), labels=speciesL, notch=True)
-	plt.xticks(rotation = 90, ha = 'right', fontsize = 10)
-	plt.yticks(fontsize = 16)
-	plt.ylabel('Coverage %', fontsize = 16)
+	plt.xticks(rotation = 90, ha = 'right', fontsize = 16)
+	plt.yticks(fontsize = 18)
+	plt.ylabel('Coverage %', fontsize = 20)
 	colors = [mycolors[superfamily] for superfamily in superfamilyL]
 	for artist, color in zip(bplot['boxes'], colors):
 		patch = mpatches.PathPatch(artist.get_path(), color=color)
@@ -102,7 +101,7 @@ if __name__ == "__main__":
 	# Obtain name of superfamily each species belongs to
 	superfamily = get_species_superfamily(args.f)
 	# Plot coverage
-	plot = plot_coverage(coverageD, superfamily, mycolors, args.refGenome, args.o)
+	boxplot_coverage = plot_coverage(coverageD, superfamily, mycolors, args.refGenome, args.o)
 
 	
 	
