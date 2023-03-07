@@ -71,9 +71,10 @@ def ungapped_sequences(mymaf, max_num_gap, chromosome, species_name, min_num_spe
 
 if __name__ == "__main__":
 	args = parser.parse_args()
+	# Generate folder if it doesn't exist
 	p = Path(args.o)
 	p.mkdir(parents=True, exist_ok=True)
-	species_name, chromosome, start, end = Path(args.maf).stem.split('.')
+	species_name, chromosome = Path(args.maf).stem.split('.')
 	# Start multiprocessing ...
 	num_workers = multiprocessing.cpu_count()
 	pool = multiprocessing.Pool(num_workers)
@@ -81,7 +82,11 @@ if __name__ == "__main__":
 	parse_maf = pool.map(multiple_sequence_alignment, input)
 	pool.close()
 	pool.join()
+	# Define output file
 	output_name = Path(args.maf).stem + '.bed'
 	output_file = Path(args.o, output_name)
+	# Select sites with no more than 3 gaps
 	sequence_range = ungapped_sequences(parse_maf, args.n, chromosome, species_name, args.nsp, output_file)
 
+	
+	
