@@ -177,3 +177,5 @@ if __name__ == "__main__":
 			# Obtain an alignment in multiple alignment format (MAF) for each BUSCO gene and check consistency
 			evaluate_consistency = get_busco_coordinates(query, target, species_tol_id, list_busco_genes, assembly_coordinates_query, assembly_coordinates_target, args.hal, args.o)
 
+
+		       
