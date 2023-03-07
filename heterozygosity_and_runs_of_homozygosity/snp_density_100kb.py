@@ -14,11 +14,11 @@ from collections import defaultdict
 from statistics import mean
 
 
+
 parser = argparse.ArgumentParser(description = 'Calculate SNP density in a 100-kb window')
 parser.add_argument('--vcf', help = 'VCF file')
 parser.add_argument('--bam', help = 'BAM file')
 parser.add_argument('--w', help = 'Window size [default = 100000]', type = int, default = 100000)
-
 
 
 
@@ -36,7 +36,6 @@ def sequences_bam(bam_f):
 					mygenome[chromosome] = length
 			except ValueError:
 				continue
-				#print (f"Contig {chromosome} is not considered")
 	return mygenome
 
 
