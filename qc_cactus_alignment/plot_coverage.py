@@ -5,6 +5,7 @@
 # Author : @cb46
 
 
+import json
 import argparse
 from ete3 import Tree
 from pathlib import Path
@@ -17,13 +18,13 @@ from collections import defaultdict
 parser = argparse.ArgumentParser(description = 'Plot genome-wide coverage')
 parser.add_argument('--t', help = 'Phylogenetic tree used as guide tree in the cactus alignment')
 parser.add_argument('--l', help = 'Length of the region in base pairs [default = 1000000]', type = int, default = 1000000)
-parser.add_argument('--c', help = 'Path to directory with coverage output (e.g. coverage/vanessa_atalanta_gca905147765v1)')
+parser.add_argument('--c', help = 'Path to directory with coverage output')
 parser.add_argument('--f', help = 'Tab delimited species list file')
 parser.add_argument('--refGenome', help = 'Name of reference genome')
 parser.add_argument('--o', help = 'Output directory')
 
 
-# Manually set color dictionary
+
 mycolors = {'Noctuoidea': '#B1C968', 'Bombycoidea': '#C5A07A', 'Geometroidea': '#DB98AE', 'Drepanoidea': '#8AB1C9', 'Pyraloidea': '#ECC978', 'Papilionoidea': '#66C2A5', 'Gelechioidea': '#DD927E', 'Zygaeinoidea': '#FCD738', 'Cossoidea': '#BE93C6', 'Torticoidea': '#CED843', 'Tineoidea': '#979EC1'}
 
 
@@ -58,6 +59,8 @@ def get_species_superfamily(species_list):
 	with open(species_list) as f:
 		next(f)
 		for line in f:
+			#tol_id, pclass, order, family, latin_name, assembly = line.strip().split()
+			#superfamilies[latin_name] = family
 			tol_id, pclass, order, superfamily, family, latin_name, assembly = line.strip().split()
 			superfamilies[latin_name] = superfamily
 	return superfamilies
@@ -98,10 +101,9 @@ if __name__ == "__main__":
 	p.mkdir(parents=True, exist_ok=True)
 	# Obtain coverage for each species, following their phylogenetic placement
 	coverageD = order_species_following_phylogenetic_tree(args.t, args.l, cov_f)
-	# Obtain name of superfamily each species belongs to
+	# Get the name of the superfamily each species belongs to
 	superfamily = get_species_superfamily(args.f)
 	# Plot coverage
 	boxplot_coverage = plot_coverage(coverageD, superfamily, mycolors, args.refGenome, args.o)
-
 	
 	
