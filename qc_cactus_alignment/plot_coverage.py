@@ -15,7 +15,7 @@ from collections import defaultdict
 
 
 parser = argparse.ArgumentParser(description = 'Plot genome-wide coverage')
-parser.add_argument('--t', help = 'Phylogenetic tree used as guide tree in the cactus alignment')
+parser.add_argument('--t', help = 'Phylogenetic tree obtained from the cactus alignment')
 parser.add_argument('--l', help = 'Length of the region in base pairs [default = 1000000]', type = int, default = 1000000)
 parser.add_argument('--c', help = 'Path to directory with coverage output (e.g. coverage/vanessa_atalanta_gca905147765v1)')
 parser.add_argument('--f', help = 'Tab delimited species list file')
