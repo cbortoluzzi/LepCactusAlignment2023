@@ -24,22 +24,15 @@ genome=$2
 mkdir -p coverage/$genome
 
 
-re='^[0-9]+$'
 # Print sequences of given genome in BED format
-halStats --bedSequences $genome $hal | cut -f1,3 | sort -k1,1 -k2,2n | while read chromosome length
-do
-	if [[ $chromosome =~ $re ]] || [[ $chromosome =~ "W" ]] || [[ $chromosome =~ "Z" ]]
-	then
-		printf "%s\t%s\n" $chromosome $length >> coverage/$genome/$genome.txt
-	fi
-done
+halStats --bedSequences $genome $hal | cut -f1,3 | sort -k1,1 -k2,2n | awk '{if($1 < 100 || $1 == "W" || $1 == "Z")print}' > coverage/$genome/$genome.txt
 
 
 # Generate 100 random intervals, each 1,000,000 bp long
 bedtools random -g coverage/$genome/$genome.txt -l 1000000 -seed 12345 -n 100 > coverage/$genome/$genome.random.intervals
 
 
-# Convert HAL database to an alignment in multiple alignment format (MAF)
+# Convert HAL database to a reference-based alignment in multiple alignment format (MAF)
 cat coverage/$genome/$genome.random.intervals | while read chromosome start end num length strand
 do
 	hal2maf --refSequence $chromosome --start $start --length $length --refGenome $genome --onlyOrthologs --noAncestors $hal coverage/$genome/$genome.random.intervals.$num.maf
@@ -49,5 +42,5 @@ done
 
 
 # Plot coverage
-python3 plot_coverage.py --t ../phylogenetic_tree.nh --l 1000000 --c coverage/$genome --f ../species_list.tsv --refGenome $genome --o coverage/$genome
+python3 plot_coverage.py --t phylogenetic_tree.nh --l 1000000 --c coverage/$genome --f species_list.tsv --refGenome $genome --o coverage/$genome
 
