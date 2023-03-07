@@ -7,7 +7,6 @@
 
 
 import argparse
-from ete3 import Tree
 from pathlib import Path
 from statistics import mean, median
 import pandas as pd
@@ -19,7 +18,6 @@ from collections import defaultdict
 
 parser = argparse.ArgumentParser(description = 'Plot genome-wide heterozygosity for each Lepidoptera superfamily')
 parser.add_argument('--g', help = 'Path to estimated binned heterozygosity')
-parser.add_argument('--t', help = 'Phylogenetic tree obtained from the cactus alignment')
 parser.add_argument('--mcov', help = 'Minimum number of well-covered sites [default = 6000]', type = int, default = 6000)
 parser.add_argument('--f', help = 'Tab delimited species list file')
 parser.add_argument('--w', help = 'Window size used to calculate the heterozygosity [default = 10000]', type = int, default = 10000)
@@ -30,29 +28,19 @@ parser.add_argument('--o', help = 'Output directory')
 mycolors = {'Noctuoidea': '#B1C968', 'Bombycoidea': '#C5A07A', 'Geometroidea': '#DB98AE', 'Drepanoidea': '#8AB1C9', 'Pyraloidea': '#ECC978', 'Papilionoidea': '#66C2A5', 'Gelechioidea': '#DD927E', 'Zygaeinoidea': '#FCD738', 'Cossoidea': '#BE93C6', 'Torticoidea': '#CED843', 'Tineoidea': '#979EC1'}
 
 
-def order_species_by_phylo(tree, species_list):
-	phylo = {}
-	t = Tree(tree, format = 1)
-	t.set_outgroup('tinea_trinotella_gca905220615v1')
-	for node in t.traverse('postorder'):
-		if node.is_leaf():
-			tree_d = get_species_genome(species_list, node.name, phylo)
-	return tree_d
-
-
-def get_species_genome(species_list, node, phylo):
+def get_species_superfamily(species_list):
+	mydict = {}
 	with open(species_list) as f:
 		next(f)
 		for line in f:
 			dtol, pclass, order, superfamily, family, latin_name, assembly = line.strip().split()
 			genome = latin_name.lower() + '_' +  assembly.replace('GCA_', 'gca').replace('.', 'v')
 			tol = dtol.split('.')[0]
-			if node == genome:
-				phylo[tol] = superfamily
-	return phylo
+			mydict[tol] = superfamily
+	return mydict
 
 
-def plot_species_heterozygosity(list_files, min_cov, path, tree_d, window):
+def plot_species_heterozygosity(list_files, mydict, min_cov, path, window):
 	avg_sem_het = defaultdict(list)
 	for file in list_files:
 		tol = Path(file).name.split('.', 1)[0]
@@ -64,10 +52,10 @@ def plot_species_heterozygosity(list_files, min_cov, path, tree_d, window):
 					avg_sem_het[tol].append(snp_count)
 
 	x, y, z= [], [], []
-	for tol_id in tree_d:
+	for tol_id in mydict:
 		if avg_sem_het[tol_id]:
 			snp_count_avg = mean(avg_sem_het[tol_id])
-			superfamily= tree_d[tol_id]
+			superfamily= mydict[tol_id]
 			# Append superfamilies
 			x.append(superfamily)
 			# Append average heterozygosity per base pair
@@ -96,7 +84,7 @@ if __name__ == "__main__":
 	p = Path(args.o)
 	p.mkdir(parents=True, exist_ok=True)
 	het_f = sorted(list(Path(args.g).rglob('*.txt')))
-	phylo = order_species_by_phylo(args.t, args.f)
-	plot_heterozygosity = plot_species_heterozygosity(het_f, args.mcov, args.o, phylo, args.w)
+	list_superfamilies = get_species_superfamily(args.f)
+	plot_heterozygosity = plot_species_heterozygosity(het_f, list_superfamilies, args.mcov, args.o, args.w)
 
 	
