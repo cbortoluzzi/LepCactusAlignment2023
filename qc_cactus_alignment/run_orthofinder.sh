@@ -24,3 +24,8 @@ do
         python3 primary_transcript.py --pep orthofinder/proteomes/$genome.pep.fa.gz --o orthofinder/proteomes/primary_transcripts
 done
 
+# Run OrthoFinder on longest transcripts
+orthofinder -f orthofinder/proteomes/primary_transcripts/
+
+
+
