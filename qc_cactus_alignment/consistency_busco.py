@@ -17,11 +17,11 @@ from collections import defaultdict
 
 parser = argparse.ArgumentParser(description = 'Check consistency of single copy BUSCO genes genomic coordinates in cactus alignment')
 parser.add_argument('--refGenome', help = 'Name of species to use as query')
-parser.add_argument('--t', help = 'Phylogenetic tree used as guide tree in cactus')
+parser.add_argument('--t', help = 'Phylogenetic tree obtained from the cactus alignment')
 parser.add_argument('--f', help = 'Tab delimited species list file')
 parser.add_argument('--b', help = 'List of complete, single copy BUSCO genes, one per line')
 parser.add_argument('--hal', help = 'Input hal file')
-parser.add_argument('--o', help = 'Output directory')
+parser.add_argument('--o', help = 'Output directory [default = busco_quality_check]', default = 'busco_quality_check')
 
 
 
