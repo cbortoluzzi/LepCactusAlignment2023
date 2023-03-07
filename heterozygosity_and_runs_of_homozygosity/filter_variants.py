@@ -17,11 +17,9 @@ from pathlib import Path
 parser = argparse.ArgumentParser(description = 'Polarize and filter sites based on phred-quality score, read depth, and genotype quality')
 parser.add_argument('--vcf', help = 'VCF file')
 parser.add_argument('--cov', help = 'Genome-wide coverage as estimated by samtools depth')
-parser.add_argument('--hal', help = 'Input hal file')
 parser.add_argument('--q', help = 'Minimum phred-quality score [default = 15]', type = int, default = 15)
 parser.add_argument('--dp', help = 'Minimum read depth to retain a variant [default = 6]', type = int, default = 6)
 parser.add_argument('--gq', help = 'Minimum genotype quality to retain a variant [default = 20]' , type = int, default = 20)
-parser.add_argument('--refGenome', help = 'Name of reference genome')
 parser.add_argument('--o', help = 'Output directory')
 
 
@@ -38,7 +36,7 @@ def average_genome_coverage(coverage):
 
 
 
-def filter_vcf_file(vcf_f, min_qual, min_depth, max_depth, min_gq, hal, refGenome, output_file):
+def filter_vcf_file(vcf_f, min_qual, min_depth, max_depth, min_gq, output_file):
 	vcf_reader = vcf.Reader(filename=vcf_f)
 	vcf_writer = vcf.Writer(open(output_file, 'w'), vcf_reader)
 	for record in vcf_reader:
@@ -65,5 +63,5 @@ if __name__ == "__main__":
 	output_file = Path(path, output_file_name)
 	max_depth = average_genome_coverage(args.cov)
 	# Filter VCF file
-	filter_vcf = filter_vcf_file(args.vcf, args.q, args.dp, max_depth, args.gq, args.hal, args.refGenome, output_file)
+	filter_vcf = filter_vcf_file(args.vcf, args.q, args.dp, max_depth, args.gq, output_file)
 	
