@@ -79,7 +79,7 @@ def fraction_genome_covered_by_ROH(roh_files, mydict, mygen, path):
 		total_roh_num = len(myroh[key])
 		num_roh.append(total_roh_num)
 		len_roh.append(total_roh_len)
-	
+
 		# Based on their length, classify ROHs into short, medium, and long
 		short_ROH = list(filter(lambda length: length <= 0.1, myroh[key]))
 		medium_ROH = list(filter(lambda length: length > 0.1 and length < 1.0, myroh[key]))
@@ -95,7 +95,7 @@ def fraction_genome_covered_by_ROH(roh_files, mydict, mygen, path):
 
 	# Plot correlation between length and number of ROHs
 	fig = plt.subplots(figsize=(9, 7))
-	sns.scatterplot(x = 'Length_ROH', y = 'Num_ROH', data = df, palette = mycolors, hue = 'Superfamily', linewidth=1, edgecolor = 'black', s = 140)
+	sns.scatterplot(x = 'Length_ROH', y = 'Num_ROH', data = df_num, palette = mycolors, hue = 'Superfamily', linewidth=1, edgecolor = 'black', s = 140)
 	plt.ylabel('Total length of ROH (Mb)')
 	plt.xlabel('Total genome size (Mb)')
 	plt.yticks(fontsize = 14)
