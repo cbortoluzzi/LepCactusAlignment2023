@@ -16,15 +16,19 @@ from collections import defaultdict
 
 
 
-parser = argparse.ArgumentParser(description = 'Plot fraction genome covered by ROOHs')
-parser.add_argument('--d', help = 'Path to folder with runs of homozygosity')
+parser = argparse.ArgumentParser(description = 'Plot runs of homozygosity (ROHs) along the genome')
 parser.add_argument('--genome', help = 'Tab delimited file with genome size information for each species, one per line')
-parser.add_argument('--species_list', help = 'A tab delimited species list file')
+parser.add_argument('--d', help = 'Path to folder with runs of homozygosity')
+parser.add_argument('--f', help = 'A tab delimited species list file')
 parser.add_argument('--o', help = 'Output directory')
 
 
 
-def get_species_genome(species_list):
+mycolors = {'Noctuoidea': '#B1C968', 'Bombycoidea': '#C5A07A', 'Geometroidea': '#DB98AE', 'Drepanoidea': '#8AB1C9', 'Pyraloidea': '#ECC978', 'Papilionoidea': '#66C2A5', 'Gelechioidea': '#DD927E', 'Zygaeinoidea': '#FCD738', 'Cossoidea': '#BE93C6', 'Torticoidea': '#CED843', 'Tineoidea': '#979EC1'}
+
+
+
+def get_species_information(species_list):
 	mydict = {}
 	with open(species_list) as f:
 		for line in f:
@@ -40,20 +44,21 @@ def get_genome_size(genome_f):
 	with open(genome_f) as f:
 		for line in f:
 			species_name, genome_size = line.strip().split()
+			# Obtain the genome size in Mb
 			genome_size = int(genome_size)/1000000
 			mygen[species_name] = genome_size
 	return mygen
 
 
 
-def fraction_genome_covered_by_ROH(roh_f, mydict, mygen, path):
+def fraction_genome_covered_by_ROH(roh_files, mydict, mygen, path):
 	myroh = defaultdict(list)
-	for roh in roh_f:
-		tol = Path(roh).stem.split('.')[0]
+	for roh_file in roh_files:
+		tol = Path(roh_file).stem.split('.')[0]
 		species_name = mydict[tol][0]
 		superfamily = mydict[tol][1]
 		genome = mygen[species_name]
-		with open(roh) as f:
+		with open(roh_file) as f:
 			for line in f:
 				chromosome, start, end, size, avg_snp_count = line.strip().split()
 				length = int(end) - int(start)
@@ -74,33 +79,31 @@ def fraction_genome_covered_by_ROH(roh_f, mydict, mygen, path):
 		total_roh_num = len(myroh[key])
 		num_roh.append(total_roh_num)
 		len_roh.append(total_roh_len)
-		# Classify ROHs
+	
+		# Based on their length, classify ROHs into short, medium, and long
 		short_ROH = list(filter(lambda length: length <= 0.1, myroh[key]))
 		medium_ROH = list(filter(lambda length: length > 0.1 and length < 1.0, myroh[key]))
 		long_ROH = list(filter(lambda length: length >= 1.0, myroh[key]))
 		num_short.append(len(short_ROH)), num_medium.append(len(medium_ROH)), num_long.append(len(long_ROH))
 		sum_short.append(sum(short_ROH)), sum_medium.append(sum(medium_ROH)), sum_long.append(sum(long_ROH))
 
-	list_colors = {'Noctuoidea': '#B1C968', 'Bombycoidea': '#C5A07A', 'Geometroidea': '#DB98AE', 'Drepanoidea': '#8AB1C9', 'Pyraloidea': '#ECC978', 'Papilionoidea': '#66C2A5', 'Hesperioidea': '#B3B3B3', 'Gelechioidea': '#DD927E', 
-    	'Zygaeinoidea': '#FCD738', 'Cossoidea': '#BE93C6', 'Torticoidea': '#CED843', 'Tineoidea': '#979EC1'}
-
 	df_num = pd.DataFrame(list(zip(list_species, list_superfamily, list_genome, num_roh, len_roh, num_short, num_medium, num_long)),
 	columns = ['Species_name', 'Superfamily', 'Genome_size', 'Num_ROH', 'Length_ROH', 'Num_short', 'Num_medium', 'Num_long'])
-
 
 	df_sum = pd.DataFrame(list(zip(list_species, list_superfamily, list_genome, num_roh, len_roh, sum_short, sum_medium, sum_long)),
 	columns = ['Species_name', 'Superfamily', 'Genome_size', 'Num_ROH', 'Length_ROH', 'Sum_short', 'Sum_medium', 'Sum_long'])
 
+	# Plot correlation between length and number of ROHs
+	fig = plt.subplots(figsize=(9, 7))
+	sns.scatterplot(x = 'Length_ROH', y = 'Num_ROH', data = df, palette = mycolors, hue = 'Superfamily', linewidth=1, edgecolor = 'black', s = 140)
+	plt.ylabel('Total length of ROH (Mb)')
+	plt.xlabel('Total genome size (Mb)')
+	plt.yticks(fontsize = 14)
+	plt.xticks(fontsize = 14)
+	figure = Path(path, 'fraction_genome_covered_ROH.pdf')
+	plt.savefig(figure, dpi = 500, bbox_inches = 'tight')
 
-	#fig = plt.subplots(figsize=(9, 7))
-	#sns.scatterplot(x = 'Length_ROH', y = 'Num_ROH', data = df, palette = list_colors, hue = 'Superfamily', linewidth=1, edgecolor = 'black', s = 140)
-	#plt.ylabel('Total length of ROH (Mb)')
-	#plt.xlabel('Total genome size (Mb)')
-	#plt.yticks(fontsize = 14)
-	#plt.xticks(fontsize = 14)
-	#figure = Path(path, 'fraction_genome_covered_ROH.pdf')
-	#plt.savefig(figure, dpi = 500, bbox_inches = 'tight')
-
+	# Plot the number of ROHs as a stacked barplot
 	plt.figure(figsize=(20, 7))
 	plt.bar(df_num['Species_name'], df_num['Num_short'], color = '#ffa600', edgecolor='black', label = 'Short: < 100 Kb', bottom = df_num['Num_medium'])
 	plt.bar(df_num['Species_name'], df_num['Num_medium'], color = '#bc5090', edgecolor='black', label = 'Medium: 0.1 - 1 Mb', bottom = df_num['Num_long'])
@@ -113,6 +116,7 @@ def fraction_genome_covered_by_ROH(roh_f, mydict, mygen, path):
 	figure = Path(path, 'number_ROH_per_size_type.pdf')
 	plt.savefig(figure, dpi = 500, bbox_inches = 'tight')
 
+	# Plot the length of ROHs as a stacked barplot
 	plt.figure(figsize=(20, 7))
 	plt.bar(df_sum['Species_name'], df_sum['Sum_short'], color = '#ffa600', edgecolor='black', label = 'Short: < 100 Kb', bottom = df_sum['Sum_medium'])
 	plt.bar(df_sum['Species_name'], df_sum['Sum_medium'], color = '#bc5090', edgecolor='black', label = 'Medium: 0.1 - 1 Mb', bottom = df_sum['Sum_long'])
@@ -127,14 +131,15 @@ def fraction_genome_covered_by_ROH(roh_f, mydict, mygen, path):
 
 
 
-
 if __name__ == "__main__":
 	args = parser.parse_args()
+	# Generate directory if it doesn't exist
 	path = Path(args.o)
 	path.mkdir(parents=True, exist_ok=True)
-	species_info = get_species_genome(args.species_list)
-	roh_f = list(Path(args.d).rglob('*.insideROH.txt'))
+	# List of ROHs
+	roh_files = list(Path(args.d).rglob('*.insideROH.txt'))
+	species_info = get_species_information(args.f)
 	genome_size = get_genome_size(args.genome)
-	fraction_genome_in_ROH = fraction_genome_covered_by_ROH(roh_f, species_info, genome_size, path)
+	fraction_genome_in_ROH = fraction_genome_covered_by_ROH(roh_files, species_info, genome_size, path)
 
   
