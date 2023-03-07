@@ -24,6 +24,7 @@ do
         echo "Analysing chromosome" $chromosome
 
         echo "Obtain protein-coding sequences"
+        # The descript assumes that there is already a folder for each species, called geneset, with an annotation file in GFF3 format
         zcat geneset/$genome/$genome.gff3.gz | grep -v '#' | awk 'OFS="\t"{if($3 == "CDS" && $1 == "'$chromosome'")print}' | sortBed | mergeBed -i stdin | \
         awk 'OFS="\t"{print "'$genome.'""'$chromosome'","ensembl","CDS",$2,$3,".","+",".","ID=CDS"}' > geneset/$genome/$genome.$chromosome.gff3
 
