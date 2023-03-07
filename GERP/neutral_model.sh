@@ -41,12 +41,4 @@ phyloBoot --read-mods $mod --output-average nmodel/$genome/$genome.ave.nonconser
 mv 4d_sites/$genome/$genome.X.nonconserved-4d.mod nmodel/$genome
 mv 4d_sites/$genome/$genome.Y.nonconserved-4d.mod nmodel/$genome
 
-# Modify background frequencies to maintain reversibility
-# Although this step is not necessary for the GERP++ program, it is necessary for the phyloP and phastCons programs
-for mod in nmodel/$genome/*.mod
-do
-        chromosome=$(basename $mod .mod | cut -f2 -d'.')
-        gcfreq=`cat | grep 'BACKGROUND' | awk '{print $3+$4}'`
-        modFreqs $mod $gcfreq > nmodel/$genome/$genome.$chromosome.modFreqs.nonconserved-4d.mod
-done
 
