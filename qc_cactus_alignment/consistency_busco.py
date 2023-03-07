@@ -24,7 +24,7 @@ parser.add_argument('--o', help = 'Output directory [default = busco_quality_che
 
 
 
-main_path = '/lustre/scratch123/tol/teams/durbin/users/cb46/darwin'
+main_path = '/lustre/scratch123/tol/projects/lepidoptera/data/insects'
 
 
 
