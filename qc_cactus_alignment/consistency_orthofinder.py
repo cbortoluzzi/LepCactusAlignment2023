@@ -23,7 +23,7 @@ parser.add_argument('--ort', help = 'List of single copy orthogroups, one per li
 parser.add_argument('--hal', help = 'Input hal file')
 
 
-
+# The main path must be changed accordingly
 main_path = '/lustre/scratch123/tol/teams/durbin/users/cb46/whole_genome_alignment/lepidoptera/89way/202201/quality_check/orthofinder/proteomes/primary_transcripts'
 
 
