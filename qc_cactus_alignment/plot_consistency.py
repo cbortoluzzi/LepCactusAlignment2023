@@ -22,7 +22,7 @@ parser.add_argument('--o', help = 'Output directory')
 
 
 
-mycolors = {'Noctuoidea': '#B1C968', 'Bombycoidea': '#C5A07A', 'Geometroidea': '#DB98AE', 'Drepanoidea': '#8AB1C9', 'Pyraloidea': '#ECC978', 'Papilionoidea': '#66C2A5', 'Hesperioidea': '#B3B3B3', 'Gelechioidea': '#DD927E', 'Zygaeinoidea': '#FCD738', 'Cossoidea': '#BE93C6', 'Torticoidea': '#CED843', 'Tineoidea': '#979EC1'}
+mycolors = {'Noctuoidea': '#B1C968', 'Bombycoidea': '#C5A07A', 'Geometroidea': '#DB98AE', 'Drepanoidea': '#8AB1C9', 'Pyraloidea': '#ECC978', 'Papilionoidea': '#66C2A5', 'Gelechioidea': '#DD927E', 'Zygaeinoidea': '#FCD738', 'Cossoidea': '#BE93C6', 'Torticoidea': '#CED843', 'Tineoidea': '#979EC1'}
 
 
 
@@ -81,21 +81,23 @@ def plot_consistency(num_inconsistent_genes, num_consistent_genes, mycolors, sup
 	x, y, species = [], [], []
 	for key in num_consistent_genes:
 		target = '_'.join(key[1].split('_')[0:2]).capitalize()
-		species.append(target)
 		num_correctly_mapped_genes = num_consistent_genes[key]
 		if num_correctly_mapped_genes > 0:
+			species.append(target)
 			x.append(key[1])
 			y.append(num_correctly_mapped_genes)
 	list_superfamilies = [superfamilies[genome][0] for genome in x]
 	color = [mycolors[superfamily] for superfamily in list_superfamilies]
+
 	# Plot number of consistent genes / orthogroups
-	fig, ax = plt.subplots(figsize=(15, 8))
-	plt.xticks(rotation = 90, ha = 'right', fontsize = 12)
+	fig, ax = plt.subplots(figsize=(30, 10))
+	plt.xticks(rotation = 90, ha = 'right', fontsize = 16)
+	plt.yticks(fontsize = 18)
 	plt.bar(species, y, color = color, edgecolor = 'black')
-	plt.ylabel('Number of consistent ' + label)
+	plt.ylabel('Number of consistent ' + label, fontsize = 18)
 	figure = Path(output_directory, 'number_consistent_' + label + '.pdf')
 	plt.savefig(figure, dpi = 500, bbox_inches = 'tight')
-	## Save number of inconsistent genes / orthogroups
+	# Save number of inconsistent genes / orthogroups
 	file = Path(output_directory, 'inconsistent_' + label + '.bed')
 	with open(file, 'w') as out:
 		for gene in num_inconsistent_genes:
@@ -113,10 +115,9 @@ if __name__ == "__main__":
 	if 'orthofinder' in args.d:
 		label = 'orthogroups'
 	else:
-		label = 'BUSCO'
+		label = 'busco'
 	superfamily = get_species_superfamily(args.f)
 	num_inconsistent_genes, num_consistent_genes = count_number_consistent_genes(superfamily, args.t, args.refGenome, args.d, args.o, label)
 	plot = plot_consistency(num_inconsistent_genes, num_consistent_genes, mycolors, superfamily, label, args.o)
 
-  
-  
+	
