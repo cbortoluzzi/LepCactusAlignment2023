@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 
@@ -17,34 +16,37 @@ fi
 genome=$1
 
 
-echo "./neutral_model.sh $genome"
-
-
 mkdir -p 4d_sites/$genome && mkdir -p nmodel/$genome
 
 
-for bed in maf/$genome/*.bed
+cat maf/$genome/$genome.txt | cut -f1 | while read chromosome
 do
-        echo "Merge overlapping protein coding sequences"
-        zcat gene/$genome/$genome.gff3.gz | grep -v '#' | awk '{if($3 == "CDS")print}' | bedtools intersect -b $bed -a stdin | sortBed | mergeBed | \
-        awk 'OFS="\t"{print "'$1'."$1,"ensembl","CDS",$2,$3,".","+",".","ID=CDS"}' > 4d_sites/$genome/$genome.$(basename $bed .bed).uniqueCDS.gff3
+        echo "Analysing chromosome" $chromosome
 
-        echo "Estimate neutral (or nonconserved model)"
-        msa_view maf/$genome/$genome.$(basename $bed .bed).maf --in-format MAF --4d --features 4d_sites/$genome/$genome.$(basename $bed .bed).uniqueCDS.gff3 --out-format SS > 4d_sites/$genome/$genome.$(basename $bed .bed).codons.ss 
-        msa_view 4d_sites/$genome/$genome.$(basename $bed .bed).codons.ss --in-format SS --out-format FASTA --tuple-size 1 > 4d_sites/$genome/$genome.$(basename $bed .bed).sites.fa 
-        phyloFit --tree `cat tree_topology.nh` --subst-mod REV --EM --msa-format FASTA 4d_sites/$genome/$genome.$(basename $bed .bed).sites.fa --out-root 4d_sites/$genome/$genome.$(basename $bed .bed).nonconserved-4d 
+        echo "Obtain protein-coding sequences"
+        zcat geneset/$genome/$genome.gff3.gz | grep -v '#' | awk 'OFS="\t"{if($3 == "CDS" && $1 == "'$chromosome'")print}' | sortBed | mergeBed -i stdin | \
+        awk 'OFS="\t"{print "'$genome.'""'$chromosome'","ensembl","CDS",$2,$3,".","+",".","ID=CDS"}' > geneset/$genome/$genome.$chromosome.gff3
+
+        echo "Estimate neutral (or nonconserved) model"
+        msa_view maf/$genome/$genome.$chromosome.maf --in-format MAF --4d --features geneset/$genome/$genome.$chromosome.gff3 --out-format SS > 4d_sites/$genome/$genome.$chromosome.codons.ss
+        msa_view 4d_sites/$genome/$genome.$chromosome.codons.ss --in-format SS --out-format FASTA --tuple-size 1 > 4d_sites/$genome/$genome.$chromosome.sites.fa
+        phyloFit --tree `cat tree_topology.nh` --subst-mod REV --EM --msa-format FASTA 4d_sites/$genome/$genome.$chromosome.sites.fa --out-root 4d_sites/$genome/$genome.$chromosome.nonconserved-4d
 done
 
 
-# Average nonconserved model for the autosomes
-re='^[0-9]+$'
-autosomes=`cat maf/$genome/$genome.txt | while read contig length;do if [[ $contig =~ $re ]]; then echo $contig; fi;done`
-mod=`for chr in $autosomes;do ls 4d_sites/$genome/$genome.$chr.*.nonconserved-4d.mod;done`
+echo "Average neutral (or nonconserved) model for autosomes"
+autosomes=`cat maf/$genome/$genome.txt | awk '{if($1 < 100)print $1}' | sort -k1,1n`
+mod=`for chr in $autosomes;do ls 4d_sites/$genome/$genome.$chr.nonconserved-4d.mod;done`
 phyloBoot --read-mods $mod --output-average nmodel/$genome/$genome.ave.nonconserved-4d.mod
+mv 4d_sites/$genome/$genome.X.nonconserved-4d.mod nmodel/$genome
+mv 4d_sites/$genome/$genome.Y.nonconserved-4d.mod nmodel/$genome
 
-mod=`ls 4d_sites/$genome/$genome.Z.*.nonconserved-4d.mod`
-phyloBoot --read-mods $mod --output-average nmodel/$genome/$genome.Z.nonconserved-4d.mod
-
-mod=`ls 4d_sites/$genome/$genome.W.*.nonconserved-4d.mod`
-phyloBoot --read-mods $mod --output-average nmodel/$genome/$genome.W.nonconserved-4d.mod
+# Modify background frequencies to maintain reversibility
+# Although this step is not necessary for the GERP++ program, it is necessary for the phyloP and phastCons programs
+for mod in nmodel/$genome/*.mod
+do
+        chromosome=$(basename $mod .mod | cut -f2 -d'.')
+        gcfreq=`cat | grep 'BACKGROUND' | awk '{print $3+$4}'`
+        modFreqs $mod $gcfreq > nmodel/$genome/$genome.$chromosome.modFreqs.nonconserved-4d.mod
+done
 
