@@ -23,9 +23,8 @@ parser.add_argument('--hal', help = 'Input hal file')
 
 
 
-
+# The main path must be changed accordingly
 main_path = '/lustre/scratch123/tol/projects/lepidoptera/data/insects'
-
 
 
 def pairwise_comparisons(refGenome, tree, path):
