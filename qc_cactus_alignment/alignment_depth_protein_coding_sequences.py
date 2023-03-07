@@ -12,7 +12,7 @@ from collections import defaultdict
 
 
 
-parser = argparse.ArgumentParser(description = 'Alignment depth at unique, non-overlapping protein-coding sequences')
+parser = argparse.ArgumentParser(description = 'Assign alignment depth to each unique, non-overlapping protein-coding sequence')
 parser.add_argument('--bed', help = 'Genomic coordinates of protein-coding sequences in BED format')
 parser.add_argument('--wig', help = 'Path to alignment depth of protein-coding sequences in WIG format')
 parser.add_argument('--g', help = 'Name of reference genome')
