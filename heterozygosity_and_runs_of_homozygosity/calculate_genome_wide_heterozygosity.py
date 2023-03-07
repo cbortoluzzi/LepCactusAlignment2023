@@ -37,8 +37,7 @@ def sequences_bam(bam_f):
 				if str(chromosome) == 'W' or str(chromosome) == 'Z' or isinstance(int(chromosome), int):
 					mygenome[chromosome] = length
 			except ValueError:
-				# We exclude contigs/scaffolds
-				print (f"Contig {chromosome} is not considered")
+				continue
 	return mygenome
 
 
