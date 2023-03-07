@@ -39,7 +39,10 @@ echo "Average neutral (or nonconserved) model for autosomes"
 autosomes=`cat maf/$genome/$genome.txt | awk '{if($1 < 100)print $1}' | sort -k1,1n`
 mod=`for chr in $autosomes;do ls 4d_sites/$genome/$genome.$chr.nonconserved-4d.mod;done`
 phyloBoot --read-mods $mod --output-average nmodel/$genome/$genome.ave.nonconserved-4d.mod
-mv 4d_sites/$genome/$genome.X.nonconserved-4d.mod nmodel/$genome
-mv 4d_sites/$genome/$genome.Y.nonconserved-4d.mod nmodel/$genome
+
+# Move neutral models of sex chromosomes
+mv 4d_sites/$genome/$genome.W.nonconserved-4d.mod nmodel/$genome
+mv 4d_sites/$genome/$genome.Z.nonconserved-4d.mod nmodel/$genome
+
 
 
