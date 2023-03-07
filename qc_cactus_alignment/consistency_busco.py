@@ -20,7 +20,7 @@ parser.add_argument('--t', help = 'Phylogenetic tree obtained from the cactus al
 parser.add_argument('--f', help = 'Tab delimited species list file')
 parser.add_argument('--b', help = 'List of complete, single copy BUSCO genes, one per line')
 parser.add_argument('--hal', help = 'Input hal file')
-parser.add_argument('--o', help = 'Output directory [default = busco_quality_check]', default = 'busco_quality_check')
+
 
 
 
@@ -164,18 +164,17 @@ def multiple_alignment_format(query, chromosome_q, start_q, end_q, target, chrom
 
 if __name__ == "__main__":
 	args = parser.parse_args()
+	path = 'busco_quality_check'
 	# Generate all possible pairwise comparisons between the query and the target species
-	pairwise_combinations = pairwise_comparisons(args.refGenome, args.t, args.o)
+	pairwise_combinations = pairwise_comparisons(args.refGenome, args.t, path)
 	species_tol_id = get_species_name_tol_id(args.f)
 	list_busco_genes = busco_genes(args.b)
 	# Iterate over each pairwise comparison and each single-copy BUSCO gene
 	for (target, query) in pairwise_combinations:
-		# Check if folder is empty
-		if len(os.listdir(directory) != 0:
 			# Update genomic coordinates of BUSCO genes using the assembly report file
 			assembly_coordinates_query, assembly_coordinates_target = change_assembly_coordinates(query, target, species_tol_id)
 			# Obtain an alignment in multiple alignment format (MAF) for each BUSCO gene and check consistency
-			evaluate_consistency = get_busco_coordinates(query, target, species_tol_id, list_busco_genes, assembly_coordinates_query, assembly_coordinates_target, args.hal, args.o)
+			evaluate_consistency = get_busco_coordinates(query, target, species_tol_id, list_busco_genes, assembly_coordinates_query, assembly_coordinates_target, args.hal, path)
 
 
-		       
+			
