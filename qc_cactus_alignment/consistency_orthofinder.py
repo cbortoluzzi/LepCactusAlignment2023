@@ -6,8 +6,8 @@
 
 import os
 import argparse
-from Bio import SeqIO
 import subprocess
+from Bio import SeqIO
 from ete3 import Tree
 from pathlib import Path
 from Bio import AlignIO
@@ -21,7 +21,6 @@ parser.add_argument('--t', help = 'Phylogenetic tree used as guide tree in cactu
 parser.add_argument('--f', help = 'Tab delimited species list file')
 parser.add_argument('--ort', help = 'List of single copy orthogroups, one per line')
 parser.add_argument('--hal', help = 'Input hal file')
-parser.add_argument('--o', help = 'Output directory [default = orthofinder_quality_check]', default = 'orthofinder_quality_check')
 
 
 
@@ -132,9 +131,11 @@ def pairwise_alignment(qSeq, qGenome, qStart, qEnd, qLength, tGenome, hal, outpu
 
 if __name__ == "__main__":
 	args = parser.parse_args()
+	path = 'orthofinder_quality_check'
 	# Generate all pairwise comparisons
-	pairwise_combinations = pairwise_comparisons(args.refGenome, args.t, args.o)
+	pairwise_combinations = pairwise_comparisons(args.refGenome, args.t, path)
 	species_tol_id = get_species_name_tol_id(args.f)
 	for (target, query) in pairwise_combinations:
-		single_copy_orthogroups = get_single_copy_orthogroups(args.ort, query, target, main_path, species_tol_id, args.hal, args.o)
+		single_copy_orthogroups = get_single_copy_orthogroups(args.ort, query, target, main_path, species_tol_id, args.hal, path)
+
 
