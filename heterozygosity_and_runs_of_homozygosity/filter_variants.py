@@ -5,7 +5,6 @@
 # Author : @cb46
 
 
-import os
 import vcf
 import argparse
 import subprocess
@@ -13,8 +12,7 @@ from pathlib import Path
 
 
 
-
-parser = argparse.ArgumentParser(description = 'Polarize and filter sites based on phred-quality score, read depth, and genotype quality')
+parser = argparse.ArgumentParser(description = 'Filter variants based on phred-quality score, read depth, and genotype quality')
 parser.add_argument('--vcf', help = 'VCF file')
 parser.add_argument('--cov', help = 'Genome-wide coverage as estimated by samtools depth')
 parser.add_argument('--q', help = 'Minimum phred-quality score [default = 15]', type = int, default = 15)
