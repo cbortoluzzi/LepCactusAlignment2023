@@ -52,6 +52,7 @@ def get_species_name_tol_id(species_list):
 		next(f)
 		for line in f:
 			tol_id, pclass, order, superfamily, family, latin_name, assembly = line.strip().split()
+			# Rename genome following the nomenclature in the cactus alignment
 			genome = latin_name.lower() + '_' + assembly.replace('GCA_', 'gca').replace('.', 'v')
 			species_d[genome] = [tol_id, assembly, latin_name]
 	return species_d
@@ -79,7 +80,8 @@ def change_assembly_coordinates(query, target, species_d):
 
 
 def change_coordinates(main_path, genome, tol_id, assembly, species_name, dictionary):
-	assembly_report = Path(main_path, species_name, assembly + '_assembly_report.txt')
+	# Path to assembly report file: we will use this file to change the name of the chromosome
+	assembly_report = Path(main_path, species_name, 'assembly/release', tol_id, 'insdc', assembly + '_assembly_report.txt')
 	# Check that assembly report file exists
 	if Path(assembly_report).is_file():
 		with open(assembly_report) as f:
@@ -88,34 +90,35 @@ def change_coordinates(main_path, genome, tol_id, assembly, species_name, dictio
 					line = line.strip().split()
 					if line[1] == 'assembled-molecule':
 						dictionary[line[4]] = line[2]
-					elif line[1] == 'unplaced-scaffold':
-						dictionary[line[4]] = line[0]
-					elif line[1] == 'unlocalized-scaffold':
+					else:
 						dictionary[line[4]] = line[0]
 	return dictionary
 
 
 
-def get_busco_coordinates(query, target, main_path, species_d, busco_genes, change_q, change_t, hal, path):
+def get_busco_coordinates(query, target, species_d, busco_genes, change_q, change_t, hal, path):
 	query_name = species_d[query][2]
 	target_name = species_d[target][2]
+	tol_id_query = species_d[query][0]
+	tol_id_target = species_d[target][0]
 	for gene in busco_genes:
-		coordinates_q = Path(main_path, query_name, 'lepidoptera_odb10_metaeuk', 'run_lepidoptera_odb10', 'busco_sequences', 'single_copy_busco_sequences', gene + '.faa')
-		coordinates_t = Path(main_path, target_name, 'lepidoptera_odb10_metaeuk', 'run_lepidoptera_odb10', 'busco_sequences', 'single_copy_busco_sequences', gene + '.faa')
-		with open(coordinates_q) as gene_q, open(coordinates_t) as gene_t:
-			for line_q, line_t in zip(gene_q, gene_t):
-				if line_q.startswith('>') and line_t.startswith('>'):
-					chrom_q = line_q.strip().split(':')[0].replace('>', '')
-					chrom_t = line_t.strip().split(':')[0].replace('>', '')
-					start_end_q = line_q.strip().split(':')[1]
-					start_end_t = line_t.strip().split(':')[1]
-					start_q, end_q = start_end_q.split('-')
-					start_t, end_t = start_end_t.split('-')
-					# Change chromosome same so that the one in the alignment corresponds to that from BUSCO
-					chromosome_q = change_q[chrom_q]
-					chromosome_t = change_t[chrom_t]
-					# Obtain multiple sequence alignment for each gene of query and target species
-					maf = multiple_alignment_format(query, chromosome_q, start_q, end_q, target, chromosome_t, start_t, end_t, gene, hal, path)
+		coordinates_q = Path(main_path, query_name, 'analysis', tol_id_query, 'busco/lepidoptera_odb10_metaeuk/run_lepidoptera_odb10/busco_sequences/single_copy_busco_sequences', gene + '.faa')
+		coordinates_t = Path(main_path, target_name, 'analysis', tol_id_target, 'busco/lepidoptera_odb10_metaeuk/run_lepidoptera_odb10/busco_sequences/single_copy_busco_sequences', gene + '.faa')
+		if coordinates_q.is_file() and coordinates_t.is_file():
+			with open(coordinates_q) as gene_q, open(coordinates_t) as gene_t:
+				for line_q, line_t in zip(gene_q, gene_t):
+					if line_q.startswith('>') and line_t.startswith('>'):
+						chrom_q = line_q.strip().split(':')[0].replace('>', '')
+						chrom_t = line_t.strip().split(':')[0].replace('>', '')
+						start_end_q = line_q.strip().split(':')[1]
+						start_end_t = line_t.strip().split(':')[1]
+						start_q, end_q = start_end_q.split('-')
+						start_t, end_t = start_end_t.split('-')
+						# Change chromosome same so that the one in the alignment corresponds to that from BUSCO
+						chromosome_q = change_q[chrom_q]
+						chromosome_t = change_t[chrom_t]
+						# Obtain multiple sequence alignment for each gene of query and target species
+						maf = multiple_alignment_format(query, chromosome_q, start_q, end_q, target, chromosome_t, start_t, end_t, gene, hal, path)
 
 
 
@@ -168,8 +171,10 @@ if __name__ == "__main__":
 	list_busco_genes = busco_genes(args.b)
 	# Iterate over each pairwise comparison and each single-copy BUSCO gene
 	for (target, query) in pairwise_combinations:
-		# Update genomic coordinates of BUSCO genes using the assembly report file
-		assembly_coordinates_query, assembly_coordinates_target = change_assembly_coordinates(query, target, species_tol_id)
-		# Obtain an alignment in multiple alignment format (MAF) for each BUSCO gene and check consistency
-		evaluate_consistency = get_busco_coordinates(query, target, main_path, species_tol_id, list_busco_genes, assembly_coordinates_query, assembly_coordinates_target, args.hal, args.o)
+		# Check if folder is empty
+		if len(os.listdir(directory) != 0:
+			# Update genomic coordinates of BUSCO genes using the assembly report file
+			assembly_coordinates_query, assembly_coordinates_target = change_assembly_coordinates(query, target, species_tol_id)
+			# Obtain an alignment in multiple alignment format (MAF) for each BUSCO gene and check consistency
+			evaluate_consistency = get_busco_coordinates(query, target, species_tol_id, list_busco_genes, assembly_coordinates_query, assembly_coordinates_target, args.hal, args.o)
 
