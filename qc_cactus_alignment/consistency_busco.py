@@ -6,11 +6,10 @@
 
 import os
 import argparse
-import itertools
 import subprocess
 from ete3 import Tree
-from pathlib import Path
 from Bio import AlignIO
+from pathlib import Path
 from collections import defaultdict
 
 
