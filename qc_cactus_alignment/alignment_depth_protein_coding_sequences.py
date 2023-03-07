@@ -73,3 +73,5 @@ if __name__ == "__main__":
 	path = Path(args.bed).parents[0]
 	alignment_depth = alignment_depth_cds(wig_f, cds, args.g, path)
 
+
+	
