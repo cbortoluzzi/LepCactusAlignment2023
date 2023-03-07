@@ -1,7 +1,9 @@
 #!/bin/bash
 
 
+
 # Author: @cb46
+
 
 if [ -z $1 ]; then
   echo "Usage: ./deepvariant.sh <assembly in fasta format> <alignment in bam format> <output in vcf format>"
