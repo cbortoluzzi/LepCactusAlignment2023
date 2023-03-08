@@ -1,0 +1,7 @@
+This folder contains the scripts to run the deepVariant pipeline, calculate the genome-wide heterozygosity, and identify runs of homozygosity.
+
+Requirements:
+- python 3.8.10
+- deepvariant v1.1.0 as donwloaded from https://github.com/google/deepvariant/releases/tag/v1.1.0
+- samtools v1.11
+
