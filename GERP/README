@@ -1,0 +1,10 @@
+This folder contains the scripts to run the Genomic Evolutionary Rate Profiling (GERP) pipeline.
+
+Requirements:
+- python 3.8.10
+- bedtools v2.29.1
+- cactus v2.0.1+ as downloaded from https://github.com/ComparativeGenomicsToolkit/cactus
+- PHAST software package as downloaded from http://compgen.cshl.edu/phast/
+- maf_stream as downloaded from https://github.com/joelarmstrong/maf_stream
+- GERP++ installed via conda (https://anaconda.org/bioconda/gerp)
+
