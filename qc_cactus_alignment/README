@@ -1,0 +1,9 @@
+This folder contains the scripts to assess the quality of a whole-genome multiple sequence alignment.
+
+Requirements:
+- python 3.8.10
+- maf_stream as downloaded from https://github.com/joelarmstrong/maf_stream
+- bedtools v2.29.1
+- OrthoFinder as downloaded from https://github.com/davidemms/OrthoFinder
+- cactus v2.0.1+ as downloaded from https://github.com/ComparativeGenomicsToolkit/cactus
+
