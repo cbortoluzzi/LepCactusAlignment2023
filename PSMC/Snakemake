@@ -1,0 +1,264 @@
+import pdb
+import os
+import pandas as pd
+
+def get_tol_id(sample,path):
+    bashcommand = f'find {path}/{sample} -name "*.vcf.*" | grep deepvariant | grep phased | grep -v "tbi" | cut -d"/" -f 11 | cut -d"." -f 1'
+    stream = os.popen(bashcommand)
+    tol_id = stream.readlines()
+    try:
+        tol_id = tol_id[0][0:-1]
+    except:
+        print(f'problem with tol_id!')
+    return tol_id
+
+def get_vcf_file(sample,path,tol_id):
+    # return un filtered vcf file
+    vcf_path = f'{path}/{sample}/pacbio_ccs_alignments.deepvariant/{tol_id}.minimap2_ccs.deepvariant_1.1.0.vcf.bgz'
+    return vcf_path
+
+def get_grand_vcf_file_wildcards(wildcards):
+    # return un filtered vcf file
+    vcf_path = f'/home/tc557/rds/rds-durbin-group-8b3VcZwY7rY/darwin/data/insects/{wildcards.sample}/pacbio_ccs_alignments.deepvariant/{wildcards.tol_id}.minimap2_ccs.deepvariant_1.1.0.vcf.bgz'
+    return vcf_path
+
+def get_grand_phased_vcf_file_wildcards(wildcards):
+    # return un filtered vcf file
+    vcf_path = f'/home/tc557/rds/rds-durbin-group-8b3VcZwY7rY/darwin/data/insects/{wildcards.sample}/pacbio_ccs_alignments.deepvariant/{wildcards.tol_id}.minimap2_ccs.deepvariant_1.1.0.phased.vcf.bgz'
+    return vcf_path
+
+def get_grand_phased_vcf_file_variable(sample):
+    # return un filtered vcf file
+    vcf_path = os.listdir(f'/home/tc557/rds/rds-durbin-group-8b3VcZwY7rY/darwin/data/insects/{sample}/pacbio_ccs_alignments.deepvariant/') # {wildcards.tol_id}.minimap2_ccs.deepvariant_1.1.0.phased.vcf.bgz'
+    phased_file = [i for i in vcf_path if '.phased.vcf.' in i and '.tbi' not in i]
+    return phased_file
+
+def get_sample_info(sample,path):
+    # get tol id and num chroms
+    tol_id = get_tol_id(sample,path)
+    vcf_file = get_vcf_file(sample,path,tol_id)
+    bashcommand = f"bcftools view {vcf_file} -H | awk '($1~/^[0-9]+$/) {{print $1}}' | tail -1" # get number of chroms
+    stream = os.popen(bashcommand)
+    try:
+        num_chroms = int(stream.readlines()[0][0:-1])
+    except:
+        print(f'problem with num_chroms !')
+    return tol_id, num_chroms
+
+def get_number_chroms(sample): 
+    samples_tolid_chroms_info_file = '/home/tc557/rds/hpc-work/snakemake_lepidoptera_220813/sample_tolid_numchroms_230127.txt'
+    with open('/home/tc557/rds/hpc-work/snakemake_lepidoptera_220813/sample_tolid_numchroms_230127.txt') as f:
+        lines = f.readlines()
+    for line in lines:
+        current_sample = line.split('\t')[0]
+        if current_sample==sample:
+            num_chroms = int(line.split('\t')[2].split('\n')[0])
+            return num_chroms
+
+
+def get_rho_over_mu(wildcards):
+    path = '/home/tc557/rds/rds-durbin-group-8b3VcZwY7rY/darwin/data/insects'
+    vcf_file = get_vcf_file(wildcards.sample,path,wildcards.tol_id)
+    bashcommand = f"bcftools view {vcf_file}" + " -h | grep -v =SUPER | grep -v ID=scaffold | grep -v ID=Z | grep -v ID=MT | grep length= | cut -d'>' -f 1 | cut -d'=' -f 4 | awk '{sum+=$1;} END{print sum;}'"
+    stream = os.popen(bashcommand)
+    seq_length_str = stream.readlines()
+    seq_length_str = seq_length_str[0].split('\n')[0]
+    num_chroms = get_number_chroms(wildcards.sample)
+    seq_length = int(seq_length_str)
+    print(f'\tseq_length is {seq_length}')
+    recomb_rate = 0.5*num_chroms / seq_length # recombination rate per generation per bp, estimated by num_chroms/seq_length
+    keightley_mu = 2.9e-09 # Estimation of the spontaneous mutation rate in Heliconius melpomene, 2015
+    rho_over_mu = recomb_rate / keightley_mu
+    return rho_over_mu
+
+# for the mhs files from the phased vcf files - sometimes some mhs have less than 10 hets which is not good. Filter these out.
+def get_mhs_files_filtered_forMSMC(wildcards):
+    num_chroms = get_number_chroms(wildcards.sample)
+    mhs_files = [f'/home/tc557/rds/rds-durbin-group-8b3VcZwY7rY/darwin/data/insects/221107/{wildcards.sample}/{wildcards.tol_id}/mhs/chr{CHROM}.mhs' for CHROM in range(1,num_chroms+1)]
+    removable_files = []
+    if wildcards.sample=="Mamestra_brassicae":
+        mhs_files = [i for i in mhs_files if 'chr6' not in i and 'chr7' not in i and 'chr25' not in i ]
+    for file in removable_files:
+        mhs_files.remove(file)
+    # print(f'*******removable files are {removable_files}; number of usable files is {len(mhs_files)}')
+    return mhs_files
+
+
+def get_mhs_files_filtered_forMSMC_bootstrap(wildcards):
+    num_chroms = get_number_chroms(wildcards.sample)
+    zmhs_files = [f'/home/tc557/rds/rds-durbin-group-8b3VcZwY7rY/darwin/data/insects/221107/{wildcards.sample}/{wildcards.tol_id}/mhs/chr{CHROM}.mhs' for CHROM in range(1,num_chroms+1)]
+    mhs_files = [i for i in zmhs_files if f'chrom{wildcards.chrom}.mhs' not in i]
+    removable_files = []
+    for file in mhs_files:
+        try:
+            data = pd.read_csv(file, header = None,sep='\t') # load data
+            hets = data[1].values -1 # read hets position, 0 indexed 
+            length_data = len(hets)
+            if length_data < 10:
+                a = 5
+        except:
+            a = 5
+    for file in removable_files:
+        mhs_files.remove(file)
+    return mhs_files
+
+
+# for the mhs files from the phased vcf files
+def get_density_files(wildcards): # these are not really needed, but enforce dependency
+    num_chroms = get_number_chroms(wildcards.sample)
+    density_files = [f'/home/tc557/rds/rds-durbin-group-8b3VcZwY7rY/darwin/data/insects/{wildcards.sample}/{wildcards.tol_id}/vcf_DPmore6_PLmore15_GQmore20_GT01/mhs/sliding_heterozygosity/density.txt' for WS in window_sizes for SS in shift_sizes for SSD in step_size_densities]
+    return density_files
+
+
+
+samples_tolid_chroms_info_file = '/home/tc557/rds/hpc-work/snakemake_lepidoptera_220813/sample_tolid_numchroms_230127.txt'
+
+with open(samples_tolid_chroms_info_file) as f:
+    lines = f.readlines()
+
+samples = []
+for line in lines:
+    sample = line.split('\t')[0]
+    samples.append(sample) 
+
+missing_phased_samples = []
+for sample in samples:
+    pf = get_grand_phased_vcf_file_variable(sample)
+    if len(pf)!=1:
+        missing_phased_samples.append(sample)
+
+samples_chroms_tolid = []
+for line in lines:
+    current_sample = line.split('\t')[0]
+    if current_sample in samples:
+        tolid = line.split('\t')[1]
+        numchroms = int(line.split('\t')[2].split('\n')[0])
+        for i in range(1,numchroms+1):
+            samples_chroms_tolid.append((current_sample,i,tolid))
+
+
+
+msmc_Ds = [32]
+msmc_iterationss = [20]
+msmc_stride_widths = [100]
+# msmc_rhoOverMu = get_rho_over_mu(wildcards)
+
+def debug_me(wildcards):
+    pdb.set_trace()
+    return None
+
+def get_input_bam_file(wildcards):
+    bam_file = f'/home/tc557/rds/rds-durbin-group-8b3VcZwY7rY/darwin/data/insects/{wildcards.sample}/pacbio_ccs_alignments/{wildcards.tol_id}.minimap2_ccs.primary_alignments.sorted.bam'
+    return bam_file
+
+def get_input_ref_file(wildcards):
+    ref_file_path = f'/home/tc557/rds/rds-durbin-group-8b3VcZwY7rY/darwin/data/insects/{wildcards.sample}/assembly_renamed'
+    files = os.listdir(ref_file_path)
+    files = [file for file in files if 'GCA' in file and '.fasta.gz' in file]
+    if len(files)>1:
+        files = [file for file in files if '.1.' in file] # TODO not sure if taking 1 is the correct thing to do
+        files = [file for file in files if file.endswith('.fasta.gz')]
+    ref_file = f'{ref_file_path}/{files[0]}'
+    print(f'ref_file is {ref_file}')
+    return ref_file
+
+def get_mean_cov(wildcards): 
+    with open('/home/tc557/rds/hpc-work/snakemake_lepidoptera_220813/samples_meancov_chrom15.txt') as f:
+        lines = f.readlines()
+    string_line = [i for i in lines if wildcards.sample in i]
+    mean_cov = float(string_line[0].split('\t')[1].split('\n')[0])
+    return mean_cov
+
+parameters_heterozygosity_msmc = []
+for window_size in window_sizes:
+    for shift_size in shift_sizes:
+        for step_size_density in step_size_densities:
+            for msmc_D in msmc_Ds:
+                for msmc_its in msmc_iterationss:
+                    for msmc_stride_width in msmc_stride_widths:
+                        current_list = (window_size,shift_size,step_size_density,msmc_D,msmc_its,msmc_stride_width)
+                        parameters_heterozygosity_msmc.append(current_list)
+
+parameters_msmc = []
+for msmc_its in msmc_iterationss:
+    for msmc_stride_width in msmc_stride_widths:
+        current_list = (msmc_D,msmc_its,msmc_stride_width)
+        parameters_msmc.append(current_list)
+
+rule all:
+    input: 
+        [f'/home/tc557/rds/rds-durbin-group-8b3VcZwY7rY/darwin/data/insects/221120/{data[0]}/{data[2]}/MSMC_inference/D_{parameter_msmc[0]}/iterations_{parameter_msmc[1]}/stridewidth_{parameter_msmc[2]}/msmc.final.txt' for data in samples_chroms_tolid for parameter_msmc in parameters_msmc] # run inference 
+
+sm = '"'
+rule write_gt_vcf:
+    input:
+        in_vcf = get_grand_vcf_file_wildcards
+    output:
+        out_gt_vcf = '/home/tc557/rds/rds-durbin-group-8b3VcZwY7rY/darwin/data/insects/221107/{sample}/{tol_id}/vcf/chr{chrom}.vcf.gz',
+    run:
+        shell(
+            f"bcftools view {input.in_vcf} -r {wildcards.chrom} -i 'GT=={sm}0/1{sm} || GT=={sm}0/2{sm}' | gzip -c > {output.out_gt_vcf}"
+        )
+
+fb='{{'
+bb='}}'
+tab='\\t'
+newline='\\n'
+dollar="$"
+rule write_mask_for_refcall:
+    input:
+        in_vcf = get_grand_vcf_file_wildcards,
+        dependency = '/home/tc557/rds/rds-durbin-group-8b3VcZwY7rY/darwin/data/insects/221107/{sample}/{tol_id}/vcf/chr{chrom}.vcf.gz',
+    output:
+        out_refcall_mask = '/home/tc557/rds/rds-durbin-group-8b3VcZwY7rY/darwin/data/insects/221107/{sample}/{tol_id}/mask/refcall_chr{chrom}.bed',
+    run:
+        shell(
+            f"bcftools view {input.in_vcf} -r {wildcards.chrom} -H | awk '( $7!={sm}PASS{sm} ) {fb} printf {sm}chr%s{tab}%s{tab}%s{newline}{sm},{wildcards.chrom},$2-1,$2 {bb}' > {output.out_refcall_mask}"
+        )
+
+
+rule write_mask_for_badhets:
+    input:
+        in_vcf = get_grand_vcf_file_wildcards,
+        dependency = '/home/tc557/rds/rds-durbin-group-8b3VcZwY7rY/darwin/data/insects/221107/{sample}/{tol_id}/mask/refcall_chr{chrom}.bed',
+    output:
+        out_variants_mask = '/home/tc557/rds/rds-durbin-group-8b3VcZwY7rY/darwin/data/insects/221107/{sample}/{tol_id}/mask/variants_chr{chrom}.bed',
+    run:
+        shell(
+            f"bcftools view {input.in_vcf} -r {wildcards.chrom} -H -f PASS -e 'DP>10 && DP<100 && GQ>30 && PL>25' | awk '{fb} printf {sm}chr%s{tab}%s{tab}%s{newline}{sm},{wildcards.chrom},$2-1,$2 {bb}' > {output.out_variants_mask}"
+        )
+
+rule write_mask_for_indels:
+    input:
+        in_vcf = get_grand_vcf_file_wildcards,
+        dependency = '/home/tc557/rds/rds-durbin-group-8b3VcZwY7rY/darwin/data/insects/221107/{sample}/{tol_id}/mask/variants_chr{chrom}.bed',
+    output:
+        out_indels_mask = '/home/tc557/rds/rds-durbin-group-8b3VcZwY7rY/darwin/data/insects/221107/{sample}/{tol_id}/mask/indels_chr{chrom}.bed',
+    run:
+        shell(
+            f"bcftools view {input.in_vcf} -r {wildcards.chrom} -H -v indels | awk '{fb} printf {sm}chr%s{tab}%s{tab}%s{newline}{sm},{wildcards.chrom},$2-1,$2 {bb}' > {output.out_indels_mask}"
+        )
+
+rule write_mhs_file:
+    input:
+        in_vcf = '/home/tc557/rds/rds-durbin-group-8b3VcZwY7rY/darwin/data/insects/221107/{sample}/{tol_id}/vcf/chr{chrom}.vcf.gz',
+        out_indels_mask = '/home/tc557/rds/rds-durbin-group-8b3VcZwY7rY/darwin/data/insects/221107/{sample}/{tol_id}/mask/indels_chr{chrom}.bed',
+        out_variants_mask = '/home/tc557/rds/rds-durbin-group-8b3VcZwY7rY/darwin/data/insects/221107/{sample}/{tol_id}/mask/variants_chr{chrom}.bed',
+        out_refcall_mask = '/home/tc557/rds/rds-durbin-group-8b3VcZwY7rY/darwin/data/insects/221107/{sample}/{tol_id}/mask/refcall_chr{chrom}.bed',
+    output:
+        mhs_file = '/home/tc557/rds/rds-durbin-group-8b3VcZwY7rY/darwin/data/insects/221107/{sample}/{tol_id}/mhs/chr{chrom}.mhs',
+    run:
+        shell(
+            f'python /home/tc557/ancestry/msmc2/generate_multihetsep.py {input.in_vcf} --negative_mask {input.out_indels_mask} --negative_mask {input.out_variants_mask} --negative_mask {input.out_refcall_mask} > {output.mhs_file}'
+        )
+
+rule run_MSMC_inference:
+    input:
+        mhs_files = get_mhs_files_filtered_forMSMC,
+    output:
+        inference_file = '/home/tc557/rds/rds-durbin-group-8b3VcZwY7rY/darwin/data/insects/221120/{sample}/{tol_id}/MSMC_inference/D_{msmc_D}/iterations_{msmc_iterations}/stridewidth_{msmc_stride_width}/msmc.final.txt',    
+    run:
+        shell(
+            f"/home/tc557/MSMC2_decode/msmc2-2.1.3/build/release/msmc2 -i {wildcards.msmc_iterations} -p {int(wildcards.msmc_D)-4}*1+1*4 -r {get_rho_over_mu(wildcards)} --hmmStrideWidth {wildcards.msmc_stride_width} -o {output.inference_file.split('.final')[0]} {' '.join(input.mhs_files)} "
+        )
+
